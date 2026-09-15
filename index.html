@@ -1,97 +1,1852 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#123b4a"><title>UTI B • Indicadores Clínicos</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b4a">
+<title>UTI B • Indicadores Clínicos</title>
+
 <style>
-:root{--p:#123b4a;--p2:#176078;--a:#789f3f;--ink:#17343e;--muted:#687b82;--line:#dbe4e6;--bg:#f4f7f7;--danger:#a83228}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}.top{height:6px;background:linear-gradient(90deg,var(--p),var(--p2),var(--a))}
-main{width:min(980px,calc(100% - 20px));margin:auto;padding:18px 0 60px}.hero,.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 34px #123b4a12}.hero,.card{padding:22px;margin-bottom:14px}
-.eyebrow{margin:0;color:var(--a);font-size:.76rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}h1{margin:4px 0;color:var(--p);font-size:clamp(1.6rem,4vw,2.2rem)}.muted{color:var(--muted);font-size:.9rem}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.tab{min-height:50px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--p);font-weight:850}.tab.on{background:var(--p);color:#fff}.view{display:none}.view.on{display:block}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.grid3{grid-template-columns:repeat(3,1fr)}label{display:block;margin-bottom:5px;font-size:.84rem;font-weight:800;color:#35515a}input,select,textarea{width:100%;min-height:46px;padding:10px 12px;border:1px solid #cbd8db;border-radius:10px;background:#fbfdfd;color:var(--ink)}textarea{min-height:80px}.req{color:var(--danger)}
-.group{margin-top:13px;border:1px solid var(--line);border-radius:15px;overflow:hidden}.gh{display:flex;gap:10px;align-items:center;padding:14px;background:#f8fbfb}.ico{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--p);color:#fff;font-size:.72rem;font-weight:900}.gt{flex:1}.gt strong{display:block;color:var(--p)}.gt small{color:var(--muted)}
-.apply{display:flex;gap:5px}.pill{padding:8px 10px;border:1px solid #cbd8db;border-radius:999px;background:#fff;font-size:.78rem;font-weight:800}.pill.on{background:var(--p2);color:#fff}.gb{padding:15px}.gb.off{display:none}.reason{display:none;padding:0 15px 15px}.reason.on{display:block}
-.calc{padding:10px;border:1px solid #d4e6e9;border-radius:10px;background:#eef6f7}.calc small{display:block;color:var(--muted)}.calc strong{color:var(--p)}.actions{display:flex;gap:9px;margin-top:18px}.primary,.secondary{min-height:50px;border:0;border-radius:11px;padding:12px 16px;font-weight:900}.primary{flex:1;color:#fff;background:linear-gradient(100deg,var(--p),var(--p2))}.secondary{background:#edf3f4;color:var(--p)}
-.status{display:none;padding:12px 14px;margin-bottom:14px;border-radius:10px}.status.on{display:block}.status.ok{background:#edf8f1;color:#235f3b}.status.error{background:#fff1ef;color:#8e251c}.patient{padding:12px;margin-top:13px;border:1px solid var(--line);border-radius:11px;background:#f8fbfb}.hide{display:none!important}.footer{text-align:center;color:#7a8c91;font-size:.75rem}
-@media(max-width:700px){.tabs,.grid,.grid3{grid-template-columns:1fr}.gh{align-items:flex-start;flex-wrap:wrap}.apply{width:100%;padding-left:46px}.actions{flex-direction:column}}
+:root{
+  --p:#123b4a;
+  --p2:#176078;
+  --a:#789f3f;
+  --ink:#17343e;
+  --muted:#687b82;
+  --line:#dbe4e6;
+  --bg:#f4f7f7;
+  --danger:#a83228
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif
+}
+
+button,input,select,textarea{font:inherit}
+
+.top{
+  height:6px;
+  background:linear-gradient(90deg,var(--p),var(--p2),var(--a))
+}
+
+main{
+  width:min(980px,calc(100% - 20px));
+  margin:auto;
+  padding:18px 0 60px
+}
+
+.hero,.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 12px 34px #123b4a12
+}
+
+.hero,.card{
+  padding:22px;
+  margin-bottom:14px
+}
+
+.eyebrow{
+  margin:0;
+  color:var(--a);
+  font-size:.76rem;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-transform:uppercase
+}
+
+h1{
+  margin:4px 0;
+  color:var(--p);
+  font-size:clamp(1.6rem,4vw,2.2rem)
+}
+
+.muted{
+  color:var(--muted);
+  font-size:.9rem
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:14px
+}
+
+.tab{
+  min-height:50px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  color:var(--p);
+  font-weight:850
+}
+
+.tab.on{
+  background:var(--p);
+  color:#fff
+}
+
+.view{display:none}
+.view.on{display:block}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px
+}
+
+.grid3{
+  grid-template-columns:repeat(3,1fr)
+}
+
+label{
+  display:block;
+  margin-bottom:5px;
+  font-size:.84rem;
+  font-weight:800;
+  color:#35515a
+}
+
+input,select,textarea{
+  width:100%;
+  min-height:46px;
+  padding:10px 12px;
+  border:1px solid #cbd8db;
+  border-radius:10px;
+  background:#fbfdfd;
+  color:var(--ink)
+}
+
+textarea{min-height:80px}
+
+.req{color:var(--danger)}
+
+.group{
+  margin-top:13px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  overflow:hidden
+}
+
+.gh{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:14px;
+  background:#f8fbfb
+}
+
+.ico{
+  display:grid;
+  place-items:center;
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:var(--p);
+  color:#fff;
+  font-size:.72rem;
+  font-weight:900
+}
+
+.gt{flex:1}
+
+.gt strong{
+  display:block;
+  color:var(--p)
+}
+
+.gt small{color:var(--muted)}
+
+.apply{
+  display:flex;
+  gap:5px
+}
+
+.pill{
+  padding:8px 10px;
+  border:1px solid #cbd8db;
+  border-radius:999px;
+  background:#fff;
+  font-size:.78rem;
+  font-weight:800
+}
+
+.pill.on{
+  background:var(--p2);
+  color:#fff
+}
+
+.gb{padding:15px}
+.gb.off{display:none}
+
+.reason{
+  display:none;
+  padding:0 15px 15px
+}
+
+.reason.on{display:block}
+
+.calc{
+  padding:10px;
+  border:1px solid #d4e6e9;
+  border-radius:10px;
+  background:#eef6f7
+}
+
+.calc small{
+  display:block;
+  color:var(--muted)
+}
+
+.calc strong{color:var(--p)}
+
+.actions{
+  display:flex;
+  gap:9px;
+  margin-top:18px
+}
+
+.primary,.secondary{
+  min-height:50px;
+  border:0;
+  border-radius:11px;
+  padding:12px 16px;
+  font-weight:900
+}
+
+.primary{
+  flex:1;
+  color:#fff;
+  background:linear-gradient(100deg,var(--p),var(--p2))
+}
+
+.primary:disabled{
+  opacity:.55;
+  cursor:wait
+}
+
+.secondary{
+  background:#edf3f4;
+  color:var(--p)
+}
+
+.status{
+  display:none;
+  padding:12px 14px;
+  margin-bottom:14px;
+  border-radius:10px
+}
+
+.status.on{display:block}
+
+.status.ok{
+  background:#edf8f1;
+  color:#235f3b
+}
+
+.status.error{
+  background:#fff1ef;
+  color:#8e251c
+}
+
+.patient{
+  padding:12px;
+  margin-top:13px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:#f8fbfb
+}
+
+.hide{display:none!important}
+
+.footer{
+  text-align:center;
+  color:#7a8c91;
+  font-size:.75rem
+}
+
+@media(max-width:700px){
+  .tabs,.grid,.grid3{
+    grid-template-columns:1fr
+  }
+
+  .gh{
+    align-items:flex-start;
+    flex-wrap:wrap
+  }
+
+  .apply{
+    width:100%;
+    padding-left:46px
+  }
+
+  .actions{
+    flex-direction:column
+  }
+}
 </style>
 </head>
-<body><div class="top"></div><main>
-<header class="hero"><p class="eyebrow">UTI B • Indicadores Clínicos</p><h1>Registro longitudinal do paciente</h1><p class="muted">Cadastro, avaliação clínica e eventos em uma única interface.</p></header>
-<nav class="tabs"><button class="tab on" data-v="cadastro">Novo paciente</button><button class="tab" data-v="avaliacao">Novo registro</button><button class="tab" data-v="evento">Evento / desfecho</button></nav>
+
+<body>
+
+<div class="top"></div>
+
+<main>
+
+<header class="hero">
+  <p class="eyebrow">UTI B • Indicadores Clínicos</p>
+  <h1>Registro longitudinal do paciente</h1>
+  <p class="muted">
+    Cadastro, avaliação clínica e eventos em uma única interface.
+  </p>
+</header>
+
+<nav class="tabs">
+  <button type="button" class="tab on" data-v="cadastro">Novo paciente</button>
+  <button type="button" class="tab" data-v="avaliacao">Novo registro</button>
+  <button type="button" class="tab" data-v="evento">Evento / desfecho</button>
+</nav>
+
 <div id="status" class="status"></div>
 
-<section id="cadastro" class="view on"><form id="fCadastro" class="card">
-<h2>Novo paciente / internação</h2><p class="muted">RH identifica o paciente. Cada nova passagem pela UTI recebe uma nova internação.</p>
+
+<!-- ======================================================
+     NOVO PACIENTE
+     ====================================================== -->
+
+<section id="cadastro" class="view on">
+
+<form id="fCadastro" class="card">
+
+<h2>Novo paciente / internação</h2>
+
+<p class="muted">
+RH identifica o paciente. Cada nova passagem pela UTI recebe uma nova internação.
+</p>
+
 <div class="grid">
-<div><label>Nome completo <span class="req">*</span></label><input name="name" required></div>
-<div><label>RH <span class="req">*</span></label><input name="rh" required></div>
-<div><label>Data de admissão <span class="req">*</span></label><input name="admissionDate" class="today" type="date" required></div>
-<div><label>Leito inicial <span class="req">*</span></label><input name="bed" required></div>
-<div><label>Diagnóstico principal <span class="req">*</span></label><input name="diagnosis" required></div>
-<div><label>SAPS 3</label><input name="saps3" type="number" min="0"></div>
-</div><div style="margin-top:13px"><label>Observação</label><textarea name="notes"></textarea></div>
-<div class="actions"><button class="primary">Cadastrar paciente e internação</button></div>
-</form></section>
 
-<section id="avaliacao" class="view"><form id="fAvaliacao">
-<div class="card"><h2>Nova avaliação</h2><p class="muted">A lista contém apenas internações ativas. A data atual é preenchida automaticamente, mas pode ser alterada.</p>
+<div>
+<label>Nome completo <span class="req">*</span></label>
+<input name="name" required>
+</div>
+
+<div>
+<label>RH <span class="req">*</span></label>
+<input name="rh" required>
+</div>
+
+<div>
+<label>Data de admissão <span class="req">*</span></label>
+<input name="admissionDate" class="today" type="date" required>
+</div>
+
+<div>
+<label>Leito inicial <span class="req">*</span></label>
+<input name="bed" required>
+</div>
+
+<div>
+<label>Diagnóstico principal <span class="req">*</span></label>
+<input name="diagnosis" required>
+</div>
+
+<div>
+<label>SAPS 3</label>
+<input name="saps3" type="number" min="0">
+</div>
+
+</div>
+
+<div style="margin-top:13px">
+<label>Observação</label>
+<textarea name="notes"></textarea>
+</div>
+
+<div class="actions">
+<button class="primary" type="submit">
+Cadastrar paciente e internação
+</button>
+</div>
+
+</form>
+
+</section>
+
+
+<!-- ======================================================
+     NOVA AVALIAÇÃO
+     ====================================================== -->
+
+<section id="avaliacao" class="view">
+
+<form id="fAvaliacao">
+
+<div class="card">
+
+<h2>Nova avaliação</h2>
+
+<p class="muted">
+A lista contém apenas internações ativas. A data atual é preenchida automaticamente, mas pode ser alterada.
+</p>
+
 <div class="grid">
-<div><label>Paciente ativo <span class="req">*</span></label><select id="patientSelect" name="admissionId" required><option value="">Nenhum paciente carregado</option></select></div>
-<div><label>Data <span class="req">*</span></label><input name="date" class="today" type="date" required></div>
-<div><label>Hora</label><input name="time" class="now" type="time"></div>
-<div><label>Leito atual <span class="req">*</span></label><input id="bed" name="bed" required></div>
-<div><label>Profissional / responsável</label><input name="professional"></div>
-<div><label>Status do registro</label><select name="recordStatus"><option>Completo</option><option>Pendente de conferência</option><option>Dado não disponível</option></select></div>
-</div><div id="patientInfo" class="patient hide"></div></div>
 
-<div class="card"><h2>Avaliação clínica</h2><p class="muted">Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o motivo.</p>
+<div>
+<label>Paciente ativo <span class="req">*</span></label>
+<select id="patientSelect" name="admissionId" required>
+<option value="">Carregando pacientes...</option>
+</select>
+</div>
 
-<div class="group" data-g="functional"><div class="gh"><div class="ico">FUN</div><div class="gt"><strong>Funcionalidade</strong><small>MRC-SS, IMS, dinamometria e primeira saída do leito</small></div><div class="apply"><button type="button" class="pill" data-a="Sim">Aplica</button><button type="button" class="pill" data-a="Não">Não aplica</button></div></div><input type="hidden" name="functional_applies"><div class="reason"><label>Motivo</label><select name="functional_reason"><option value="">Selecione...</option><option>Sedação</option><option>Alteração do nível de consciência</option><option>Instabilidade clínica/hemodinâmica</option><option>Outro</option></select></div><div class="gb"><div class="grid3"><div><label>MRC-SS</label><input name="mrc" type="number" min="0" max="60"></div><div><label>IMS</label><input name="ims" type="number" min="0" max="10"></div><div><label>Dinamometria (kgf)</label><input name="dynamometry" type="number" min="0" step=".1"></div><div><label>Primeira saída do leito?</label><select name="firstOut"><option value=""></option><option>Sim</option><option>Não</option></select></div><div><label>Data da primeira saída</label><input name="firstOutDate" type="date"></div></div></div></div>
+<div>
+<label>Data <span class="req">*</span></label>
+<input name="date" class="today" type="date" required>
+</div>
 
-<div class="group" data-g="alveolar"><div class="gh"><div class="ico">VM</div><div class="gt"><strong>Segurança alveolar</strong><small>VM invasiva, Driving Pressure e Mechanical Power</small></div><div class="apply"><button type="button" class="pill" data-a="Sim">Aplica</button><button type="button" class="pill" data-a="Não">Não aplica</button></div></div><input type="hidden" name="alveolar_applies"><div class="reason"><label>Motivo</label><select name="alveolar_reason"><option value="">Selecione...</option><option>Sem ventilação mecânica invasiva</option><option>Condição inadequada para mensuração</option><option>Outro</option></select></div><div class="gb"><div class="grid3">
-<div><label>Modo ventilatório</label><select name="ventMode"><option value=""></option><option>VCV</option><option>PCV</option><option>PSV</option><option>Outro</option></select></div><div><label>VT (mL)</label><input name="vt" type="number"></div><div><label>PEEP (cmH₂O)</label><input id="peep" name="peep" type="number" step=".1"></div><div><label>FR (irpm)</label><input name="rr" type="number"></div><div><label>Ppico (cmH₂O)</label><input name="ppeak" type="number" step=".1"></div><div><label>Pplat (cmH₂O)</label><input id="pplat" name="pplat" type="number" step=".1"></div><div><label>FiO₂ (%)</label><input name="fio2" type="number" min="21" max="100"></div>
-<div class="calc"><small>Driving Pressure</small><strong id="dp">—</strong><input id="dpHidden" name="drivingPressure" type="hidden"></div><div class="calc"><small>Mechanical Power</small><strong>Aguardando fórmula validada</strong><input name="mechanicalPower" type="hidden"></div>
-</div></div></div>
+<div>
+<label>Hora</label>
+<input name="time" class="now" type="time">
+</div>
 
-<div class="group" data-g="drive"><div class="gh"><div class="ico">DRV</div><div class="gt"><strong>Drive / esforço respiratório</strong><small>P0.1, ΔPocc, Pmus e Driving Pressure transpulmonar</small></div><div class="apply"><button type="button" class="pill" data-a="Sim">Aplica</button><button type="button" class="pill" data-a="Não">Não aplica</button></div></div><input type="hidden" name="drive_applies"><div class="reason"><label>Motivo</label><select name="drive_reason"><option value="">Selecione...</option><option>Ausência de drive respiratório</option><option>Condição inadequada para mensuração</option><option>Outro</option></select></div><div class="gb"><div class="grid3"><div><label>P0.1</label><input name="p01" type="number" step=".1"></div><div><label>ΔPocc</label><input name="dpocc" type="number" step=".1"></div><div><label>Pmus</label><input name="pmus" type="number" step=".1"></div><div><label>Driving Pressure transpulmonar</label><input name="transpulmonaryDp" type="number" step=".1"></div></div></div></div>
+<div>
+<label>Leito atual <span class="req">*</span></label>
+<input id="bed" name="bed" required>
+</div>
 
-<div class="group" data-g="weaning"><div class="gh"><div class="ico">DES</div><div class="gt"><strong>Desmame / extubação</strong><small>IWI, TRE, extubação e reintubação</small></div><div class="apply"><button type="button" class="pill" data-a="Sim">Aplica</button><button type="button" class="pill" data-a="Não">Não aplica</button></div></div><input type="hidden" name="weaning_applies"><div class="reason"><label>Motivo</label><select name="weaning_reason"><option value="">Selecione...</option><option>Não elegível para desmame</option><option>Outro</option></select></div><div class="gb"><div class="grid3">
-<div><label>IWI • Integrative Weaning Index</label><input name="iwi" type="number" step=".01"></div><div><label>TRE realizado?</label><select name="sbtPerformed"><option value=""></option><option>Sim</option><option>Não</option></select></div><div><label>Resultado do TRE</label><select name="sbtResult"><option value=""></option><option>Positivo</option><option>Negativo</option></select></div><div><label>Extubado?</label><select name="extubated"><option value=""></option><option>Sim</option><option>Não</option></select></div><div><label>Quando?</label><input name="extubationAt" type="datetime-local"></div><div><label>Falha de extubação?</label><select name="extubationFailure"><option value=""></option><option>Sim</option><option>Não</option></select></div><div><label>Quando falhou?</label><input name="failureAt" type="datetime-local"></div><div><label>Reintubado?</label><select name="reintubated"><option value=""></option><option>Sim</option><option>Não</option></select></div><div><label>Quando reintubou?</label><input name="reintubationAt" type="datetime-local"></div>
-</div></div></div>
+<div>
+<label>Profissional / responsável</label>
+<input name="professional">
+</div>
 
-<div class="group" data-g="noninvasive"><div class="gh"><div class="ico">NI</div><div class="gt"><strong>Suporte não invasivo</strong><small>VNI ou CNAF</small></div><div class="apply"><button type="button" class="pill" data-a="Sim">Aplica</button><button type="button" class="pill" data-a="Não">Não aplica</button></div></div><input type="hidden" name="noninvasive_applies"><div class="reason"><label>Motivo</label><select name="noninvasive_reason"><option value="">Selecione...</option><option>Sem indicação de VNI/CNAF</option><option>Outro</option></select></div><div class="gb"><div class="grid3"><div><label>Modalidade</label><select name="noninvasiveMode"><option value=""></option><option>VNI</option><option>CNAF</option></select></div><div><label>Resultado</label><select name="noninvasiveResult"><option value=""></option><option>Sucesso</option><option>Falha</option><option>Em andamento</option></select></div><div><label>HACOR</label><input name="hacor" type="number" step=".1"></div><div><label>ROX</label><input name="rox" type="number" step=".01"></div><div><label>IOT após falha?</label><select name="iotAfterFailure"><option value=""></option><option>Sim</option><option>Não</option></select></div><div><label>Data/hora da IOT</label><input name="intubationAt" type="datetime-local"></div></div></div></div>
+<div>
+<label>Status do registro</label>
 
-<div style="margin-top:14px"><label>Observação da avaliação</label><textarea name="notes"></textarea></div><div class="actions"><button id="clear" type="button" class="secondary">Limpar</button><button class="primary">Registrar avaliação</button></div>
-</div></form></section>
+<select name="recordStatus">
+<option>Completo</option>
+<option>Pendente de conferência</option>
+<option>Dado não disponível</option>
+</select>
 
-<section id="evento" class="view"><form id="fEvento" class="card"><h2>Evento / desfecho</h2><p class="muted">Alta, transferência e óbito encerram a internação e retiram o paciente da lista de ativos.</p><div class="grid">
-<div><label>Paciente ativo <span class="req">*</span></label><select id="eventPatient" name="admissionId" required><option value="">Nenhum paciente carregado</option></select></div><div><label>Evento <span class="req">*</span></label><select name="eventType" required><option value=""></option><option>IOT</option><option>TRE</option><option>Extubação</option><option>Reintubação</option><option>Traqueostomia</option><option>Alta UTI</option><option>Transferência</option><option>Óbito</option></select></div><div><label>Data <span class="req">*</span></label><input name="date" class="today" type="date" required></div><div><label>Hora</label><input name="time" class="now" type="time"></div><div><label>Modalidade / contexto</label><input name="context"></div><div><label>Resultado</label><input name="result"></div></div><div style="margin-top:13px"><label>Observação</label><textarea name="notes"></textarea></div><div class="actions"><button class="primary">Registrar evento</button></div></form></section>
-<p class="footer">UTI B • Sistema de Indicadores Clínicos</p>
+</div>
+
+</div>
+
+<div id="patientInfo" class="patient hide"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Avaliação clínica</h2>
+
+<p class="muted">
+Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o motivo.
+</p>
+
+
+<!-- FUNCIONALIDADE -->
+
+<div class="group" data-g="functional">
+
+<div class="gh">
+
+<div class="ico">FUN</div>
+
+<div class="gt">
+<strong>Funcionalidade</strong>
+<small>MRC-SS, IMS, dinamometria e primeira saída do leito</small>
+</div>
+
+<div class="apply">
+<button type="button" class="pill" data-a="Sim">Aplica</button>
+<button type="button" class="pill" data-a="Não">Não aplica</button>
+</div>
+
+</div>
+
+<input type="hidden" name="functional_applies">
+
+<div class="reason">
+
+<label>Motivo</label>
+
+<select name="functional_reason">
+<option value="">Selecione...</option>
+<option>Sedação</option>
+<option>Alteração do nível de consciência</option>
+<option>Instabilidade clínica/hemodinâmica</option>
+<option>Outro</option>
+</select>
+
+</div>
+
+<div class="gb">
+
+<div class="grid3">
+
+<div>
+<label>MRC-SS</label>
+<input name="mrc" type="number" min="0" max="60">
+</div>
+
+<div>
+<label>IMS</label>
+<input name="ims" type="number" min="0" max="10">
+</div>
+
+<div>
+<label>Dinamometria (kgf)</label>
+<input name="dynamometry" type="number" min="0" step=".1">
+</div>
+
+<div>
+<label>Primeira saída do leito?</label>
+
+<select name="firstOut">
+<option value=""></option>
+<option>Sim</option>
+<option>Não</option>
+</select>
+
+</div>
+
+<div>
+<label>Data da primeira saída</label>
+<input name="firstOutDate" type="date">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- VENTILAÇÃO MECÂNICA -->
+
+<div class="group" data-g="alveolar">
+
+<div class="gh">
+
+<div class="ico">VM</div>
+
+<div class="gt">
+<strong>Segurança alveolar</strong>
+<small>VM invasiva, Driving Pressure e Mechanical Power</small>
+</div>
+
+<div class="apply">
+<button type="button" class="pill" data-a="Sim">Aplica</button>
+<button type="button" class="pill" data-a="Não">Não aplica</button>
+</div>
+
+</div>
+
+<input type="hidden" name="alveolar_applies">
+
+<div class="reason">
+
+<label>Motivo</label>
+
+<select name="alveolar_reason">
+<option value="">Selecione...</option>
+<option>Sem ventilação mecânica invasiva</option>
+<option>Condição inadequada para mensuração</option>
+<option>Outro</option>
+</select>
+
+</div>
+
+<div class="gb">
+
+<div class="grid3">
+
+<div>
+<label>Modo ventilatório</label>
+
+<select name="ventMode">
+<option value=""></option>
+<option>VCV</option>
+<option>PCV</option>
+<option>PSV</option>
+<option>Outro</option>
+</select>
+
+</div>
+
+<div>
+<label>VT (mL)</label>
+<input name="vt" type="number">
+</div>
+
+<div>
+<label>PEEP (cmH₂O)</label>
+<input id="peep" name="peep" type="number" step=".1">
+</div>
+
+<div>
+<label>FR (irpm)</label>
+<input name="rr" type="number">
+</div>
+
+<div>
+<label>Ppico (cmH₂O)</label>
+<input name="ppeak" type="number" step=".1">
+</div>
+
+<div>
+<label>Pplat (cmH₂O)</label>
+<input id="pplat" name="pplat" type="number" step=".1">
+</div>
+
+<div>
+<label>FiO₂ (%)</label>
+<input name="fio2" type="number" min="21" max="100">
+</div>
+
+<div class="calc">
+<small>Driving Pressure</small>
+<strong id="dp">—</strong>
+<input id="dpHidden" name="drivingPressure" type="hidden">
+</div>
+
+<div class="calc">
+<small>Mechanical Power</small>
+<strong>Aguardando fórmula validada</strong>
+<input name="mechanicalPower" type="hidden">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DRIVE -->
+
+<div class="group" data-g="drive">
+
+<div class="gh">
+
+<div class="ico">DRV</div>
+
+<div class="gt">
+<strong>Drive / esforço respiratório</strong>
+<small>P0.1, ΔPocc, Pmus e Driving Pressure transpulmonar</small>
+</div>
+
+<div class="apply">
+<button type="button" class="pill" data-a="Sim">Aplica</button>
+<button type="button" class="pill" data-a="Não">Não aplica</button>
+</div>
+
+</div>
+
+<input type="hidden" name="drive_applies">
+
+<div class="reason">
+
+<label>Motivo</label>
+
+<select name="drive_reason">
+<option value="">Selecione...</option>
+<option>Ausência de drive respiratório</option>
+<option>Condição inadequada para mensuração</option>
+<option>Outro</option>
+</select>
+
+</div>
+
+<div class="gb">
+
+<div class="grid3">
+
+<div>
+<label>P0.1</label>
+<input name="p01" type="number" step=".1">
+</div>
+
+<div>
+<label>ΔPocc</label>
+<input name="dpocc" type="number" step=".1">
+</div>
+
+<div>
+<label>Pmus</label>
+<input name="pmus" type="number" step=".1">
+</div>
+
+<div>
+<label>Driving Pressure transpulmonar</label>
+<input name="transpulmonaryDp" type="number" step=".1">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DESMAME -->
+
+<div class="group" data-g="weaning">
+
+<div class="gh">
+
+<div class="ico">DES</div>
+
+<div class="gt">
+<strong>Desmame / extubação</strong>
+<small>IWI, TRE, extubação e reintubação</small>
+</div>
+
+<div class="apply">
+<button type="button" class="pill" data-a="Sim">Aplica</button>
+<button type="button" class="pill" data-a="Não">Não aplica</button>
+</div>
+
+</div>
+
+<input type="hidden" name="weaning_applies">
+
+<div class="reason">
+
+<label>Motivo</label>
+
+<select name="weaning_reason">
+<option value="">Selecione...</option>
+<option>Não elegível para desmame</option>
+<option>Outro</option>
+</select>
+
+</div>
+
+<div class="gb">
+
+<div class="grid3">
+
+<div>
+<label>IWI • Integrative Weaning Index</label>
+<input name="iwi" type="number" step=".01">
+</div>
+
+<div>
+<label>TRE realizado?</label>
+
+<select name="sbtPerformed">
+<option value=""></option>
+<option>Sim</option>
+<option>Não</option>
+</select>
+
+</div>
+
+<div>
+<label>Resultado do TRE</label>
+
+<select name="sbtResult">
+<option value=""></option>
+<option>Positivo</option>
+<option>Negativo</option>
+</select>
+
+</div>
+
+<div>
+<label>Extubado?</label>
+
+<select name="extubated">
+<option value=""></option>
+<option>Sim</option>
+<option>Não</option>
+</select>
+
+</div>
+
+<div>
+<label>Quando?</label>
+<input name="extubationAt" type="datetime-local">
+</div>
+
+<div>
+<label>Falha de extubação?</label>
+
+<select name="extubationFailure">
+<option value=""></option>
+<option>Sim</option>
+<option>Não</option>
+</select>
+
+</div>
+
+<div>
+<label>Quando falhou?</label>
+<input name="failureAt" type="datetime-local">
+</div>
+
+<div>
+<label>Reintubado?</label>
+
+<select name="reintubated">
+<option value=""></option>
+<option>Sim</option>
+<option>Não</option>
+</select>
+
+</div>
+
+<div>
+<label>Quando reintubou?</label>
+<input name="reintubationAt" type="datetime-local">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- NÃO INVASIVO -->
+
+<div class="group" data-g="noninvasive">
+
+<div class="gh">
+
+<div class="ico">NI</div>
+
+<div class="gt">
+<strong>Suporte não invasivo</strong>
+<small>VNI ou CNAF</small>
+</div>
+
+<div class="apply">
+<button type="button" class="pill" data-a="Sim">Aplica</button>
+<button type="button" class="pill" data-a="Não">Não aplica</button>
+</div>
+
+</div>
+
+<input type="hidden" name="noninvasive_applies">
+
+<div class="reason">
+
+<label>Motivo</label>
+
+<select name="noninvasive_reason">
+<option value="">Selecione...</option>
+<option>Sem indicação de VNI/CNAF</option>
+<option>Outro</option>
+</select>
+
+</div>
+
+<div class="gb">
+
+<div class="grid3">
+
+<div>
+<label>Modalidade</label>
+
+<select name="noninvasiveMode">
+<option value=""></option>
+<option>VNI</option>
+<option>CNAF</option>
+</select>
+
+</div>
+
+<div>
+<label>Resultado</label>
+
+<select name="noninvasiveResult">
+<option value=""></option>
+<option>Sucesso</option>
+<option>Falha</option>
+<option>Em andamento</option>
+</select>
+
+</div>
+
+<div>
+<label>HACOR</label>
+<input name="hacor" type="number" step=".1">
+</div>
+
+<div>
+<label>ROX</label>
+<input name="rox" type="number" step=".01">
+</div>
+
+<div>
+<label>IOT após falha?</label>
+
+<select name="iotAfterFailure">
+<option value=""></option>
+<option>Sim</option>
+<option>Não</option>
+</select>
+
+</div>
+
+<div>
+<label>Data/hora da IOT</label>
+<input name="intubationAt" type="datetime-local">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div style="margin-top:14px">
+
+<label>Observação da avaliação</label>
+<textarea name="notes"></textarea>
+
+</div>
+
+<div class="actions">
+
+<button id="clear" type="button" class="secondary">
+Limpar
+</button>
+
+<button class="primary" type="submit">
+Registrar avaliação
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</section>
+
+
+<!-- ======================================================
+     EVENTO
+     ====================================================== -->
+
+<section id="evento" class="view">
+
+<form id="fEvento" class="card">
+
+<h2>Evento / desfecho</h2>
+
+<p class="muted">
+Alta, transferência e óbito encerram a internação e retiram o paciente da lista de ativos.
+</p>
+
+<div class="grid">
+
+<div>
+
+<label>Paciente ativo <span class="req">*</span></label>
+
+<select id="eventPatient" name="admissionId" required>
+<option value="">Carregando pacientes...</option>
+</select>
+
+</div>
+
+<div>
+
+<label>Evento <span class="req">*</span></label>
+
+<select name="eventType" required>
+<option value=""></option>
+<option>IOT</option>
+<option>TRE</option>
+<option>Extubação</option>
+<option>Reintubação</option>
+<option>Traqueostomia</option>
+<option>Alta UTI</option>
+<option>Transferência</option>
+<option>Óbito</option>
+</select>
+
+</div>
+
+<div>
+<label>Data <span class="req">*</span></label>
+<input name="date" class="today" type="date" required>
+</div>
+
+<div>
+<label>Hora</label>
+<input name="time" class="now" type="time">
+</div>
+
+<div>
+<label>Modalidade / contexto</label>
+<input name="context">
+</div>
+
+<div>
+<label>Resultado</label>
+<input name="result">
+</div>
+
+</div>
+
+<div style="margin-top:13px">
+
+<label>Observação</label>
+<textarea name="notes"></textarea>
+
+</div>
+
+<div class="actions">
+
+<button class="primary" type="submit">
+Registrar evento
+</button>
+
+</div>
+
+</form>
+
+</section>
+
+
+<p class="footer">
+UTI B • Sistema de Indicadores Clínicos
+</p>
+
 </main>
+
+
 <script>
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycby53AacHMZ6zoU0M0TXNKuWcdyPoNMcCjlkGrTQIMW-KIjh_PPXssy9NFoY0WgKhZJ3Hg/exec'; // Web App do Google Apps Script
-let patients=[];
-const q=(s,r=document)=>r.querySelector(s), qa=(s,r=document)=>[...r.querySelectorAll(s)];
-function dateNow(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function timeNow(){let d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
-function seed(){qa('.today').forEach(x=>x.value=dateNow());qa('.now').forEach(x=>x.value=timeNow())}
-function msg(t,type='ok'){let x=q('#status');x.textContent=t;x.className='status on '+type;x.scrollIntoView({behavior:'smooth',block:'center'});clearTimeout(msg.t);msg.t=setTimeout(()=>x.className='status',6000)}
-qa('.tab').forEach(b=>b.onclick=()=>{qa('.tab').forEach(x=>x.classList.remove('on'));qa('.view').forEach(x=>x.classList.remove('on'));b.classList.add('on');q('#'+b.dataset.v).classList.add('on')})
-qa('.group').forEach(g=>qa('.pill',g).forEach(b=>b.onclick=()=>{qa('.pill',g).forEach(x=>x.classList.remove('on'));b.classList.add('on');let yes=b.dataset.a==='Sim';q('input[type=hidden]',g).value=b.dataset.a;q('.gb',g).classList.toggle('off',!yes);q('.reason',g).classList.toggle('on',!yes);qa('.gb input,.gb select,.gb textarea',g).forEach(x=>{x.disabled=!yes;if(!yes)x.value=''})}))
-function dp(){let a=parseFloat(q('#pplat').value),b=parseFloat(q('#peep').value);if(Number.isFinite(a)&&Number.isFinite(b)){let v=a-b;q('#dp').textContent=v.toFixed(1)+' cmH₂O';q('#dpHidden').value=v.toFixed(1)}else{q('#dp').textContent='—';q('#dpHidden').value=''}}
-q('#pplat').oninput=dp;q('#peep').oninput=dp;
-function obj(f){return Object.fromEntries(new FormData(f).entries())}
-function requestId(){return (crypto?.randomUUID?crypto.randomUUID():'req-'+Date.now()+'-'+Math.random().toString(36).slice(2))}
-async function api(action,payload={}){if(!SCRIPT_URL)throw Error('Frontend pronto, mas ainda não conectado ao Google Sheets. Falta inserir a URL do Apps Script em SCRIPT_URL.');let r=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,payload,requestId:requestId()})});if(!r.ok)throw Error('Falha de comunicação: '+r.status);let j=await r.json();if(j?.ok!==true)throw Error(j?.message||'O servidor não confirmou a gravação.');return j}
-function render(){[q('#patientSelect'),q('#eventPatient')].forEach(s=>{s.innerHTML='<option value="">Selecione...</option>';patients.forEach(p=>{let o=document.createElement('option');o.value=p.admissionId;o.textContent=`${p.name} • RH ${p.rh}${p.bed?' • Leito '+p.bed:''}`;s.appendChild(o)});if(!patients.length)s.innerHTML='<option value="">Nenhum paciente ativo</option>'})}
-async function load(){if(!SCRIPT_URL){render();return}try{let j=await api('listActivePatients');patients=Array.isArray(j.data)?j.data:[];render()}catch(e){msg(e.message,'error')}}
-q('#patientSelect').onchange=e=>{let p=patients.find(x=>x.admissionId===e.target.value),box=q('#patientInfo');if(!p){box.classList.add('hide');return}q('#bed').value=p.bed||'';box.textContent=`${p.name} • RH ${p.rh} • ${p.diagnosis||'Diagnóstico não informado'} • SAPS 3: ${p.saps3??'não informado'}`;box.classList.remove('hide')}
-async function submit(form,action,success){let btn=q('button.primary',form);btn.disabled=true;try{await api(action,obj(form));msg(success);form.reset();seed();await load();return true}catch(e){msg(e.message,'error');return false}finally{btn.disabled=false}}
-q('#fCadastro').onsubmit=e=>{e.preventDefault();submit(e.currentTarget,'createAdmission','Paciente e internação cadastrados com sucesso.')}
-q('#fEvento').onsubmit=e=>{e.preventDefault();submit(e.currentTarget,'createEvent','Evento registrado com sucesso.')}
-q('#fAvaliacao').onsubmit=async e=>{e.preventDefault();let f=e.currentTarget;for(let g of ['functional','alveolar','drive','weaning','noninvasive']){if(!f.elements[g+'_applies'].value){msg('Informe se todos os grupos clínicos se aplicam ou não.','error');return}if(f.elements[g+'_applies'].value==='Não'&&!f.elements[g+'_reason'].value){msg('Todo grupo marcado como “Não aplica” precisa de um motivo.','error');return}}let ok=await submit(f,'createAssessment','Avaliação registrada e confirmada pelo servidor.');if(ok)resetAssessment()}
-function resetAssessment(){let f=q('#fAvaliacao');f.reset();qa('.pill',f).forEach(x=>x.classList.remove('on'));qa('.reason',f).forEach(x=>x.classList.remove('on'));qa('.gb',f).forEach(x=>{x.classList.remove('off');qa('input,select,textarea',x).forEach(y=>y.disabled=false)});q('#patientInfo').classList.add('hide');seed();dp()}
-q('#clear').onclick=resetAssessment;seed();dp();load();
-</script></body></html>
+
+/* ==========================================================
+   ESTADO
+   ========================================================== */
+
+let patients = [];
+
+const q = (selector, root = document) =>
+  root.querySelector(selector);
+
+const qa = (selector, root = document) =>
+  [...root.querySelectorAll(selector)];
+
+
+/* ==========================================================
+   DATA / HORA
+   ========================================================== */
+
+function dateNow() {
+
+  const d = new Date();
+
+  return (
+    d.getFullYear() +
+    '-' +
+    String(d.getMonth() + 1).padStart(2, '0') +
+    '-' +
+    String(d.getDate()).padStart(2, '0')
+  );
+
+}
+
+
+function timeNow() {
+
+  const d = new Date();
+
+  return (
+    String(d.getHours()).padStart(2, '0') +
+    ':' +
+    String(d.getMinutes()).padStart(2, '0')
+  );
+
+}
+
+
+function seed() {
+
+  qa('.today').forEach(function (x) {
+    x.value = dateNow();
+  });
+
+  qa('.now').forEach(function (x) {
+    x.value = timeNow();
+  });
+
+}
+
+
+/* ==========================================================
+   MENSAGENS
+   ========================================================== */
+
+function msg(text, type = 'ok') {
+
+  const x = q('#status');
+
+  x.textContent = text;
+  x.className = 'status on ' + type;
+
+  x.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+
+  clearTimeout(msg.timer);
+
+  msg.timer = setTimeout(function () {
+    x.className = 'status';
+  }, 7000);
+
+}
+
+
+/* ==========================================================
+   ABAS
+   ========================================================== */
+
+qa('.tab').forEach(function (button) {
+
+  button.onclick = function () {
+
+    qa('.tab').forEach(function (x) {
+      x.classList.remove('on');
+    });
+
+    qa('.view').forEach(function (x) {
+      x.classList.remove('on');
+    });
+
+    button.classList.add('on');
+
+    q('#' + button.dataset.v)
+      .classList.add('on');
+
+  };
+
+});
+
+
+/* ==========================================================
+   APLICABILIDADE
+   ========================================================== */
+
+qa('.group').forEach(function (group) {
+
+  qa('.pill', group).forEach(function (button) {
+
+    button.onclick = function () {
+
+      qa('.pill', group).forEach(function (x) {
+        x.classList.remove('on');
+      });
+
+      button.classList.add('on');
+
+      const yes =
+        button.dataset.a === 'Sim';
+
+      q(
+        'input[type=hidden]',
+        group
+      ).value = button.dataset.a;
+
+      q(
+        '.gb',
+        group
+      ).classList.toggle(
+        'off',
+        !yes
+      );
+
+      q(
+        '.reason',
+        group
+      ).classList.toggle(
+        'on',
+        !yes
+      );
+
+      qa(
+        '.gb input,.gb select,.gb textarea',
+        group
+      ).forEach(function (x) {
+
+        x.disabled = !yes;
+
+        if (!yes) {
+          x.value = '';
+        }
+
+      });
+
+      if (yes) {
+
+        const reason =
+          q('.reason select', group);
+
+        if (reason) {
+          reason.value = '';
+        }
+
+      }
+
+    };
+
+  });
+
+});
+
+
+/* ==========================================================
+   DRIVING PRESSURE
+   ========================================================== */
+
+function dp() {
+
+  const pplat =
+    parseFloat(q('#pplat').value);
+
+  const peep =
+    parseFloat(q('#peep').value);
+
+  if (
+    Number.isFinite(pplat) &&
+    Number.isFinite(peep)
+  ) {
+
+    const value =
+      pplat - peep;
+
+    q('#dp').textContent =
+      value.toFixed(1) +
+      ' cmH₂O';
+
+    q('#dpHidden').value =
+      value.toFixed(1);
+
+  } else {
+
+    q('#dp').textContent = '—';
+    q('#dpHidden').value = '';
+
+  }
+
+}
+
+q('#pplat').oninput = dp;
+q('#peep').oninput = dp;
+
+
+/* ==========================================================
+   FORM → OBJETO
+   ========================================================== */
+
+function obj(form) {
+
+  return Object.fromEntries(
+    new FormData(form).entries()
+  );
+
+}
+
+
+/* ==========================================================
+   GOOGLE APPS SCRIPT
+   ========================================================== */
+
+function gas(functionName, payload) {
+
+  return new Promise(function (resolve, reject) {
+
+    let runner =
+      google.script.run
+        .withSuccessHandler(function (result) {
+          resolve(result);
+        })
+        .withFailureHandler(function (error) {
+
+          const message =
+            error &&
+            error.message
+              ? error.message
+              : String(error || 'Erro desconhecido.');
+
+          reject(
+            new Error(message)
+          );
+
+        });
+
+    if (
+      payload === undefined
+    ) {
+
+      runner[functionName]();
+
+    } else {
+
+      runner[functionName](payload);
+
+    }
+
+  });
+
+}
+
+
+/* ==========================================================
+   PACIENTES ATIVOS
+   ========================================================== */
+
+async function load() {
+
+  try {
+
+    const result =
+      await gas(
+        'listActivePatients'
+      );
+
+    patients =
+      result &&
+      Array.isArray(result.data)
+        ? result.data
+        : [];
+
+    render();
+
+  } catch (error) {
+
+    patients = [];
+
+    render();
+
+    msg(
+      'Não foi possível carregar os pacientes ativos: ' +
+      error.message,
+      'error'
+    );
+
+  }
+
+}
+
+
+function render() {
+
+  [
+    q('#patientSelect'),
+    q('#eventPatient')
+  ].forEach(function (select) {
+
+    select.innerHTML =
+      '<option value="">Selecione...</option>';
+
+    patients.forEach(function (patient) {
+
+      const option =
+        document.createElement('option');
+
+      option.value =
+        patient.admissionId;
+
+      option.textContent =
+        patient.name +
+        ' • RH ' +
+        patient.rh +
+        (
+          patient.bed
+            ? ' • Leito ' + patient.bed
+            : ''
+        );
+
+      select.appendChild(option);
+
+    });
+
+    if (!patients.length) {
+
+      select.innerHTML =
+        '<option value="">Nenhum paciente ativo</option>';
+
+    }
+
+  });
+
+}
+
+
+/* ==========================================================
+   SELEÇÃO DO PACIENTE
+   ========================================================== */
+
+q('#patientSelect').onchange =
+function (event) {
+
+  const patient =
+    patients.find(function (x) {
+
+      return (
+        x.admissionId ===
+        event.target.value
+      );
+
+    });
+
+  const box =
+    q('#patientInfo');
+
+  if (!patient) {
+
+    box.classList.add('hide');
+
+    q('#bed').value = '';
+
+    return;
+
+  }
+
+  q('#bed').value =
+    patient.bed || '';
+
+  box.textContent =
+    patient.name +
+    ' • RH ' +
+    patient.rh +
+    ' • ' +
+    (
+      patient.diagnosis ||
+      'Diagnóstico não informado'
+    ) +
+    ' • SAPS 3: ' +
+    (
+      patient.saps3 ??
+      'não informado'
+    );
+
+  box.classList.remove('hide');
+
+};
+
+
+/* ==========================================================
+   CONTROLE DO BOTÃO
+   ========================================================== */
+
+function setBusy(
+  button,
+  busy,
+  busyText
+) {
+
+  if (!button) {
+    return;
+  }
+
+  if (busy) {
+
+    button.dataset.originalText =
+      button.textContent;
+
+    button.disabled = true;
+
+    button.textContent =
+      busyText || 'Registrando...';
+
+  } else {
+
+    button.disabled = false;
+
+    button.textContent =
+      button.dataset.originalText ||
+      button.textContent;
+
+  }
+
+}
+
+
+/* ==========================================================
+   CADASTRAR PACIENTE
+   ========================================================== */
+
+q('#fCadastro').onsubmit =
+async function (event) {
+
+  event.preventDefault();
+
+  const form =
+    event.currentTarget;
+
+  const button =
+    q('button.primary', form);
+
+  setBusy(
+    button,
+    true,
+    'Cadastrando...'
+  );
+
+  try {
+
+    const result =
+      await gas(
+        'createAdmission',
+        obj(form)
+      );
+
+    if (
+      !result ||
+      result.ok !== true
+    ) {
+
+      throw new Error(
+        result &&
+        result.message
+          ? result.message
+          : 'O servidor não confirmou o cadastro.'
+      );
+
+    }
+
+    msg(
+      result.message ||
+      'Paciente e internação cadastrados com sucesso.'
+    );
+
+    /*
+      IMPORTANTE:
+      o formulário só é apagado depois
+      da confirmação real do servidor.
+    */
+
+    form.reset();
+
+    seed();
+
+    await load();
+
+  } catch (error) {
+
+    /*
+      Em caso de erro, os dados permanecem
+      preenchidos para evitar perda e
+      cliques repetidos às cegas.
+    */
+
+    msg(
+      error.message,
+      'error'
+    );
+
+  } finally {
+
+    setBusy(
+      button,
+      false
+    );
+
+  }
+
+};
+
+
+/* ==========================================================
+   REGISTRAR EVENTO
+   ========================================================== */
+
+q('#fEvento').onsubmit =
+async function (event) {
+
+  event.preventDefault();
+
+  const form =
+    event.currentTarget;
+
+  const button =
+    q('button.primary', form);
+
+  setBusy(
+    button,
+    true,
+    'Registrando...'
+  );
+
+  try {
+
+    const result =
+      await gas(
+        'createEvent',
+        obj(form)
+      );
+
+    if (
+      !result ||
+      result.ok !== true
+    ) {
+
+      throw new Error(
+        result &&
+        result.message
+          ? result.message
+          : 'O servidor não confirmou o evento.'
+      );
+
+    }
+
+    msg(
+      result.message ||
+      'Evento registrado com sucesso.'
+    );
+
+    form.reset();
+
+    seed();
+
+    await load();
+
+  } catch (error) {
+
+    msg(
+      error.message,
+      'error'
+    );
+
+  } finally {
+
+    setBusy(
+      button,
+      false
+    );
+
+  }
+
+};
+
+
+/* ==========================================================
+   REGISTRAR AVALIAÇÃO
+   ========================================================== */
+
+q('#fAvaliacao').onsubmit =
+async function (event) {
+
+  event.preventDefault();
+
+  const form =
+    event.currentTarget;
+
+  /*
+    Validação dos cinco grupos.
+  */
+
+  const groups = [
+    'functional',
+    'alveolar',
+    'drive',
+    'weaning',
+    'noninvasive'
+  ];
+
+  for (
+    const group of groups
+  ) {
+
+    const applies =
+      form.elements[
+        group + '_applies'
+      ].value;
+
+    const reason =
+      form.elements[
+        group + '_reason'
+      ].value;
+
+    if (!applies) {
+
+      msg(
+        'Informe se todos os grupos clínicos se aplicam ou não.',
+        'error'
+      );
+
+      return;
+
+    }
+
+    if (
+      applies === 'Não' &&
+      !reason
+    ) {
+
+      msg(
+        'Todo grupo marcado como “Não aplica” precisa de um motivo.',
+        'error'
+      );
+
+      return;
+
+    }
+
+  }
+
+  const button =
+    q('button.primary', form);
+
+  setBusy(
+    button,
+    true,
+    'Registrando avaliação...'
+  );
+
+  try {
+
+    const result =
+      await gas(
+        'createAssessment',
+        obj(form)
+      );
+
+    if (
+      !result ||
+      result.ok !== true
+    ) {
+
+      throw new Error(
+        result &&
+        result.message
+          ? result.message
+          : 'O servidor não confirmou a avaliação.'
+      );
+
+    }
+
+    msg(
+      result.message ||
+      'Avaliação registrada e confirmada pelo servidor.'
+    );
+
+    /*
+      Só limpa após confirmação do backend.
+    */
+
+    resetAssessment();
+
+    await load();
+
+  } catch (error) {
+
+    /*
+      Se houver erro, NÃO limpamos o formulário.
+    */
+
+    msg(
+      error.message,
+      'error'
+    );
+
+  } finally {
+
+    setBusy(
+      button,
+      false
+    );
+
+  }
+
+};
+
+
+/* ==========================================================
+   RESET DA AVALIAÇÃO
+   ========================================================== */
+
+function resetAssessment() {
+
+  const form =
+    q('#fAvaliacao');
+
+  form.reset();
+
+  qa(
+    '.pill',
+    form
+  ).forEach(function (x) {
+    x.classList.remove('on');
+  });
+
+  qa(
+    '.reason',
+    form
+  ).forEach(function (x) {
+    x.classList.remove('on');
+  });
+
+  qa(
+    '.gb',
+    form
+  ).forEach(function (x) {
+
+    x.classList.remove('off');
+
+    qa(
+      'input,select,textarea',
+      x
+    ).forEach(function (field) {
+
+      field.disabled = false;
+
+    });
+
+  });
+
+  q('#patientInfo')
+    .classList
+    .add('hide');
+
+  seed();
+
+  dp();
+
+}
+
+
+/* ==========================================================
+   LIMPAR
+   ========================================================== */
+
+q('#clear').onclick =
+function () {
+
+  resetAssessment();
+
+};
+
+
+/* ==========================================================
+   INICIALIZAÇÃO
+   ========================================================== */
+
+seed();
+dp();
+load();
+
+</script>
+
+</body>
+</html>
