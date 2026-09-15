@@ -71,7 +71,7 @@ main{width:min(980px,calc(100% - 20px));margin:auto;padding:18px 0 60px}.hero,.c
 <p class="footer">UTI B • Sistema de Indicadores Clínicos</p>
 </main>
 <script>
-const SCRIPT_URL=''; // cole aqui a URL do Web App do Google Apps Script
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycby53AacHMZ6zoU0M0TXNKuWcdyPoNMcCjlkGrTQIMW-KIjh_PPXssy9NFoY0WgKhZJ3Hg/exec'; // Web App do Google Apps Script
 let patients=[];
 const q=(s,r=document)=>r.querySelector(s), qa=(s,r=document)=>[...r.querySelectorAll(s)];
 function dateNow(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
@@ -83,14 +83,15 @@ qa('.group').forEach(g=>qa('.pill',g).forEach(b=>b.onclick=()=>{qa('.pill',g).fo
 function dp(){let a=parseFloat(q('#pplat').value),b=parseFloat(q('#peep').value);if(Number.isFinite(a)&&Number.isFinite(b)){let v=a-b;q('#dp').textContent=v.toFixed(1)+' cmH₂O';q('#dpHidden').value=v.toFixed(1)}else{q('#dp').textContent='—';q('#dpHidden').value=''}}
 q('#pplat').oninput=dp;q('#peep').oninput=dp;
 function obj(f){return Object.fromEntries(new FormData(f).entries())}
-async function api(action,payload={}){if(!SCRIPT_URL)throw Error('Frontend pronto, mas ainda não conectado ao Google Sheets. Falta inserir a URL do Apps Script em SCRIPT_URL.');let r=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,payload})});if(!r.ok)throw Error('Falha de comunicação: '+r.status);let j=await r.json();if(j?.ok!==true)throw Error(j?.message||'O servidor não confirmou a gravação.');return j}
+function requestId(){return (crypto?.randomUUID?crypto.randomUUID():'req-'+Date.now()+'-'+Math.random().toString(36).slice(2))}
+async function api(action,payload={}){if(!SCRIPT_URL)throw Error('Frontend pronto, mas ainda não conectado ao Google Sheets. Falta inserir a URL do Apps Script em SCRIPT_URL.');let r=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,payload,requestId:requestId()})});if(!r.ok)throw Error('Falha de comunicação: '+r.status);let j=await r.json();if(j?.ok!==true)throw Error(j?.message||'O servidor não confirmou a gravação.');return j}
 function render(){[q('#patientSelect'),q('#eventPatient')].forEach(s=>{s.innerHTML='<option value="">Selecione...</option>';patients.forEach(p=>{let o=document.createElement('option');o.value=p.admissionId;o.textContent=`${p.name} • RH ${p.rh}${p.bed?' • Leito '+p.bed:''}`;s.appendChild(o)});if(!patients.length)s.innerHTML='<option value="">Nenhum paciente ativo</option>'})}
 async function load(){if(!SCRIPT_URL){render();return}try{let j=await api('listActivePatients');patients=Array.isArray(j.data)?j.data:[];render()}catch(e){msg(e.message,'error')}}
 q('#patientSelect').onchange=e=>{let p=patients.find(x=>x.admissionId===e.target.value),box=q('#patientInfo');if(!p){box.classList.add('hide');return}q('#bed').value=p.bed||'';box.textContent=`${p.name} • RH ${p.rh} • ${p.diagnosis||'Diagnóstico não informado'} • SAPS 3: ${p.saps3??'não informado'}`;box.classList.remove('hide')}
-async function submit(form,action,success){let btn=q('button.primary',form);btn.disabled=true;try{await api(action,obj(form));msg(success);form.reset();seed();await load()}catch(e){msg(e.message,'error')}finally{btn.disabled=false}}
+async function submit(form,action,success){let btn=q('button.primary',form);btn.disabled=true;try{await api(action,obj(form));msg(success);form.reset();seed();await load();return true}catch(e){msg(e.message,'error');return false}finally{btn.disabled=false}}
 q('#fCadastro').onsubmit=e=>{e.preventDefault();submit(e.currentTarget,'createAdmission','Paciente e internação cadastrados com sucesso.')}
 q('#fEvento').onsubmit=e=>{e.preventDefault();submit(e.currentTarget,'createEvent','Evento registrado com sucesso.')}
-q('#fAvaliacao').onsubmit=async e=>{e.preventDefault();let f=e.currentTarget;for(let g of ['functional','alveolar','drive','weaning','noninvasive']){if(!f.elements[g+'_applies'].value){msg('Informe se todos os grupos clínicos se aplicam ou não.','error');return}if(f.elements[g+'_applies'].value==='Não'&&!f.elements[g+'_reason'].value){msg('Todo grupo marcado como “Não aplica” precisa de um motivo.','error');return}}await submit(f,'createAssessment','Avaliação registrada e confirmada pelo servidor.');resetAssessment()}
+q('#fAvaliacao').onsubmit=async e=>{e.preventDefault();let f=e.currentTarget;for(let g of ['functional','alveolar','drive','weaning','noninvasive']){if(!f.elements[g+'_applies'].value){msg('Informe se todos os grupos clínicos se aplicam ou não.','error');return}if(f.elements[g+'_applies'].value==='Não'&&!f.elements[g+'_reason'].value){msg('Todo grupo marcado como “Não aplica” precisa de um motivo.','error');return}}let ok=await submit(f,'createAssessment','Avaliação registrada e confirmada pelo servidor.');if(ok)resetAssessment()}
 function resetAssessment(){let f=q('#fAvaliacao');f.reset();qa('.pill',f).forEach(x=>x.classList.remove('on'));qa('.reason',f).forEach(x=>x.classList.remove('on'));qa('.gb',f).forEach(x=>{x.classList.remove('off');qa('input,select,textarea',x).forEach(y=>y.disabled=false)});q('#patientInfo').classList.add('hide');seed();dp()}
 q('#clear').onclick=resetAssessment;seed();dp();load();
 </script></body></html>
