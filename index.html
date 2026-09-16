@@ -44,10 +44,7 @@ main{
   background:#fff;
   border:1px solid var(--line);
   border-radius:20px;
-  box-shadow:0 12px 34px #123b4a12
-}
-
-.hero,.card{
+  box-shadow:0 12px 34px #123b4a12;
   padding:22px;
   margin-bottom:14px
 }
@@ -103,7 +100,9 @@ h1{
 }
 
 .grid3{
-  grid-template-columns:repeat(3,1fr)
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px
 }
 
 label{
@@ -197,7 +196,8 @@ textarea{min-height:80px}
   padding:10px;
   border:1px solid #d4e6e9;
   border-radius:10px;
-  background:#eef6f7
+  background:#eef6f7;
+  min-height:72px
 }
 
 .calc small{
@@ -205,7 +205,11 @@ textarea{min-height:80px}
   color:var(--muted)
 }
 
-.calc strong{color:var(--p)}
+.calc strong{
+  color:var(--p);
+  display:block;
+  margin-top:3px
+}
 
 .actions{
   display:flex;
@@ -317,9 +321,7 @@ textarea{min-height:80px}
 <div id="status" class="status"></div>
 
 
-<!-- ======================================================
-     NOVO PACIENTE
-     ====================================================== -->
+<!-- NOVO PACIENTE -->
 
 <section id="cadastro" class="view on">
 
@@ -381,9 +383,7 @@ Cadastrar paciente e internação
 </section>
 
 
-<!-- ======================================================
-     NOVA AVALIAÇÃO
-     ====================================================== -->
+<!-- NOVA AVALIAÇÃO -->
 
 <section id="avaliacao" class="view">
 
@@ -428,13 +428,11 @@ A lista contém apenas internações ativas. A data atual é preenchida automati
 
 <div>
 <label>Status do registro</label>
-
 <select name="recordStatus">
 <option>Completo</option>
 <option>Pendente de conferência</option>
 <option>Dado não disponível</option>
 </select>
-
 </div>
 
 </div>
@@ -463,7 +461,7 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div class="gt">
 <strong>Funcionalidade</strong>
-<small>MRC-SS, IMS, dinamometria e primeira saída do leito</small>
+<small>MRC-SS, IMS, dinamometria e mobilização fora do leito</small>
 </div>
 
 <div class="apply">
@@ -509,19 +507,12 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 </div>
 
 <div>
-<label>Primeira saída do leito?</label>
-
-<select name="firstOut">
+<label>Saiu do leito hoje?</label>
+<select name="outOfBedToday">
 <option value=""></option>
 <option>Sim</option>
 <option>Não</option>
 </select>
-
-</div>
-
-<div>
-<label>Data da primeira saída</label>
-<input name="firstOutDate" type="date">
 </div>
 
 </div>
@@ -571,21 +562,8 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 <div class="grid3">
 
 <div>
-<label>Modo ventilatório</label>
-
-<select name="ventMode">
-<option value=""></option>
-<option>VCV</option>
-<option>PCV</option>
-<option>PSV</option>
-<option>Outro</option>
-</select>
-
-</div>
-
-<div>
 <label>VT (mL)</label>
-<input name="vt" type="number">
+<input id="vt" name="vt" type="number" min="0" step=".1">
 </div>
 
 <div>
@@ -595,12 +573,12 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div>
 <label>FR (irpm)</label>
-<input name="rr" type="number">
+<input id="rr" name="rr" type="number" min="0" step=".1">
 </div>
 
 <div>
 <label>Ppico (cmH₂O)</label>
-<input name="ppeak" type="number" step=".1">
+<input id="ppeak" name="ppeak" type="number" step=".1">
 </div>
 
 <div>
@@ -610,7 +588,7 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div>
 <label>FiO₂ (%)</label>
-<input name="fio2" type="number" min="21" max="100">
+<input name="fio2" type="number" min="21" max="100" step=".1">
 </div>
 
 <div class="calc">
@@ -621,8 +599,8 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div class="calc">
 <small>Mechanical Power</small>
-<strong>Aguardando fórmula validada</strong>
-<input name="mechanicalPower" type="hidden">
+<strong id="mp">—</strong>
+<input id="mpHidden" name="mechanicalPower" type="hidden">
 </div>
 
 </div>
@@ -743,35 +721,29 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div>
 <label>TRE realizado?</label>
-
 <select name="sbtPerformed">
 <option value=""></option>
 <option>Sim</option>
 <option>Não</option>
 </select>
-
 </div>
 
 <div>
 <label>Resultado do TRE</label>
-
 <select name="sbtResult">
 <option value=""></option>
 <option>Positivo</option>
 <option>Negativo</option>
 </select>
-
 </div>
 
 <div>
 <label>Extubado?</label>
-
 <select name="extubated">
 <option value=""></option>
 <option>Sim</option>
 <option>Não</option>
 </select>
-
 </div>
 
 <div>
@@ -781,13 +753,11 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div>
 <label>Falha de extubação?</label>
-
 <select name="extubationFailure">
 <option value=""></option>
 <option>Sim</option>
 <option>Não</option>
 </select>
-
 </div>
 
 <div>
@@ -797,13 +767,11 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div>
 <label>Reintubado?</label>
-
 <select name="reintubated">
 <option value=""></option>
 <option>Sim</option>
 <option>Não</option>
 </select>
-
 </div>
 
 <div>
@@ -818,7 +786,7 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 </div>
 
 
-<!-- NÃO INVASIVO -->
+<!-- SUPORTE NÃO INVASIVO -->
 
 <div class="group" data-g="noninvasive">
 
@@ -858,46 +826,30 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div>
 <label>Modalidade</label>
-
-<select name="noninvasiveMode">
+<select id="noninvasiveMode" name="noninvasiveMode">
 <option value=""></option>
 <option>VNI</option>
 <option>CNAF</option>
 </select>
-
 </div>
 
-<div>
-<label>Resultado</label>
-
-<select name="noninvasiveResult">
-<option value=""></option>
-<option>Sucesso</option>
-<option>Falha</option>
-<option>Em andamento</option>
-</select>
-
-</div>
-
-<div>
+<div id="hacorBox" class="hide">
 <label>HACOR</label>
-<input name="hacor" type="number" step=".1">
+<input id="hacor" name="hacor" type="number" step=".1">
 </div>
 
-<div>
+<div id="roxBox" class="hide">
 <label>ROX</label>
-<input name="rox" type="number" step=".01">
+<input id="rox" name="rox" type="number" step=".01">
 </div>
 
 <div>
 <label>IOT após falha?</label>
-
 <select name="iotAfterFailure">
 <option value=""></option>
 <option>Sim</option>
 <option>Não</option>
 </select>
-
 </div>
 
 <div>
@@ -938,9 +890,7 @@ Registrar avaliação
 </section>
 
 
-<!-- ======================================================
-     EVENTO
-     ====================================================== -->
+<!-- EVENTO -->
 
 <section id="evento" class="view">
 
@@ -1064,7 +1014,6 @@ function dateNow() {
 
 }
 
-
 function timeNow() {
 
   const d = new Date();
@@ -1076,7 +1025,6 @@ function timeNow() {
   );
 
 }
-
 
 function seed() {
 
@@ -1206,6 +1154,9 @@ qa('.group').forEach(function (group) {
 
       }
 
+      calculateVentilation();
+      syncNoninvasiveMode();
+
     };
 
   });
@@ -1214,10 +1165,10 @@ qa('.group').forEach(function (group) {
 
 
 /* ==========================================================
-   DRIVING PRESSURE
+   DRIVING PRESSURE + MECHANICAL POWER
    ========================================================== */
 
-function dp() {
+function calculateVentilation() {
 
   const pplat =
     parseFloat(q('#pplat').value);
@@ -1225,20 +1176,31 @@ function dp() {
   const peep =
     parseFloat(q('#peep').value);
 
+  const vtMl =
+    parseFloat(q('#vt').value);
+
+  const rr =
+    parseFloat(q('#rr').value);
+
+  const ppeak =
+    parseFloat(q('#ppeak').value);
+
+  let drivingPressure = null;
+
   if (
     Number.isFinite(pplat) &&
     Number.isFinite(peep)
   ) {
 
-    const value =
+    drivingPressure =
       pplat - peep;
 
     q('#dp').textContent =
-      value.toFixed(1) +
+      drivingPressure.toFixed(1) +
       ' cmH₂O';
 
     q('#dpHidden').value =
-      value.toFixed(1);
+      drivingPressure.toFixed(1);
 
   } else {
 
@@ -1247,10 +1209,147 @@ function dp() {
 
   }
 
+  if (
+    Number.isFinite(vtMl) &&
+    vtMl > 0 &&
+    Number.isFinite(rr) &&
+    rr > 0 &&
+    Number.isFinite(ppeak) &&
+    Number.isFinite(drivingPressure)
+  ) {
+
+    const vtLiters =
+      vtMl / 1000;
+
+    const mechanicalPower =
+      0.098 *
+      vtLiters *
+      rr *
+      (
+        ppeak -
+        (
+          drivingPressure / 2
+        )
+      );
+
+    if (Number.isFinite(mechanicalPower)) {
+
+      q('#mp').textContent =
+        mechanicalPower.toFixed(2) +
+        ' J/min';
+
+      q('#mpHidden').value =
+        mechanicalPower.toFixed(2);
+
+    } else {
+
+      q('#mp').textContent = '—';
+      q('#mpHidden').value = '';
+
+    }
+
+  } else {
+
+    q('#mp').textContent = '—';
+    q('#mpHidden').value = '';
+
+  }
+
 }
 
-q('#pplat').oninput = dp;
-q('#peep').oninput = dp;
+[
+  '#pplat',
+  '#peep',
+  '#vt',
+  '#rr',
+  '#ppeak'
+].forEach(function (selector) {
+
+  q(selector).addEventListener(
+    'input',
+    calculateVentilation
+  );
+
+});
+
+
+/* ==========================================================
+   VNI / CNAF
+   ========================================================== */
+
+function syncNoninvasiveMode() {
+
+  const modeField =
+    q('#noninvasiveMode');
+
+  const hacorBox =
+    q('#hacorBox');
+
+  const roxBox =
+    q('#roxBox');
+
+  const hacor =
+    q('#hacor');
+
+  const rox =
+    q('#rox');
+
+  if (!modeField) {
+    return;
+  }
+
+  const mode =
+    modeField.value;
+
+  const group =
+    modeField.closest('.group');
+
+  const applies =
+    q(
+      'input[name="noninvasive_applies"]',
+      group
+    ).value;
+
+  const enabled =
+    applies === 'Sim';
+
+  hacorBox.classList.toggle(
+    'hide',
+    !enabled || mode !== 'VNI'
+  );
+
+  roxBox.classList.toggle(
+    'hide',
+    !enabled || mode !== 'CNAF'
+  );
+
+  if (
+    !enabled ||
+    mode !== 'VNI'
+  ) {
+    hacor.value = '';
+    hacor.disabled = true;
+  } else {
+    hacor.disabled = false;
+  }
+
+  if (
+    !enabled ||
+    mode !== 'CNAF'
+  ) {
+    rox.value = '';
+    rox.disabled = true;
+  } else {
+    rox.disabled = false;
+  }
+
+}
+
+q('#noninvasiveMode')
+  .addEventListener(
+    'change',
+    syncNoninvasiveMode
+  );
 
 
 /* ==========================================================
@@ -1285,7 +1384,10 @@ function gas(functionName, payload) {
             error &&
             error.message
               ? error.message
-              : String(error || 'Erro desconhecido.');
+              : String(
+                  error ||
+                  'Erro desconhecido.'
+                );
 
           reject(
             new Error(message)
@@ -1293,9 +1395,7 @@ function gas(functionName, payload) {
 
         });
 
-    if (
-      payload === undefined
-    ) {
+    if (payload === undefined) {
 
       runner[functionName]();
 
@@ -1346,7 +1446,6 @@ async function load() {
   }
 
 }
-
 
 function render() {
 
@@ -1530,12 +1629,6 @@ async function (event) {
       'Paciente e internação cadastrados com sucesso.'
     );
 
-    /*
-      IMPORTANTE:
-      o formulário só é apagado depois
-      da confirmação real do servidor.
-    */
-
     form.reset();
 
     seed();
@@ -1543,12 +1636,6 @@ async function (event) {
     await load();
 
   } catch (error) {
-
-    /*
-      Em caso de erro, os dados permanecem
-      preenchidos para evitar perda e
-      cliques repetidos às cegas.
-    */
 
     msg(
       error.message,
@@ -1652,10 +1739,6 @@ async function (event) {
   const form =
     event.currentTarget;
 
-  /*
-    Validação dos cinco grupos.
-  */
-
   const groups = [
     'functional',
     'alveolar',
@@ -1664,9 +1747,7 @@ async function (event) {
     'noninvasive'
   ];
 
-  for (
-    const group of groups
-  ) {
+  for (const group of groups) {
 
     const applies =
       form.elements[
@@ -1705,6 +1786,9 @@ async function (event) {
 
   }
 
+  calculateVentilation();
+  syncNoninvasiveMode();
+
   const button =
     q('button.primary', form);
 
@@ -1741,19 +1825,11 @@ async function (event) {
       'Avaliação registrada e confirmada pelo servidor.'
     );
 
-    /*
-      Só limpa após confirmação do backend.
-    */
-
     resetAssessment();
 
     await load();
 
   } catch (error) {
-
-    /*
-      Se houver erro, NÃO limpamos o formulário.
-    */
 
     msg(
       error.message,
@@ -1821,7 +1897,8 @@ function resetAssessment() {
 
   seed();
 
-  dp();
+  calculateVentilation();
+  syncNoninvasiveMode();
 
 }
 
@@ -1843,7 +1920,8 @@ function () {
    ========================================================== */
 
 seed();
-dp();
+calculateVentilation();
+syncNoninvasiveMode();
 load();
 
 </script>
