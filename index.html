@@ -6,65 +6,127 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>UTI B - Indicadores Clínicos</title>
+  <title>UTI B | Indicadores Clínicos</title>
 
   <style>
+    :root {
+      --bg: #f3f6f8;
+      --surface: #ffffff;
+      --surface-soft: #f8fafb;
+      --text: #17212b;
+      --muted: #667085;
+      --border: #e3e8ed;
+      --primary: #243746;
+      --primary-hover: #192a37;
+      --primary-soft: #edf2f5;
+      --success: #067647;
+      --success-bg: #ecfdf3;
+      --success-border: #abefc6;
+      --danger: #b42318;
+      --danger-bg: #fef3f2;
+      --danger-border: #fecdca;
+      --shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
+    }
+
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #1f2933;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
     }
 
-    .app {
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .app-shell {
+      width: 100%;
       max-width: 1180px;
       margin: 0 auto;
-      padding: 24px 16px 60px;
+      padding: 28px 18px 60px;
     }
 
-    .header {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    .topbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 26px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
     }
 
-    .header h1 {
-      margin: 0 0 6px;
-      font-size: 28px;
+    .topbar-kicker {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 7px;
     }
 
-    .header p {
+    .topbar h1 {
       margin: 0;
-      color: #667085;
-      font-size: 15px;
+      font-size: 27px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
     }
 
-    .tabs {
+    .topbar p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .navigation {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 8px;
+      padding: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
       margin-bottom: 20px;
+      overflow-x: auto;
     }
 
-    .tab {
+    .nav-button {
+      flex: 1;
+      min-width: 150px;
       border: 0;
-      background: #e7eaee;
-      color: #344054;
-      padding: 12px 18px;
       border-radius: 10px;
+      background: transparent;
+      color: var(--muted);
+      padding: 11px 15px;
       cursor: pointer;
-      font-size: 15px;
-      font-weight: 700;
+      font-weight: 750;
+      transition: 0.18s ease;
     }
 
-    .tab.active {
-      background: #1f2937;
+    .nav-button:hover {
+      background: var(--surface-soft);
+      color: var(--text);
+    }
+
+    .nav-button.active {
+      background: var(--primary);
       color: #ffffff;
     }
 
@@ -76,28 +138,29 @@
       display: block;
     }
 
-    .card,
-    .group-card {
-      background: #ffffff;
-      border-radius: 16px;
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
       padding: 22px;
-      margin-bottom: 18px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(16, 24, 40, 0.035);
     }
 
-    .group-card {
-      border: 1px solid #e4e7ec;
+    .panel-header {
+      margin-bottom: 20px;
     }
 
-    .card h2 {
-      margin: 0 0 18px;
-      font-size: 21px;
+    .panel-header h2 {
+      margin: 0;
+      font-size: 19px;
+      letter-spacing: -0.01em;
     }
 
-    .card-description {
-      margin: -8px 0 18px;
-      color: #667085;
-      font-size: 14px;
+    .panel-header p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
       line-height: 1.5;
     }
 
@@ -113,19 +176,20 @@
       gap: 16px;
     }
 
+    .full {
+      grid-column: 1 / -1;
+    }
+
     .field {
       display: flex;
       flex-direction: column;
       gap: 7px;
+      min-width: 0;
     }
 
-    .field.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-weight: 700;
-      font-size: 14px;
+    .field label {
+      font-size: 13px;
+      font-weight: 750;
       color: #344054;
     }
 
@@ -133,176 +197,164 @@
     select,
     textarea {
       width: 100%;
+      min-height: 43px;
       border: 1px solid #d0d5dd;
-      border-radius: 9px;
-      padding: 11px 12px;
-      font-size: 15px;
+      border-radius: 10px;
       background: #ffffff;
       color: #101828;
+      padding: 10px 12px;
       outline: none;
+      transition: 0.15s ease;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-      border-color: #667085;
-      box-shadow: 0 0 0 3px rgba(102, 112, 133, 0.10);
+      border-color: #8293a1;
+      box-shadow: 0 0 0 3px rgba(36, 55, 70, 0.08);
     }
 
     input:disabled,
     select:disabled,
     textarea:disabled {
-      background: #f2f4f7;
+      background: #f4f6f7;
       color: #98a2b3;
       cursor: not-allowed;
     }
 
-    textarea {
-      min-height: 90px;
-      resize: vertical;
+    .patient-summary {
+      display: none;
+      margin-top: 18px;
+      padding: 15px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-soft);
     }
 
-    .btn {
-      border: 0;
-      border-radius: 10px;
-      padding: 12px 18px;
-      cursor: pointer;
-      font-weight: 700;
+    .patient-summary.show {
+      display: block;
+    }
+
+    .patient-summary strong {
+      display: block;
+      margin-bottom: 6px;
       font-size: 15px;
     }
 
-    .btn-primary {
-      background: #1f2937;
-      color: #ffffff;
+    .patient-summary span {
+      display: inline-block;
+      margin-right: 18px;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    .btn:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
+    .clinical-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(16, 24, 40, 0.03);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .actions {
+    .clinical-group.enabled {
+      border-color: #b7c3cc;
+      box-shadow: 0 6px 18px rgba(16, 24, 40, 0.055);
+    }
+
+    .clinical-group-header {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 20px;
     }
 
-    .status {
-      display: none;
-      margin-top: 16px;
-      padding: 13px 15px;
-      border-radius: 10px;
-      font-size: 14px;
+    .clinical-group-title {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .clinical-group-title h3 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+    }
+
+    .clinical-group-title p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
       line-height: 1.45;
     }
 
-    .status.show {
+    .applicability-field {
+      width: 170px;
+      flex: 0 0 170px;
+    }
+
+    .applicability-field select {
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .group-content {
+      display: none;
+      padding: 0 20px 20px;
+    }
+
+    .group-content.show {
       display: block;
     }
 
-    .status.success {
-      background: #ecfdf3;
-      color: #027a48;
-      border: 1px solid #abefc6;
+    .group-content-inner {
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
     }
 
-    .status.error {
-      background: #fef3f2;
-      color: #b42318;
-      border: 1px solid #fecdca;
-    }
-
-    .group-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .group-title {
-      flex: 1;
-    }
-
-    .group-title h3 {
-      margin: 0 0 6px;
-      font-size: 18px;
-    }
-
-    .group-title p {
-      margin: 0;
-      color: #667085;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .applicability {
-      width: 190px;
-      flex: 0 0 190px;
-    }
-
-    .group-body {
+    .reason-content {
       display: none;
-      margin-top: 14px;
+      padding: 0 20px 20px;
+    }
+
+    .reason-content.show {
+      display: block;
+    }
+
+    .reason-inner {
+      border-top: 1px solid var(--border);
       padding-top: 16px;
-      border-top: 1px solid #eaecf0;
     }
 
-    .group-body.active {
-      display: block;
+    .reason-inner .field {
+      max-width: 520px;
     }
 
-    .reason-box {
-      display: none;
-      margin-top: 14px;
-      padding: 14px;
-      background: #f9fafb;
-      border-radius: 10px;
-      border: 1px solid #eaecf0;
-    }
-
-    .reason-box.show {
-      display: block;
-    }
-
-    .always-on-box {
-      margin-top: 16px;
-      padding: 16px;
+    .calculation {
+      min-height: 76px;
+      border: 1px solid var(--border);
       border-radius: 12px;
-      background: #f8fafc;
-      border: 1px solid #d0d5dd;
+      background: var(--surface-soft);
+      padding: 13px 14px;
     }
 
-    .always-on-box h4 {
-      margin: 0 0 5px;
-      font-size: 15px;
+    .calculation-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 5px;
     }
 
-    .always-on-box p {
-      margin: 0 0 13px;
-      color: #667085;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .calc-box {
-      background: #f8fafc;
-      border: 1px solid #e4e7ec;
-      border-radius: 10px;
-      padding: 14px;
-    }
-
-    .calc-label {
-      color: #667085;
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-
-    .calc-value {
+    .calculation-value {
       font-size: 20px;
       font-weight: 800;
-      color: #101828;
+      letter-spacing: -0.02em;
     }
 
     .conditional {
@@ -313,87 +365,143 @@
       display: flex;
     }
 
-    .patient-summary {
-      display: none;
-      margin-top: 15px;
-      padding: 15px;
-      border-radius: 10px;
-      background: #f8fafc;
-      border: 1px solid #e4e7ec;
-    }
-
-    .patient-summary.show {
-      display: block;
-    }
-
-    .patient-summary strong {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .patient-summary span {
-      display: block;
-      color: #667085;
-      font-size: 14px;
-      margin-top: 3px;
-    }
-
-    .diagnosis-b20-row {
+    .b20-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 150px;
-      gap: 16px;
+      grid-template-columns: minmax(0, 1fr) 140px;
+      gap: 14px;
       align-items: end;
     }
 
-    .b20-wrapper {
+    .b20-area {
       display: flex;
       flex-direction: column;
       gap: 7px;
     }
 
+    .b20-area > label {
+      font-size: 13px;
+      font-weight: 750;
+      color: #344054;
+    }
+
     .b20-button {
-      width: 100%;
       min-height: 43px;
-      border: 2px solid #d0d5dd;
-      border-radius: 9px;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
       background: #ffffff;
       color: #344054;
-      font-size: 15px;
       font-weight: 800;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: 0.16s ease;
+    }
+
+    .b20-button:hover {
+      border-color: #98a2b3;
+      background: #f9fafb;
     }
 
     .b20-button.active {
-      background: #1f2937;
-      border-color: #1f2937;
+      background: var(--primary);
+      border-color: var(--primary);
       color: #ffffff;
     }
 
-    .b20-status {
-      margin-top: 5px;
-      color: #667085;
+    .b20-caption {
+      font-size: 11.5px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .primary-button {
+      border: 0;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 12px 18px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .primary-button:hover {
+      background: var(--primary-hover);
+    }
+
+    .primary-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .status {
+      display: none;
+      margin-top: 16px;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.success {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+
+    .status.error {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid var(--danger-border);
+    }
+
+    .section-note {
+      color: var(--muted);
       font-size: 12px;
+      margin-top: 7px;
+      line-height: 1.45;
     }
 
     @media (max-width: 760px) {
+      .app-shell {
+        padding: 16px 12px 40px;
+      }
+
       .grid,
       .grid-3,
-      .diagnosis-b20-row {
+      .b20-layout {
         grid-template-columns: 1fr;
       }
 
-      .group-head {
+      .clinical-group-header {
         flex-direction: column;
+        align-items: stretch;
       }
 
-      .applicability {
+      .applicability-field {
         width: 100%;
         flex: auto;
       }
 
-      .header h1 {
+      .topbar {
+        padding: 20px;
+      }
+
+      .topbar h1 {
         font-size: 23px;
+      }
+
+      .panel {
+        padding: 18px;
       }
     }
   </style>
@@ -401,21 +509,22 @@
 
 <body>
 
-<div class="app">
+<div class="app-shell">
 
-  <div class="header">
-    <h1>UTI B - Indicadores Clínicos</h1>
+  <header class="topbar">
+    <div class="topbar-kicker">UTI B</div>
+    <h1>Indicadores Clínicos</h1>
     <p>
-      Registro longitudinal de indicadores clínicos,
-      funcionais e ventilatórios.
+      Registro longitudinal de indicadores funcionais,
+      ventilatórios e desfechos clínicos.
     </p>
-  </div>
+  </header>
 
-  <div class="tabs">
+  <nav class="navigation">
 
     <button
       type="button"
-      class="tab active"
+      class="nav-button active"
       data-page="assessmentPage"
     >
       Nova avaliação
@@ -423,7 +532,7 @@
 
     <button
       type="button"
-      class="tab"
+      class="nav-button"
       data-page="admissionPage"
     >
       Novo paciente
@@ -431,13 +540,13 @@
 
     <button
       type="button"
-      class="tab"
+      class="nav-button"
       data-page="eventPage"
     >
       Evento / desfecho
     </button>
 
-  </div>
+  </nav>
 
 
   <!-- =====================================================
@@ -451,9 +560,14 @@
 
     <form id="assessmentForm">
 
-      <div class="card">
+      <div class="panel">
 
-        <h2>Identificação da avaliação</h2>
+        <div class="panel-header">
+          <h2>Identificação da avaliação</h2>
+          <p>
+            Selecione o paciente e identifique o registro do dia.
+          </p>
+        </div>
 
         <div class="grid">
 
@@ -571,18 +685,25 @@
       </div>
 
 
-      <!-- FUNCIONALIDADE -->
+      <!-- ==================================================
+           FUNCIONALIDADE
+           ================================================== -->
 
-      <div class="group-card">
+      <div
+        id="functionalCard"
+        class="clinical-group"
+      >
 
-        <div class="group-head">
+        <div class="clinical-group-header">
 
-          <div class="group-title">
+          <div class="clinical-group-title">
             <h3>Funcionalidade</h3>
-            <p>MRC-SS, IMS e dinamometria.</p>
+            <p>
+              MRC-SS, IMS, dinamometria e mobilização fora do leito.
+            </p>
           </div>
 
-          <div class="field applicability">
+          <div class="field applicability-field">
 
             <label for="functionalApplies">
               Aplicabilidade
@@ -594,6 +715,7 @@
               class="applicability-select"
               data-group="functional"
             >
+
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -601,157 +723,154 @@
               <option value="Sim">
                 Aplicar
               </option>
+
             </select>
 
           </div>
 
         </div>
+
 
         <div
           id="functionalReasonBox"
-          class="reason-box show"
+          class="reason-content show"
         >
 
-          <div class="field">
+          <div class="reason-inner">
 
-            <label for="functionalReason">
-              Motivo da não aplicabilidade
-            </label>
+            <div class="field">
 
-            <select
-              id="functionalReason"
-              name="functional_reason"
-              class="reason-select"
-              data-group="functional"
-            >
+              <label for="functionalReason">
+                Motivo da não aplicabilidade
+              </label>
 
-              <option value="">
-                Selecione
-              </option>
+              <select
+                id="functionalReason"
+                name="functional_reason"
+                class="reason-select"
+                data-group="functional"
+              >
 
-              <option value="Sedação">
-                Sedação
-              </option>
+                <option value="">
+                  Selecione
+                </option>
 
-              <option value="Alteração do nível de consciência">
-                Alteração do nível de consciência
-              </option>
+                <option value="Sedação">
+                  Sedação
+                </option>
 
-              <option value="Instabilidade clínica/hemodinâmica">
-                Instabilidade clínica/hemodinâmica
-              </option>
+                <option value="Alteração do nível de consciência">
+                  Alteração do nível de consciência
+                </option>
 
-              <option value="Outro">
-                Outro
-              </option>
+                <option value="Instabilidade clínica/hemodinâmica">
+                  Instabilidade clínica/hemodinâmica
+                </option>
 
-            </select>
+                <option value="Outro">
+                  Outro
+                </option>
+
+              </select>
+
+            </div>
 
           </div>
 
         </div>
+
 
         <div
           id="functionalBody"
-          class="group-body"
+          class="group-content"
           data-group-body="functional"
         >
 
-          <div class="grid-3">
+          <div class="group-content-inner">
 
-            <div class="field">
+            <div class="grid">
 
-              <label for="mrc">
-                MRC-SS
-              </label>
+              <div class="field">
 
-              <input
-                type="number"
-                id="mrc"
-                name="mrc"
-                min="0"
-                max="60"
-                step="1"
-                disabled
-              >
+                <label for="mrc">
+                  MRC-SS
+                </label>
+
+                <input
+                  type="number"
+                  id="mrc"
+                  name="mrc"
+                  min="0"
+                  max="60"
+                  step="1"
+                  disabled
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="ims">
+                  IMS
+                </label>
+
+                <input
+                  type="number"
+                  id="ims"
+                  name="ims"
+                  min="0"
+                  max="10"
+                  step="1"
+                  disabled
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="dynamometry">
+                  Dinamometria
+                </label>
+
+                <input
+                  type="number"
+                  id="dynamometry"
+                  name="dynamometry"
+                  step="0.01"
+                  disabled
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="outOfBedToday">
+                  Saiu do leito hoje?
+                </label>
+
+                <select
+                  id="outOfBedToday"
+                  name="outOfBedToday"
+                  disabled
+                >
+
+                  <option value="">
+                    Selecione
+                  </option>
+
+                  <option value="Sim">
+                    Sim
+                  </option>
+
+                  <option value="Não">
+                    Não
+                  </option>
+
+                </select>
+
+              </div>
 
             </div>
-
-            <div class="field">
-
-              <label for="ims">
-                IMS
-              </label>
-
-              <input
-                type="number"
-                id="ims"
-                name="ims"
-                min="0"
-                max="10"
-                step="1"
-                disabled
-              >
-
-            </div>
-
-            <div class="field">
-
-              <label for="dynamometry">
-                Dinamometria
-              </label>
-
-              <input
-                type="number"
-                id="dynamometry"
-                name="dynamometry"
-                step="0.01"
-                disabled
-              >
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="always-on-box">
-
-          <h4>
-            Mobilização fora do leito
-          </h4>
-
-          <p>
-            Este indicador é registrado para todos os pacientes,
-            independentemente da aplicabilidade das escalas
-            funcionais.
-          </p>
-
-          <div class="field">
-
-            <label for="outOfBedToday">
-              Saiu do leito hoje?
-            </label>
-
-            <select
-              id="outOfBedToday"
-              name="outOfBedToday"
-              required
-            >
-
-              <option value="">
-                Selecione
-              </option>
-
-              <option value="Sim">
-                Sim
-              </option>
-
-              <option value="Não">
-                Não
-              </option>
-
-            </select>
 
           </div>
 
@@ -760,20 +879,25 @@
       </div>
 
 
-      <!-- SEGURANÇA ALVEOLAR -->
+      <!-- ==================================================
+           SEGURANÇA ALVEOLAR
+           ================================================== -->
 
-      <div class="group-card">
+      <div
+        id="alveolarCard"
+        class="clinical-group"
+      >
 
-        <div class="group-head">
+        <div class="clinical-group-header">
 
-          <div class="group-title">
+          <div class="clinical-group-title">
             <h3>Segurança alveolar</h3>
             <p>
               Parâmetros da ventilação mecânica invasiva.
             </p>
           </div>
 
-          <div class="field applicability">
+          <div class="field applicability-field">
 
             <label for="alveolarApplies">
               Aplicabilidade
@@ -785,6 +909,7 @@
               class="applicability-select"
               data-group="alveolar"
             >
+
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -792,195 +917,206 @@
               <option value="Sim">
                 Aplicar
               </option>
+
             </select>
 
           </div>
 
         </div>
+
 
         <div
           id="alveolarReasonBox"
-          class="reason-box show"
+          class="reason-content show"
         >
 
-          <div class="field">
+          <div class="reason-inner">
 
-            <label for="alveolarReason">
-              Motivo da não aplicabilidade
-            </label>
+            <div class="field">
 
-            <select
-              id="alveolarReason"
-              name="alveolar_reason"
-              class="reason-select"
-              data-group="alveolar"
-            >
+              <label for="alveolarReason">
+                Motivo da não aplicabilidade
+              </label>
 
-              <option value="">
-                Selecione
-              </option>
+              <select
+                id="alveolarReason"
+                name="alveolar_reason"
+                class="reason-select"
+                data-group="alveolar"
+              >
 
-              <option value="Sem ventilação mecânica invasiva">
-                Sem ventilação mecânica invasiva
-              </option>
+                <option value="">
+                  Selecione
+                </option>
 
-              <option value="Condição inadequada para mensuração">
-                Condição inadequada para mensuração
-              </option>
+                <option value="Sem ventilação mecânica invasiva">
+                  Sem ventilação mecânica invasiva
+                </option>
 
-              <option value="Outro">
-                Outro
-              </option>
+                <option value="Condição inadequada para mensuração">
+                  Condição inadequada para mensuração
+                </option>
 
-            </select>
+                <option value="Outro">
+                  Outro
+                </option>
+
+              </select>
+
+            </div>
 
           </div>
 
         </div>
 
+
         <div
           id="alveolarBody"
-          class="group-body"
+          class="group-content"
           data-group-body="alveolar"
         >
 
-          <div class="grid-3">
+          <div class="group-content-inner">
 
-            <div class="field">
+            <div class="grid-3">
 
-              <label for="vt">
-                VT (mL)
-              </label>
+              <div class="field">
 
-              <input
-                type="number"
-                id="vt"
-                name="vt"
-                step="0.1"
-                disabled
-              >
+                <label for="vt">
+                  VT (mL)
+                </label>
 
-            </div>
+                <input
+                  type="number"
+                  id="vt"
+                  name="vt"
+                  step="0.1"
+                  disabled
+                >
 
-            <div class="field">
-
-              <label for="peep">
-                PEEP (cmH₂O)
-              </label>
-
-              <input
-                type="number"
-                id="peep"
-                name="peep"
-                step="0.1"
-                disabled
-              >
-
-            </div>
-
-            <div class="field">
-
-              <label for="rr">
-                FR (irpm)
-              </label>
-
-              <input
-                type="number"
-                id="rr"
-                name="rr"
-                step="1"
-                disabled
-              >
-
-            </div>
-
-            <div class="field">
-
-              <label for="ppeak">
-                Ppico (cmH₂O)
-              </label>
-
-              <input
-                type="number"
-                id="ppeak"
-                name="ppeak"
-                step="0.1"
-                disabled
-              >
-
-            </div>
-
-            <div class="field">
-
-              <label for="pplat">
-                Pplat (cmH₂O)
-              </label>
-
-              <input
-                type="number"
-                id="pplat"
-                name="pplat"
-                step="0.1"
-                disabled
-              >
-
-            </div>
-
-            <div class="field">
-
-              <label for="fio2">
-                FiO₂
-              </label>
-
-              <input
-                type="number"
-                id="fio2"
-                name="fio2"
-                step="0.01"
-                disabled
-              >
-
-            </div>
-
-            <div class="calc-box">
-
-              <div class="calc-label">
-                Driving Pressure
               </div>
 
-              <div
-                id="dp"
-                class="calc-value"
-              >
-                —
+              <div class="field">
+
+                <label for="peep">
+                  PEEP (cmH₂O)
+                </label>
+
+                <input
+                  type="number"
+                  id="peep"
+                  name="peep"
+                  step="0.1"
+                  disabled
+                >
+
               </div>
 
-              <input
-                type="hidden"
-                id="dpHidden"
-                name="drivingPressure"
-              >
+              <div class="field">
 
-            </div>
+                <label for="rr">
+                  FR (irpm)
+                </label>
 
-            <div class="calc-box">
+                <input
+                  type="number"
+                  id="rr"
+                  name="rr"
+                  step="1"
+                  disabled
+                >
 
-              <div class="calc-label">
-                Mechanical Power
               </div>
 
-              <div
-                id="mp"
-                class="calc-value"
-              >
-                —
+              <div class="field">
+
+                <label for="ppeak">
+                  Ppico (cmH₂O)
+                </label>
+
+                <input
+                  type="number"
+                  id="ppeak"
+                  name="ppeak"
+                  step="0.1"
+                  disabled
+                >
+
               </div>
 
-              <input
-                type="hidden"
-                id="mpHidden"
-                name="mechanicalPower"
-              >
+              <div class="field">
+
+                <label for="pplat">
+                  Pplat (cmH₂O)
+                </label>
+
+                <input
+                  type="number"
+                  id="pplat"
+                  name="pplat"
+                  step="0.1"
+                  disabled
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="fio2">
+                  FiO₂
+                </label>
+
+                <input
+                  type="number"
+                  id="fio2"
+                  name="fio2"
+                  step="0.01"
+                  disabled
+                >
+
+              </div>
+
+              <div class="calculation">
+
+                <div class="calculation-label">
+                  Driving Pressure
+                </div>
+
+                <div
+                  id="dp"
+                  class="calculation-value"
+                >
+                  —
+                </div>
+
+                <input
+                  type="hidden"
+                  id="dpHidden"
+                  name="drivingPressure"
+                >
+
+              </div>
+
+              <div class="calculation">
+
+                <div class="calculation-label">
+                  Mechanical Power
+                </div>
+
+                <div
+                  id="mp"
+                  class="calculation-value"
+                >
+                  —
+                </div>
+
+                <input
+                  type="hidden"
+                  id="mpHidden"
+                  name="mechanicalPower"
+                >
+
+              </div>
 
             </div>
 
@@ -991,20 +1127,25 @@
       </div>
 
 
-      <!-- DRIVE -->
+      <!-- ==================================================
+           DRIVE
+           ================================================== -->
 
-      <div class="group-card">
+      <div
+        id="driveCard"
+        class="clinical-group"
+      >
 
-        <div class="group-head">
+        <div class="clinical-group-header">
 
-          <div class="group-title">
+          <div class="clinical-group-title">
             <h3>Drive / esforço respiratório</h3>
             <p>
-              Avaliação do drive e da mecânica muscular respiratória.
+              Drive e mecânica muscular respiratória.
             </p>
           </div>
 
-          <div class="field applicability">
+          <div class="field applicability-field">
 
             <label for="driveApplies">
               Aplicabilidade
@@ -1016,6 +1157,7 @@
               class="applicability-select"
               data-group="drive"
             >
+
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -1023,121 +1165,132 @@
               <option value="Sim">
                 Aplicar
               </option>
+
             </select>
 
           </div>
 
         </div>
+
 
         <div
           id="driveReasonBox"
-          class="reason-box show"
+          class="reason-content show"
         >
 
-          <div class="field">
+          <div class="reason-inner">
 
-            <label for="driveReason">
-              Motivo da não aplicabilidade
-            </label>
+            <div class="field">
 
-            <select
-              id="driveReason"
-              name="drive_reason"
-              class="reason-select"
-              data-group="drive"
-            >
+              <label for="driveReason">
+                Motivo da não aplicabilidade
+              </label>
 
-              <option value="">
-                Selecione
-              </option>
+              <select
+                id="driveReason"
+                name="drive_reason"
+                class="reason-select"
+                data-group="drive"
+              >
 
-              <option value="Ausência de drive respiratório">
-                Ausência de drive respiratório
-              </option>
+                <option value="">
+                  Selecione
+                </option>
 
-              <option value="Condição inadequada para mensuração">
-                Condição inadequada para mensuração
-              </option>
+                <option value="Ausência de drive respiratório">
+                  Ausência de drive respiratório
+                </option>
 
-              <option value="Outro">
-                Outro
-              </option>
+                <option value="Condição inadequada para mensuração">
+                  Condição inadequada para mensuração
+                </option>
 
-            </select>
+                <option value="Outro">
+                  Outro
+                </option>
+
+              </select>
+
+            </div>
 
           </div>
 
         </div>
 
+
         <div
           id="driveBody"
-          class="group-body"
+          class="group-content"
           data-group-body="drive"
         >
 
-          <div class="grid">
+          <div class="group-content-inner">
 
-            <div class="field">
+            <div class="grid">
 
-              <label for="p01">
-                P0.1
-              </label>
+              <div class="field">
 
-              <input
-                type="number"
-                id="p01"
-                name="p01"
-                step="0.01"
-                disabled
-              >
+                <label for="p01">
+                  P0.1
+                </label>
 
-            </div>
+                <input
+                  type="number"
+                  id="p01"
+                  name="p01"
+                  step="0.01"
+                  disabled
+                >
 
-            <div class="field">
+              </div>
 
-              <label for="dpocc">
-                ΔPocc
-              </label>
+              <div class="field">
 
-              <input
-                type="number"
-                id="dpocc"
-                name="dpocc"
-                step="0.01"
-                disabled
-              >
+                <label for="dpocc">
+                  ΔPocc
+                </label>
 
-            </div>
+                <input
+                  type="number"
+                  id="dpocc"
+                  name="dpocc"
+                  step="0.01"
+                  disabled
+                >
 
-            <div class="field">
+              </div>
 
-              <label for="pmus">
-                Pmus
-              </label>
+              <div class="field">
 
-              <input
-                type="number"
-                id="pmus"
-                name="pmus"
-                step="0.01"
-                disabled
-              >
+                <label for="pmus">
+                  Pmus
+                </label>
 
-            </div>
+                <input
+                  type="number"
+                  id="pmus"
+                  name="pmus"
+                  step="0.01"
+                  disabled
+                >
 
-            <div class="field">
+              </div>
 
-              <label for="transpulmonaryDp">
-                Driving Pressure transpulmonar
-              </label>
+              <div class="field">
 
-              <input
-                type="number"
-                id="transpulmonaryDp"
-                name="transpulmonaryDp"
-                step="0.01"
-                disabled
-              >
+                <label for="transpulmonaryDp">
+                  Driving Pressure transpulmonar
+                </label>
+
+                <input
+                  type="number"
+                  id="transpulmonaryDp"
+                  name="transpulmonaryDp"
+                  step="0.01"
+                  disabled
+                >
+
+              </div>
 
             </div>
 
@@ -1148,21 +1301,25 @@
       </div>
 
 
-      <!-- DESMAME -->
+      <!-- ==================================================
+           DESMAME
+           ================================================== -->
 
-      <div class="group-card">
+      <div
+        id="weaningCard"
+        class="clinical-group"
+      >
 
-        <div class="group-head">
+        <div class="clinical-group-header">
 
-          <div class="group-title">
+          <div class="clinical-group-title">
             <h3>Desmame / extubação</h3>
             <p>
-              Indicadores relacionados ao processo de liberação
-              da ventilação mecânica.
+              Processo de liberação da ventilação mecânica.
             </p>
           </div>
 
-          <div class="field applicability">
+          <div class="field applicability-field">
 
             <label for="weaningApplies">
               Aplicabilidade
@@ -1174,6 +1331,7 @@
               class="applicability-select"
               data-group="weaning"
             >
+
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -1181,266 +1339,277 @@
               <option value="Sim">
                 Aplicar
               </option>
+
             </select>
 
           </div>
 
         </div>
+
 
         <div
           id="weaningReasonBox"
-          class="reason-box show"
+          class="reason-content show"
         >
 
-          <div class="field">
+          <div class="reason-inner">
 
-            <label for="weaningReason">
-              Motivo da não aplicabilidade
-            </label>
+            <div class="field">
 
-            <select
-              id="weaningReason"
-              name="weaning_reason"
-              class="reason-select"
-              data-group="weaning"
-            >
+              <label for="weaningReason">
+                Motivo da não aplicabilidade
+              </label>
 
-              <option value="">
-                Selecione
-              </option>
+              <select
+                id="weaningReason"
+                name="weaning_reason"
+                class="reason-select"
+                data-group="weaning"
+              >
 
-              <option value="Não elegível para desmame">
-                Não elegível para desmame
-              </option>
+                <option value="">
+                  Selecione
+                </option>
 
-              <option value="Outro">
-                Outro
-              </option>
+                <option value="Não elegível para desmame">
+                  Não elegível para desmame
+                </option>
 
-            </select>
+                <option value="Outro">
+                  Outro
+                </option>
+
+              </select>
+
+            </div>
 
           </div>
 
         </div>
 
+
         <div
           id="weaningBody"
-          class="group-body"
+          class="group-content"
           data-group-body="weaning"
         >
 
-          <div class="grid">
+          <div class="group-content-inner">
 
-            <div class="field">
+            <div class="grid">
 
-              <label for="iwi">
-                IWI
-              </label>
+              <div class="field">
 
-              <input
-                type="number"
-                id="iwi"
-                name="iwi"
-                step="0.01"
-                disabled
+                <label for="iwi">
+                  IWI
+                </label>
+
+                <input
+                  type="number"
+                  id="iwi"
+                  name="iwi"
+                  step="0.01"
+                  disabled
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="sbtPerformed">
+                  TRE realizado?
+                </label>
+
+                <select
+                  id="sbtPerformed"
+                  name="sbtPerformed"
+                  disabled
+                >
+
+                  <option value="">
+                    Selecione
+                  </option>
+
+                  <option value="Sim">
+                    Sim
+                  </option>
+
+                  <option value="Não">
+                    Não
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div
+                id="sbtResultBox"
+                class="field conditional"
               >
 
-            </div>
+                <label for="sbtResult">
+                  Resultado do TRE
+                </label>
 
-            <div class="field">
+                <select
+                  id="sbtResult"
+                  name="sbtResult"
+                  disabled
+                >
 
-              <label for="sbtPerformed">
-                TRE realizado?
-              </label>
+                  <option value="">
+                    Selecione
+                  </option>
 
-              <select
-                id="sbtPerformed"
-                name="sbtPerformed"
-                disabled
+                  <option value="Positivo">
+                    Positivo
+                  </option>
+
+                  <option value="Negativo">
+                    Negativo
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="field">
+
+                <label for="extubated">
+                  Extubado?
+                </label>
+
+                <select
+                  id="extubated"
+                  name="extubated"
+                  disabled
+                >
+
+                  <option value="">
+                    Selecione
+                  </option>
+
+                  <option value="Sim">
+                    Sim
+                  </option>
+
+                  <option value="Não">
+                    Não
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div
+                id="extubationAtBox"
+                class="field conditional"
               >
 
-                <option value="">
-                  Selecione
-                </option>
+                <label for="extubationAt">
+                  Data/hora da extubação
+                </label>
 
-                <option value="Sim">
-                  Sim
-                </option>
+                <input
+                  type="datetime-local"
+                  id="extubationAt"
+                  name="extubationAt"
+                  disabled
+                >
 
-                <option value="Não">
-                  Não
-                </option>
+              </div>
 
-              </select>
+              <div class="field">
 
-            </div>
+                <label for="extubationFailure">
+                  Falha de extubação?
+                </label>
 
-            <div
-              id="sbtResultBox"
-              class="field conditional"
-            >
+                <select
+                  id="extubationFailure"
+                  name="extubationFailure"
+                  disabled
+                >
 
-              <label for="sbtResult">
-                Resultado do TRE
-              </label>
+                  <option value="">
+                    Selecione
+                  </option>
 
-              <select
-                id="sbtResult"
-                name="sbtResult"
-                disabled
+                  <option value="Sim">
+                    Sim
+                  </option>
+
+                  <option value="Não">
+                    Não
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div
+                id="failureAtBox"
+                class="field conditional"
               >
 
-                <option value="">
-                  Selecione
-                </option>
+                <label for="failureAt">
+                  Data/hora da falha
+                </label>
 
-                <option value="Positivo">
-                  Positivo
-                </option>
+                <input
+                  type="datetime-local"
+                  id="failureAt"
+                  name="failureAt"
+                  disabled
+                >
 
-                <option value="Negativo">
-                  Negativo
-                </option>
+              </div>
 
-              </select>
+              <div class="field">
 
-            </div>
+                <label for="reintubated">
+                  Reintubado?
+                </label>
 
-            <div class="field">
+                <select
+                  id="reintubated"
+                  name="reintubated"
+                  disabled
+                >
 
-              <label for="extubated">
-                Extubado?
-              </label>
+                  <option value="">
+                    Selecione
+                  </option>
 
-              <select
-                id="extubated"
-                name="extubated"
-                disabled
+                  <option value="Sim">
+                    Sim
+                  </option>
+
+                  <option value="Não">
+                    Não
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div
+                id="reintubationAtBox"
+                class="field conditional"
               >
 
-                <option value="">
-                  Selecione
-                </option>
+                <label for="reintubationAt">
+                  Data/hora da reintubação
+                </label>
 
-                <option value="Sim">
-                  Sim
-                </option>
+                <input
+                  type="datetime-local"
+                  id="reintubationAt"
+                  name="reintubationAt"
+                  disabled
+                >
 
-                <option value="Não">
-                  Não
-                </option>
-
-              </select>
-
-            </div>
-
-            <div
-              id="extubationAtBox"
-              class="field conditional"
-            >
-
-              <label for="extubationAt">
-                Data/hora da extubação
-              </label>
-
-              <input
-                type="datetime-local"
-                id="extubationAt"
-                name="extubationAt"
-                disabled
-              >
-
-            </div>
-
-            <div class="field">
-
-              <label for="extubationFailure">
-                Falha de extubação?
-              </label>
-
-              <select
-                id="extubationFailure"
-                name="extubationFailure"
-                disabled
-              >
-
-                <option value="">
-                  Selecione
-                </option>
-
-                <option value="Sim">
-                  Sim
-                </option>
-
-                <option value="Não">
-                  Não
-                </option>
-
-              </select>
-
-            </div>
-
-            <div
-              id="failureAtBox"
-              class="field conditional"
-            >
-
-              <label for="failureAt">
-                Data/hora da falha
-              </label>
-
-              <input
-                type="datetime-local"
-                id="failureAt"
-                name="failureAt"
-                disabled
-              >
-
-            </div>
-
-            <div class="field">
-
-              <label for="reintubated">
-                Reintubado?
-              </label>
-
-              <select
-                id="reintubated"
-                name="reintubated"
-                disabled
-              >
-
-                <option value="">
-                  Selecione
-                </option>
-
-                <option value="Sim">
-                  Sim
-                </option>
-
-                <option value="Não">
-                  Não
-                </option>
-
-              </select>
-
-            </div>
-
-            <div
-              id="reintubationAtBox"
-              class="field conditional"
-            >
-
-              <label for="reintubationAt">
-                Data/hora da reintubação
-              </label>
-
-              <input
-                type="datetime-local"
-                id="reintubationAt"
-                name="reintubationAt"
-                disabled
-              >
+              </div>
 
             </div>
 
@@ -1451,18 +1620,25 @@
       </div>
 
 
-      <!-- NÃO INVASIVO -->
+      <!-- ==================================================
+           NÃO INVASIVO
+           ================================================== -->
 
-      <div class="group-card">
+      <div
+        id="noninvasiveCard"
+        class="clinical-group"
+      >
 
-        <div class="group-head">
+        <div class="clinical-group-header">
 
-          <div class="group-title">
+          <div class="clinical-group-title">
             <h3>Suporte não invasivo</h3>
-            <p>VNI e cânula nasal de alto fluxo.</p>
+            <p>
+              VNI e cânula nasal de alto fluxo.
+            </p>
           </div>
 
-          <div class="field applicability">
+          <div class="field applicability-field">
 
             <label for="noninvasiveApplies">
               Aplicabilidade
@@ -1474,6 +1650,7 @@
               class="applicability-select"
               data-group="noninvasive"
             >
+
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -1481,165 +1658,176 @@
               <option value="Sim">
                 Aplicar
               </option>
+
             </select>
 
           </div>
 
         </div>
+
 
         <div
           id="noninvasiveReasonBox"
-          class="reason-box show"
+          class="reason-content show"
         >
 
-          <div class="field">
+          <div class="reason-inner">
 
-            <label for="noninvasiveReason">
-              Motivo da não aplicabilidade
-            </label>
+            <div class="field">
 
-            <select
-              id="noninvasiveReason"
-              name="noninvasive_reason"
-              class="reason-select"
-              data-group="noninvasive"
-            >
+              <label for="noninvasiveReason">
+                Motivo da não aplicabilidade
+              </label>
 
-              <option value="">
-                Selecione
-              </option>
+              <select
+                id="noninvasiveReason"
+                name="noninvasive_reason"
+                class="reason-select"
+                data-group="noninvasive"
+              >
 
-              <option value="Sem indicação de VNI/CNAF">
-                Sem indicação de VNI/CNAF
-              </option>
+                <option value="">
+                  Selecione
+                </option>
 
-              <option value="Outro">
-                Outro
-              </option>
+                <option value="Sem indicação de VNI/CNAF">
+                  Sem indicação de VNI/CNAF
+                </option>
 
-            </select>
+                <option value="Outro">
+                  Outro
+                </option>
+
+              </select>
+
+            </div>
 
           </div>
 
         </div>
 
+
         <div
           id="noninvasiveBody"
-          class="group-body"
+          class="group-content"
           data-group-body="noninvasive"
         >
 
-          <div class="grid">
+          <div class="group-content-inner">
 
-            <div class="field">
+            <div class="grid">
 
-              <label for="noninvasiveMode">
-                Modalidade
-              </label>
+              <div class="field">
 
-              <select
-                id="noninvasiveMode"
-                name="noninvasiveMode"
-                disabled
+                <label for="noninvasiveMode">
+                  Modalidade
+                </label>
+
+                <select
+                  id="noninvasiveMode"
+                  name="noninvasiveMode"
+                  disabled
+                >
+
+                  <option value="">
+                    Selecione
+                  </option>
+
+                  <option value="VNI">
+                    VNI
+                  </option>
+
+                  <option value="CNAF">
+                    CNAF
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div
+                id="hacorBox"
+                class="field conditional"
               >
 
-                <option value="">
-                  Selecione
-                </option>
+                <label for="hacor">
+                  HACOR
+                </label>
 
-                <option value="VNI">
-                  VNI
-                </option>
+                <input
+                  type="number"
+                  id="hacor"
+                  name="hacor"
+                  step="0.01"
+                  disabled
+                >
 
-                <option value="CNAF">
-                  CNAF
-                </option>
+              </div>
 
-              </select>
-
-            </div>
-
-            <div
-              id="hacorBox"
-              class="field conditional"
-            >
-
-              <label for="hacor">
-                HACOR
-              </label>
-
-              <input
-                type="number"
-                id="hacor"
-                name="hacor"
-                step="0.01"
-                disabled
+              <div
+                id="roxBox"
+                class="field conditional"
               >
 
-            </div>
+                <label for="rox">
+                  ROX Index
+                </label>
 
-            <div
-              id="roxBox"
-              class="field conditional"
-            >
+                <input
+                  type="number"
+                  id="rox"
+                  name="rox"
+                  step="0.01"
+                  disabled
+                >
 
-              <label for="rox">
-                ROX Index
-              </label>
+              </div>
 
-              <input
-                type="number"
-                id="rox"
-                name="rox"
-                step="0.01"
-                disabled
+              <div class="field">
+
+                <label for="iotAfterFailure">
+                  IOT após falha do suporte?
+                </label>
+
+                <select
+                  id="iotAfterFailure"
+                  name="iotAfterFailure"
+                  disabled
+                >
+
+                  <option value="">
+                    Selecione
+                  </option>
+
+                  <option value="Sim">
+                    Sim
+                  </option>
+
+                  <option value="Não">
+                    Não
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div
+                id="intubationAtBox"
+                class="field conditional"
               >
 
-            </div>
+                <label for="intubationAt">
+                  Data/hora da IOT
+                </label>
 
-            <div class="field">
+                <input
+                  type="datetime-local"
+                  id="intubationAt"
+                  name="intubationAt"
+                  disabled
+                >
 
-              <label for="iotAfterFailure">
-                IOT após falha do suporte?
-              </label>
-
-              <select
-                id="iotAfterFailure"
-                name="iotAfterFailure"
-                disabled
-              >
-
-                <option value="">
-                  Selecione
-                </option>
-
-                <option value="Sim">
-                  Sim
-                </option>
-
-                <option value="Não">
-                  Não
-                </option>
-
-              </select>
-
-            </div>
-
-            <div
-              id="intubationAtBox"
-              class="field conditional"
-            >
-
-              <label for="intubationAt">
-                Data/hora da IOT
-              </label>
-
-              <input
-                type="datetime-local"
-                id="intubationAt"
-                name="intubationAt"
-                disabled
-              >
+              </div>
 
             </div>
 
@@ -1650,9 +1838,11 @@
       </div>
 
 
-      <div class="card">
+      <div class="panel">
 
-        <h2>Observação</h2>
+        <div class="panel-header">
+          <h2>Observação</h2>
+        </div>
 
         <div class="field">
 
@@ -1668,7 +1858,7 @@
           <button
             type="submit"
             id="assessmentSubmit"
-            class="btn btn-primary"
+            class="primary-button"
           >
             Registrar avaliação
           </button>
@@ -1698,14 +1888,18 @@
 
     <form id="admissionForm">
 
-      <div class="card">
+      <div class="panel">
 
-        <h2>Novo paciente / internação</h2>
+        <div class="panel-header">
 
-        <p class="card-description">
-          Cadastro do paciente e abertura de uma nova internação
-          na UTI.
-        </p>
+          <h2>Novo paciente / internação</h2>
+
+          <p>
+            Cadastro do paciente e abertura de uma nova
+            internação na UTI B.
+          </p>
+
+        </div>
 
         <div class="grid">
 
@@ -1786,7 +1980,7 @@
 
           <div class="field full">
 
-            <div class="diagnosis-b20-row">
+            <div class="b20-layout">
 
               <div class="field">
 
@@ -1803,7 +1997,7 @@
 
               </div>
 
-              <div class="b20-wrapper">
+              <div class="b20-area">
 
                 <label>
                   Análise específica
@@ -1827,13 +2021,18 @@
 
                 <div
                   id="b20Status"
-                  class="b20-status"
+                  class="b20-caption"
                 >
-                  B20: Não
+                  Não selecionado
                 </div>
 
               </div>
 
+            </div>
+
+            <div class="section-note">
+              Pacientes B20 permanecerão nas análises gerais e
+              poderão compor uma análise específica separada.
             </div>
 
           </div>
@@ -1859,7 +2058,7 @@
           <button
             type="submit"
             id="admissionSubmit"
-            class="btn btn-primary"
+            class="primary-button"
           >
             Cadastrar paciente e internação
           </button>
@@ -1889,9 +2088,18 @@
 
     <form id="eventForm">
 
-      <div class="card">
+      <div class="panel">
 
-        <h2>Evento / desfecho</h2>
+        <div class="panel-header">
+
+          <h2>Evento / desfecho</h2>
+
+          <p>
+            Registro de eventos clínicos relevantes durante
+            a internação.
+          </p>
+
+        </div>
 
         <div class="grid">
 
@@ -2042,7 +2250,7 @@
           <button
             type="submit"
             id="eventSubmit"
-            class="btn btn-primary"
+            class="primary-button"
           >
             Registrar evento
           </button>
@@ -2080,71 +2288,112 @@
   }
 
   function formToObject(form) {
-    const data = new FormData(form);
+
+    const data =
+      new FormData(form);
+
     const object = {};
 
-    data.forEach(function(value, key) {
-      object[key] = value;
-    });
+    data.forEach(
+      function(value, key) {
+        object[key] = value;
+      }
+    );
 
     return object;
+
   }
 
   function gas(functionName, payload) {
-    return new Promise(function(resolve, reject) {
 
-      if (
-        typeof google === 'undefined' ||
-        !google.script ||
-        !google.script.run
-      ) {
-        reject(
-          new Error(
-            'Esta página não foi carregada pelo Google Apps Script. Abra o sistema pelo endereço /exec da implantação.'
-          )
-        );
-        return;
-      }
+    return new Promise(
+      function(resolve, reject) {
 
-      let runner =
-        google.script.run
-          .withSuccessHandler(function(result) {
-            resolve(result);
-          })
-          .withFailureHandler(function(error) {
-            const message =
-              error && error.message
-                ? error.message
-                : String(
-                    error ||
-                    'Erro desconhecido.'
-                  );
+        if (
+          typeof google === 'undefined' ||
+          !google.script ||
+          !google.script.run
+        ) {
 
-            reject(
-              new Error(message)
+          reject(
+            new Error(
+              'A página não foi carregada pela implantação do Google Apps Script.'
+            )
+          );
+
+          return;
+        }
+
+        let runner =
+          google.script.run
+            .withSuccessHandler(
+              function(result) {
+                resolve(result);
+              }
+            )
+            .withFailureHandler(
+              function(error) {
+
+                const message =
+                  error &&
+                  error.message
+                    ? error.message
+                    : String(
+                        error ||
+                        'Erro desconhecido.'
+                      );
+
+                reject(
+                  new Error(message)
+                );
+
+              }
             );
-          });
 
-      if (payload === undefined) {
-        runner[functionName]();
-      } else {
-        runner[functionName](payload);
+        if (
+          payload === undefined
+        ) {
+
+          runner[functionName]();
+
+        } else {
+
+          runner[functionName](
+            payload
+          );
+
+        }
+
       }
+    );
 
-    });
   }
 
-  function showStatus(element, message, type) {
-    element.textContent = message;
-    element.className = 'status show ' + type;
+  function showStatus(
+    element,
+    message,
+    type
+  ) {
+
+    element.textContent =
+      message;
+
+    element.className =
+      'status show ' + type;
+
   }
 
   function clearStatus(element) {
+
     element.textContent = '';
-    element.className = 'status';
+
+    element.className =
+      'status';
+
   }
 
   function escapeHtml(value) {
+
     return String(
       value === null ||
       value === undefined
@@ -2156,16 +2405,18 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+
   }
 
 
   /* ========================================================
-     DATA E HORA
+     DATA / HORA
      ======================================================== */
 
   function setCurrentDateTime() {
 
-    const now = new Date();
+    const now =
+      new Date();
 
     const year =
       now.getFullYear();
@@ -2191,10 +2442,16 @@
       ).padStart(2, '0');
 
     const dateValue =
-      year + '-' + month + '-' + day;
+      year +
+      '-' +
+      month +
+      '-' +
+      day;
 
     const timeValue =
-      hour + ':' + minute;
+      hour +
+      ':' +
+      minute;
 
     if (q('#assessmentDate')) {
       q('#assessmentDate').value =
@@ -2220,8 +2477,10 @@
       q('#admissionDate') &&
       !q('#admissionDate').value
     ) {
+
       q('#admissionDate').value =
         dateValue;
+
     }
 
   }
@@ -2231,37 +2490,46 @@
      NAVEGAÇÃO
      ======================================================== */
 
-  qa('.tab').forEach(function(tab) {
+  qa('.nav-button').forEach(
+    function(button) {
 
-    tab.addEventListener(
-      'click',
-      function() {
+      button.addEventListener(
+        'click',
+        function() {
 
-        qa('.tab').forEach(
-          function(item) {
-            item.classList.remove('active');
-          }
-        );
+          qa('.nav-button').forEach(
+            function(item) {
+              item.classList.remove(
+                'active'
+              );
+            }
+          );
 
-        qa('.page').forEach(
-          function(page) {
-            page.classList.remove('active');
-          }
-        );
+          qa('.page').forEach(
+            function(page) {
+              page.classList.remove(
+                'active'
+              );
+            }
+          );
 
-        tab.classList.add('active');
+          button.classList.add(
+            'active'
+          );
 
-        const pageId =
-          tab.dataset.page;
+          const pageId =
+            button.dataset.page;
 
-        q('#' + pageId)
-          .classList
-          .add('active');
+          q('#' + pageId)
+            .classList.add(
+              'active'
+            );
 
-      }
-    );
+        }
+      );
 
-  });
+    }
+  );
 
 
   /* ========================================================
@@ -2289,7 +2557,8 @@
 
     if (active) {
 
-      input.value = 'Sim';
+      input.value =
+        'Sim';
 
       button.classList.add(
         'active'
@@ -2301,11 +2570,12 @@
       );
 
       status.textContent =
-        'B20: Sim';
+        'Selecionado';
 
     } else {
 
-      input.value = 'Não';
+      input.value =
+        'Não';
 
       button.classList.remove(
         'active'
@@ -2317,7 +2587,7 @@
       );
 
       status.textContent =
-        'B20: Não';
+        'Não selecionado';
 
     }
 
@@ -2328,11 +2598,10 @@
       'click',
       function() {
 
-        const current =
-          q('#b20').value ===
-          'Sim';
-
-        setB20(!current);
+        setB20(
+          q('#b20').value !==
+          'Sim'
+        );
 
       }
     );
@@ -2369,9 +2638,11 @@
         !response ||
         response.ok !== true
       ) {
+
         throw new Error(
           'Não foi possível carregar os pacientes ativos.'
         );
+
       }
 
       activePatients =
@@ -2388,7 +2659,7 @@
               patient.bed
                 ? 'Leito ' +
                   patient.bed +
-                  ' - '
+                  ' · '
                 : ''
             ) +
             (
@@ -2397,7 +2668,7 @@
             ) +
             (
               patient.rh
-                ? ' | RH ' +
+                ? ' · RH ' +
                   patient.rh
                 : ''
             );
@@ -2450,10 +2721,12 @@
         const patient =
           activePatients.find(
             function(item) {
+
               return (
                 item.admissionId ===
                 admissionId
               );
+
             }
           );
 
@@ -2464,17 +2737,24 @@
 
         if (!patient) {
 
-          summary.classList
-            .remove('show');
+          summary.classList.remove(
+            'show'
+          );
 
           summary.innerHTML = '';
 
+          q('#assessmentBed').value =
+            '';
+
           return;
+
         }
 
         if (patient.bed) {
+
           q('#assessmentBed').value =
             patient.bed;
+
         }
 
         summary.innerHTML =
@@ -2504,8 +2784,9 @@
           ) +
           '</span>';
 
-        summary.classList
-          .add('show');
+        summary.classList.add(
+          'show'
+        );
 
       }
     );
@@ -2515,7 +2796,9 @@
      APLICABILIDADE
      ======================================================== */
 
-  function updateApplicability(select) {
+  function updateApplicability(
+    select
+  ) {
 
     const group =
       select.dataset.group;
@@ -2523,19 +2806,14 @@
     const applies =
       select.value === 'Sim';
 
+    const card =
+      q('#' + group + 'Card');
+
     const body =
-      q(
-        '[data-group-body="' +
-        group +
-        '"]'
-      );
+      q('#' + group + 'Body');
 
     const reasonBox =
-      q(
-        '#' +
-        group +
-        'ReasonBox'
-      );
+      q('#' + group + 'ReasonBox');
 
     const reasonSelect =
       q(
@@ -2546,10 +2824,16 @@
 
     if (applies) {
 
+      if (card) {
+        card.classList.add(
+          'enabled'
+        );
+      }
+
       if (body) {
 
         body.classList.add(
-          'active'
+          'show'
         );
 
         const fields =
@@ -2560,18 +2844,23 @@
         fields.forEach(
           function(field) {
 
-            /*
-             * Campos condicionais permanecem
-             * sob controle das funções específicas.
-             */
-
             if (
-              field.closest('.conditional')
+              field.type ===
+              'hidden'
             ) {
               return;
             }
 
-            field.disabled = false;
+            if (
+              field.closest(
+                '.conditional'
+              )
+            ) {
+              return;
+            }
+
+            field.disabled =
+              false;
 
           }
         );
@@ -2579,21 +2868,34 @@
       }
 
       if (reasonBox) {
+
         reasonBox.classList.remove(
           'show'
         );
+
       }
 
       if (reasonSelect) {
-        reasonSelect.value = '';
+
+        reasonSelect.value =
+          '';
+
       }
 
     } else {
 
+      if (card) {
+
+        card.classList.remove(
+          'enabled'
+        );
+
+      }
+
       if (body) {
 
         body.classList.remove(
-          'active'
+          'show'
         );
 
         const fields =
@@ -2604,15 +2906,30 @@
         fields.forEach(
           function(field) {
 
-            field.disabled = true;
+            if (
+              field.type ===
+              'hidden'
+            ) {
+              field.value = '';
+              return;
+            }
+
+            field.disabled =
+              true;
 
             if (
               field.type ===
               'checkbox'
             ) {
-              field.checked = false;
+
+              field.checked =
+                false;
+
             } else {
-              field.value = '';
+
+              field.value =
+                '';
+
             }
 
           }
@@ -2621,24 +2938,38 @@
       }
 
       if (reasonBox) {
+
         reasonBox.classList.add(
           'show'
         );
+
       }
 
     }
 
-    if (group === 'alveolar') {
+    if (
+      group === 'alveolar'
+    ) {
+
       calculateVentilation();
+
     }
 
-    if (group === 'weaning') {
+    if (
+      group === 'weaning'
+    ) {
+
       updateWeaningFields();
+
     }
 
-    if (group === 'noninvasive') {
+    if (
+      group === 'noninvasive'
+    ) {
+
       updateNoninvasiveFields();
       updateIotField();
+
     }
 
   }
@@ -2650,9 +2981,11 @@
         select.addEventListener(
           'change',
           function() {
+
             updateApplicability(
               select
             );
+
           }
         );
 
@@ -2661,7 +2994,7 @@
 
 
   /* ========================================================
-     DRIVING PRESSURE + MECHANICAL POWER
+     VENTILAÇÃO
      ======================================================== */
 
   function calculateVentilation() {
@@ -2828,7 +3161,8 @@
         'show'
       );
 
-      field.disabled = false;
+      field.disabled =
+        false;
 
     } else {
 
@@ -2836,9 +3170,11 @@
         'show'
       );
 
-      field.value = '';
+      field.value =
+        '';
 
-      field.disabled = true;
+      field.disabled =
+        true;
 
     }
 
@@ -2851,12 +3187,9 @@
 
   function updateWeaningFields() {
 
-    const groupSelect =
-      q('#weaningApplies');
-
     const enabled =
-      groupSelect &&
-      groupSelect.value === 'Sim';
+      q('#weaningApplies').value ===
+      'Sim';
 
     if (!enabled) {
 
@@ -2885,6 +3218,7 @@
       );
 
       return;
+
     }
 
     toggleConditional(
@@ -2948,8 +3282,9 @@
 
   function updateNoninvasiveFields() {
 
-    const groupSelect =
-      q('#noninvasiveApplies');
+    const enabled =
+      q('#noninvasiveApplies')
+        .value === 'Sim';
 
     const mode =
       q('#noninvasiveMode');
@@ -2966,20 +3301,6 @@
     const rox =
       q('#rox');
 
-    if (
-      !groupSelect ||
-      !mode ||
-      !hacorBox ||
-      !roxBox ||
-      !hacor ||
-      !rox
-    ) {
-      return;
-    }
-
-    const enabled =
-      groupSelect.value === 'Sim';
-
     hacorBox.classList.remove(
       'show'
     );
@@ -2988,8 +3309,11 @@
       'show'
     );
 
-    hacor.disabled = true;
-    rox.disabled = true;
+    hacor.disabled =
+      true;
+
+    rox.disabled =
+      true;
 
     if (!enabled) {
 
@@ -2997,6 +3321,7 @@
       rox.value = '';
 
       return;
+
     }
 
     if (
@@ -3007,12 +3332,13 @@
         'show'
       );
 
-      hacor.disabled = false;
+      hacor.disabled =
+        false;
 
       rox.value = '';
-      rox.disabled = true;
 
       return;
+
     }
 
     if (
@@ -3023,12 +3349,13 @@
         'show'
       );
 
-      rox.disabled = false;
+      rox.disabled =
+        false;
 
       hacor.value = '';
-      hacor.disabled = true;
 
       return;
+
     }
 
     hacor.value = '';
@@ -3044,17 +3371,14 @@
 
 
   /* ========================================================
-     IOT APÓS VNI / CNAF
+     IOT APÓS SUPORTE NÃO INVASIVO
      ======================================================== */
 
   function updateIotField() {
 
-    const groupSelect =
-      q('#noninvasiveApplies');
-
     const enabled =
-      groupSelect &&
-      groupSelect.value === 'Sim';
+      q('#noninvasiveApplies')
+        .value === 'Sim';
 
     if (!enabled) {
 
@@ -3065,6 +3389,7 @@
       );
 
       return;
+
     }
 
     toggleConditional(
@@ -3089,7 +3414,7 @@
 
   function validateReasons(form) {
 
-    const fields =
+    const applicabilityFields =
       Array.from(
         form.querySelectorAll(
           '.applicability-select'
@@ -3098,12 +3423,13 @@
 
     for (
       let i = 0;
-      i < fields.length;
+      i <
+      applicabilityFields.length;
       i++
     ) {
 
       const select =
-        fields[i];
+        applicabilityFields[i];
 
       const group =
         select.dataset.group;
@@ -3129,7 +3455,7 @@
           }
 
           throw new Error(
-            'Informe o motivo da não aplicabilidade de todos os grupos que permaneceram como "Não se aplica".'
+            'Informe o motivo da não aplicabilidade dos grupos que permaneceram como "Não se aplica".'
           );
 
         }
@@ -3138,11 +3464,30 @@
 
     }
 
+    /*
+     * "Saiu do leito hoje?" só é exigido
+     * quando Funcionalidade se aplica.
+     */
+
+    if (
+      q('#functionalApplies').value ===
+      'Sim' &&
+      !q('#outOfBedToday').value
+    ) {
+
+      q('#outOfBedToday').focus();
+
+      throw new Error(
+        'Informe se o paciente saiu do leito hoje.'
+      );
+
+    }
+
   }
 
 
   /* ========================================================
-     RESET AVALIAÇÃO
+     RESET DA AVALIAÇÃO
      ======================================================== */
 
   function resetAssessmentForm() {
@@ -3157,7 +3502,8 @@
     ).forEach(
       function(select) {
 
-        select.value = 'Não';
+        select.value =
+          'Não';
 
         updateApplicability(
           select
@@ -3165,9 +3511,6 @@
 
       }
     );
-
-    q('#outOfBedToday').value =
-      '';
 
     q('#assessmentBed').value =
       '';
@@ -3181,7 +3524,8 @@
       'show'
     );
 
-    summary.innerHTML = '';
+    summary.innerHTML =
+      '';
 
     setCurrentDateTime();
 
@@ -3197,7 +3541,7 @@
 
 
   /* ========================================================
-     CADASTRO PACIENTE
+     CADASTRO DO PACIENTE
      ======================================================== */
 
   q('#admissionForm')
@@ -3221,16 +3565,13 @@
         const payload =
           formToObject(form);
 
-        /*
-         * B20 sempre é enviado explicitamente.
-         */
-
         payload.b20 =
           q('#b20').value === 'Sim'
             ? 'Sim'
             : 'Não';
 
-        button.disabled = true;
+        button.disabled =
+          true;
 
         button.textContent =
           'Cadastrando...';
@@ -3283,7 +3624,8 @@
 
         } finally {
 
-          button.disabled = false;
+          button.disabled =
+            false;
 
           button.textContent =
             'Cadastrar paciente e internação';
@@ -3295,7 +3637,7 @@
 
 
   /* ========================================================
-     REGISTRAR AVALIAÇÃO
+     REGISTRO DA AVALIAÇÃO
      ======================================================== */
 
   q('#assessmentForm')
@@ -3320,23 +3662,27 @@
 
           validateReasons(form);
 
-          if (
-            !q('#outOfBedToday').value
-          ) {
-
-            q('#outOfBedToday')
-              .focus();
-
-            throw new Error(
-              'Informe se o paciente saiu do leito hoje.'
-            );
-
-          }
-
           const payload =
             formToObject(form);
 
-          button.disabled = true;
+          /*
+           * Quando Funcionalidade não se aplica,
+           * o campo não é enviado pelo FormData.
+           * Explicitamos vazio para o backend.
+           */
+
+          if (
+            q('#functionalApplies').value ===
+            'Não'
+          ) {
+
+            payload.outOfBedToday =
+              '';
+
+          }
+
+          button.disabled =
+            true;
 
           button.textContent =
             'Registrando...';
@@ -3381,7 +3727,8 @@
 
         } finally {
 
-          button.disabled = false;
+          button.disabled =
+            false;
 
           button.textContent =
             'Registrar avaliação';
@@ -3393,7 +3740,7 @@
 
 
   /* ========================================================
-     REGISTRAR EVENTO
+     REGISTRO DE EVENTO
      ======================================================== */
 
   q('#eventForm')
@@ -3417,7 +3764,8 @@
         const payload =
           formToObject(form);
 
-        button.disabled = true;
+        button.disabled =
+          true;
 
         button.textContent =
           'Registrando...';
@@ -3468,7 +3816,8 @@
 
         } finally {
 
-          button.disabled = false;
+          button.disabled =
+            false;
 
           button.textContent =
             'Registrar evento';
@@ -3487,15 +3836,11 @@
 
     setCurrentDateTime();
 
-    /*
-     * B20 inicia desativado.
-     */
-
     setB20(false);
 
     /*
-     * Todos os grupos iniciam
-     * explicitamente como NÃO SE APLICA.
+     * Todos os grupos começam fechados
+     * em "Não se aplica".
      */
 
     qa(
@@ -3503,7 +3848,8 @@
     ).forEach(
       function(select) {
 
-        select.value = 'Não';
+        select.value =
+          'Não';
 
         updateApplicability(
           select
@@ -3511,14 +3857,6 @@
 
       }
     );
-
-    /*
-     * Este indicador nunca é desabilitado
-     * pela aplicabilidade da Funcionalidade.
-     */
-
-    q('#outOfBedToday').disabled =
-      false;
 
     calculateVentilation();
 
