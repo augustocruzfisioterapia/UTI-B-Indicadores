@@ -64,6 +64,10 @@ h1{
   font-size:clamp(1.6rem,4vw,2.2rem)
 }
 
+h2{
+  color:var(--p)
+}
+
 .muted{
   color:var(--muted);
   font-size:.9rem
@@ -82,7 +86,8 @@ h1{
   border-radius:12px;
   background:#fff;
   color:var(--p);
-  font-weight:850
+  font-weight:850;
+  cursor:pointer
 }
 
 .tab.on{
@@ -174,7 +179,8 @@ textarea{min-height:80px}
   border-radius:999px;
   background:#fff;
   font-size:.78rem;
-  font-weight:800
+  font-weight:800;
+  cursor:pointer
 }
 
 .pill.on{
@@ -222,7 +228,8 @@ textarea{min-height:80px}
   border:0;
   border-radius:11px;
   padding:12px 16px;
-  font-weight:900
+  font-weight:900;
+  cursor:pointer
 }
 
 .primary{
@@ -269,6 +276,14 @@ textarea{min-height:80px}
 }
 
 .hide{display:none!important}
+
+.conditional{
+  display:none
+}
+
+.conditional.show{
+  display:block
+}
 
 .footer{
   text-align:center;
@@ -321,7 +336,9 @@ textarea{min-height:80px}
 <div id="status" class="status"></div>
 
 
-<!-- NOVO PACIENTE -->
+<!-- ======================================================
+     NOVO PACIENTE
+     ====================================================== -->
 
 <section id="cadastro" class="view on">
 
@@ -383,7 +400,9 @@ Cadastrar paciente e internação
 </section>
 
 
-<!-- NOVA AVALIAÇÃO -->
+<!-- ======================================================
+     NOVA AVALIAÇÃO
+     ====================================================== -->
 
 <section id="avaliacao" class="view">
 
@@ -451,7 +470,9 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 </p>
 
 
-<!-- FUNCIONALIDADE -->
+<!-- ======================================================
+     FUNCIONALIDADE
+     ====================================================== -->
 
 <div class="group" data-g="functional">
 
@@ -522,7 +543,9 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 </div>
 
 
-<!-- VENTILAÇÃO MECÂNICA -->
+<!-- ======================================================
+     SEGURANÇA ALVEOLAR
+     ====================================================== -->
 
 <div class="group" data-g="alveolar">
 
@@ -610,7 +633,9 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 </div>
 
 
-<!-- DRIVE -->
+<!-- ======================================================
+     DRIVE / ESFORÇO RESPIRATÓRIO
+     ====================================================== -->
 
 <div class="group" data-g="drive">
 
@@ -676,7 +701,9 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 </div>
 
 
-<!-- DESMAME -->
+<!-- ======================================================
+     DESMAME / EXTUBAÇÃO
+     ====================================================== -->
 
 <div class="group" data-g="weaning">
 
@@ -786,7 +813,9 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 </div>
 
 
-<!-- SUPORTE NÃO INVASIVO -->
+<!-- ======================================================
+     SUPORTE NÃO INVASIVO
+     ====================================================== -->
 
 <div class="group" data-g="noninvasive">
 
@@ -826,35 +855,66 @@ Informe a aplicabilidade de todos os grupos. Se não se aplicar, registre o moti
 
 <div>
 <label>Modalidade</label>
+
 <select id="noninvasiveMode" name="noninvasiveMode">
-<option value=""></option>
-<option>VNI</option>
-<option>CNAF</option>
+<option value="">Selecione...</option>
+<option value="VNI">VNI</option>
+<option value="CNAF">CNAF</option>
 </select>
+
 </div>
 
-<div id="hacorBox" class="hide">
+
+<div id="hacorBox" class="conditional">
+
 <label>HACOR</label>
-<input id="hacor" name="hacor" type="number" step=".1">
+
+<input
+  id="hacor"
+  name="hacor"
+  type="number"
+  step=".1"
+>
+
 </div>
 
-<div id="roxBox" class="hide">
-<label>ROX</label>
-<input id="rox" name="rox" type="number" step=".01">
+
+<div id="roxBox" class="conditional">
+
+<label>ROX Index</label>
+
+<input
+  id="rox"
+  name="rox"
+  type="number"
+  step=".01"
+>
+
 </div>
+
 
 <div>
+
 <label>IOT após falha?</label>
+
 <select name="iotAfterFailure">
 <option value=""></option>
 <option>Sim</option>
 <option>Não</option>
 </select>
+
 </div>
 
+
 <div>
+
 <label>Data/hora da IOT</label>
-<input name="intubationAt" type="datetime-local">
+
+<input
+  name="intubationAt"
+  type="datetime-local"
+>
+
 </div>
 
 </div>
@@ -890,7 +950,9 @@ Registrar avaliação
 </section>
 
 
-<!-- EVENTO -->
+<!-- ======================================================
+     EVENTO / DESFECHO
+     ====================================================== -->
 
 <section id="evento" class="view">
 
@@ -1014,6 +1076,7 @@ function dateNow() {
 
 }
 
+
 function timeNow() {
 
   const d = new Date();
@@ -1025,6 +1088,7 @@ function timeNow() {
   );
 
 }
+
 
 function seed() {
 
@@ -1091,7 +1155,7 @@ qa('.tab').forEach(function (button) {
 
 
 /* ==========================================================
-   APLICABILIDADE
+   APLICABILIDADE DOS GRUPOS
    ========================================================== */
 
 qa('.group').forEach(function (group) {
@@ -1109,53 +1173,72 @@ qa('.group').forEach(function (group) {
       const yes =
         button.dataset.a === 'Sim';
 
-      q(
-        'input[type=hidden]',
-        group
-      ).value = button.dataset.a;
+      const hidden =
+        q('input[type="hidden"]', group);
 
-      q(
-        '.gb',
-        group
-      ).classList.toggle(
-        'off',
-        !yes
-      );
+      if (hidden) {
+        hidden.value =
+          button.dataset.a;
+      }
 
-      q(
-        '.reason',
-        group
-      ).classList.toggle(
-        'on',
-        !yes
-      );
+      const body =
+        q('.gb', group);
+
+      if (body) {
+
+        body.classList.toggle(
+          'off',
+          !yes
+        );
+
+      }
+
+      const reason =
+        q('.reason', group);
+
+      if (reason) {
+
+        reason.classList.toggle(
+          'on',
+          !yes
+        );
+
+      }
 
       qa(
         '.gb input,.gb select,.gb textarea',
         group
-      ).forEach(function (x) {
+      ).forEach(function (field) {
 
-        x.disabled = !yes;
+        field.disabled = !yes;
 
         if (!yes) {
-          x.value = '';
+          field.value = '';
         }
 
       });
 
       if (yes) {
 
-        const reason =
+        const reasonSelect =
           q('.reason select', group);
 
-        if (reason) {
-          reason.value = '';
+        if (reasonSelect) {
+          reasonSelect.value = '';
         }
 
       }
 
       calculateVentilation();
-      syncNoninvasiveMode();
+
+      if (
+        group.dataset.g ===
+        'noninvasive'
+      ) {
+
+        updateNoninvasiveFields();
+
+      }
 
     };
 
@@ -1171,21 +1254,32 @@ qa('.group').forEach(function (group) {
 function calculateVentilation() {
 
   const pplat =
-    parseFloat(q('#pplat').value);
+    parseFloat(
+      q('#pplat').value
+    );
 
   const peep =
-    parseFloat(q('#peep').value);
+    parseFloat(
+      q('#peep').value
+    );
 
   const vtMl =
-    parseFloat(q('#vt').value);
+    parseFloat(
+      q('#vt').value
+    );
 
   const rr =
-    parseFloat(q('#rr').value);
+    parseFloat(
+      q('#rr').value
+    );
 
   const ppeak =
-    parseFloat(q('#ppeak').value);
+    parseFloat(
+      q('#ppeak').value
+    );
 
   let drivingPressure = null;
+
 
   if (
     Number.isFinite(pplat) &&
@@ -1204,10 +1298,14 @@ function calculateVentilation() {
 
   } else {
 
-    q('#dp').textContent = '—';
-    q('#dpHidden').value = '';
+    q('#dp').textContent =
+      '—';
+
+    q('#dpHidden').value =
+      '';
 
   }
+
 
   if (
     Number.isFinite(vtMl) &&
@@ -1232,7 +1330,12 @@ function calculateVentilation() {
         )
       );
 
-    if (Number.isFinite(mechanicalPower)) {
+
+    if (
+      Number.isFinite(
+        mechanicalPower
+      )
+    ) {
 
       q('#mp').textContent =
         mechanicalPower.toFixed(2) +
@@ -1243,19 +1346,26 @@ function calculateVentilation() {
 
     } else {
 
-      q('#mp').textContent = '—';
-      q('#mpHidden').value = '';
+      q('#mp').textContent =
+        '—';
+
+      q('#mpHidden').value =
+        '';
 
     }
 
   } else {
 
-    q('#mp').textContent = '—';
-    q('#mpHidden').value = '';
+    q('#mp').textContent =
+      '—';
+
+    q('#mpHidden').value =
+      '';
 
   }
 
 }
+
 
 [
   '#pplat',
@@ -1265,21 +1375,29 @@ function calculateVentilation() {
   '#ppeak'
 ].forEach(function (selector) {
 
-  q(selector).addEventListener(
-    'input',
-    calculateVentilation
-  );
+  const field =
+    q(selector);
+
+  if (field) {
+
+    field.addEventListener(
+      'input',
+      calculateVentilation
+    );
+
+  }
 
 });
 
 
 /* ==========================================================
    VNI / CNAF
+   HACOR / ROX
    ========================================================== */
 
-function syncNoninvasiveMode() {
+function updateNoninvasiveFields() {
 
-  const modeField =
+  const mode =
     q('#noninvasiveMode');
 
   const hacorBox =
@@ -1294,61 +1412,90 @@ function syncNoninvasiveMode() {
   const rox =
     q('#rox');
 
-  if (!modeField) {
+  if (
+    !mode ||
+    !hacorBox ||
+    !roxBox ||
+    !hacor ||
+    !rox
+  ) {
+
     return;
+
   }
 
-  const mode =
-    modeField.value;
 
-  const group =
-    modeField.closest('.group');
+  /*
+   * Primeiro escondemos os dois.
+   */
 
-  const applies =
-    q(
-      'input[name="noninvasive_applies"]',
-      group
-    ).value;
-
-  const enabled =
-    applies === 'Sim';
-
-  hacorBox.classList.toggle(
-    'hide',
-    !enabled || mode !== 'VNI'
+  hacorBox.classList.remove(
+    'show'
   );
 
-  roxBox.classList.toggle(
-    'hide',
-    !enabled || mode !== 'CNAF'
+  roxBox.classList.remove(
+    'show'
   );
+
+
+  /*
+   * E limpamos o campo que não pertence
+   * à modalidade selecionada.
+   */
 
   if (
-    !enabled ||
-    mode !== 'VNI'
+    mode.value === 'VNI'
   ) {
-    hacor.value = '';
-    hacor.disabled = true;
-  } else {
+
+    hacorBox.classList.add(
+      'show'
+    );
+
     hacor.disabled = false;
-  }
 
-  if (
-    !enabled ||
-    mode !== 'CNAF'
-  ) {
     rox.value = '';
     rox.disabled = true;
-  } else {
-    rox.disabled = false;
+
+    return;
+
   }
 
+
+  if (
+    mode.value === 'CNAF'
+  ) {
+
+    roxBox.classList.add(
+      'show'
+    );
+
+    rox.disabled = false;
+
+    hacor.value = '';
+    hacor.disabled = true;
+
+    return;
+
+  }
+
+
+  /*
+   * Nenhuma modalidade selecionada.
+   */
+
+  hacor.value = '';
+  rox.value = '';
+
+  hacor.disabled = true;
+  rox.disabled = true;
+
 }
+
 
 q('#noninvasiveMode')
   .addEventListener(
     'change',
-    syncNoninvasiveMode
+    updateNoninvasiveFields
   );
 
 
@@ -1371,37 +1518,51 @@ function obj(form) {
 
 function gas(functionName, payload) {
 
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (
+    resolve,
+    reject
+  ) {
 
     let runner =
       google.script.run
-        .withSuccessHandler(function (result) {
-          resolve(result);
-        })
-        .withFailureHandler(function (error) {
+        .withSuccessHandler(
+          function (result) {
 
-          const message =
-            error &&
-            error.message
-              ? error.message
-              : String(
-                  error ||
-                  'Erro desconhecido.'
-                );
+            resolve(result);
 
-          reject(
-            new Error(message)
-          );
+          }
+        )
+        .withFailureHandler(
+          function (error) {
 
-        });
+            const message =
+              error &&
+              error.message
+                ? error.message
+                : String(
+                    error ||
+                    'Erro desconhecido.'
+                  );
 
-    if (payload === undefined) {
+            reject(
+              new Error(message)
+            );
+
+          }
+        );
+
+
+    if (
+      payload === undefined
+    ) {
 
       runner[functionName]();
 
     } else {
 
-      runner[functionName](payload);
+      runner[functionName](
+        payload
+      );
 
     }
 
@@ -1447,6 +1608,7 @@ async function load() {
 
 }
 
+
 function render() {
 
   [
@@ -1454,13 +1616,21 @@ function render() {
     q('#eventPatient')
   ].forEach(function (select) {
 
+    if (!select) {
+      return;
+    }
+
     select.innerHTML =
       '<option value="">Selecione...</option>';
 
-    patients.forEach(function (patient) {
+    patients.forEach(function (
+      patient
+    ) {
 
       const option =
-        document.createElement('option');
+        document.createElement(
+          'option'
+        );
 
       option.value =
         patient.admissionId;
@@ -1471,13 +1641,17 @@ function render() {
         patient.rh +
         (
           patient.bed
-            ? ' • Leito ' + patient.bed
+            ? ' • Leito ' +
+              patient.bed
             : ''
         );
 
-      select.appendChild(option);
+      select.appendChild(
+        option
+      );
 
     });
+
 
     if (!patients.length) {
 
@@ -1499,30 +1673,38 @@ q('#patientSelect').onchange =
 function (event) {
 
   const patient =
-    patients.find(function (x) {
+    patients.find(
+      function (x) {
 
-      return (
-        x.admissionId ===
-        event.target.value
-      );
+        return (
+          x.admissionId ===
+          event.target.value
+        );
 
-    });
+      }
+    );
 
   const box =
     q('#patientInfo');
 
+
   if (!patient) {
 
-    box.classList.add('hide');
+    box.classList.add(
+      'hide'
+    );
 
-    q('#bed').value = '';
+    q('#bed').value =
+      '';
 
     return;
 
   }
 
+
   q('#bed').value =
     patient.bed || '';
+
 
   box.textContent =
     patient.name +
@@ -1539,7 +1721,10 @@ function (event) {
       'não informado'
     );
 
-  box.classList.remove('hide');
+
+  box.classList.remove(
+    'hide'
+  );
 
 };
 
@@ -1558,19 +1743,23 @@ function setBusy(
     return;
   }
 
+
   if (busy) {
 
     button.dataset.originalText =
       button.textContent;
 
-    button.disabled = true;
+    button.disabled =
+      true;
 
     button.textContent =
-      busyText || 'Registrando...';
+      busyText ||
+      'Registrando...';
 
   } else {
 
-    button.disabled = false;
+    button.disabled =
+      false;
 
     button.textContent =
       button.dataset.originalText ||
@@ -1594,13 +1783,18 @@ async function (event) {
     event.currentTarget;
 
   const button =
-    q('button.primary', form);
+    q(
+      'button.primary',
+      form
+    );
+
 
   setBusy(
     button,
     true,
     'Cadastrando...'
   );
+
 
   try {
 
@@ -1609,6 +1803,7 @@ async function (event) {
         'createAdmission',
         obj(form)
       );
+
 
     if (
       !result ||
@@ -1624,16 +1819,19 @@ async function (event) {
 
     }
 
+
     msg(
       result.message ||
       'Paciente e internação cadastrados com sucesso.'
     );
+
 
     form.reset();
 
     seed();
 
     await load();
+
 
   } catch (error) {
 
@@ -1667,13 +1865,18 @@ async function (event) {
     event.currentTarget;
 
   const button =
-    q('button.primary', form);
+    q(
+      'button.primary',
+      form
+    );
+
 
   setBusy(
     button,
     true,
     'Registrando...'
   );
+
 
   try {
 
@@ -1682,6 +1885,7 @@ async function (event) {
         'createEvent',
         obj(form)
       );
+
 
     if (
       !result ||
@@ -1697,16 +1901,19 @@ async function (event) {
 
     }
 
+
     msg(
       result.message ||
       'Evento registrado com sucesso.'
     );
+
 
     form.reset();
 
     seed();
 
     await load();
+
 
   } catch (error) {
 
@@ -1739,6 +1946,7 @@ async function (event) {
   const form =
     event.currentTarget;
 
+
   const groups = [
     'functional',
     'alveolar',
@@ -1747,17 +1955,23 @@ async function (event) {
     'noninvasive'
   ];
 
-  for (const group of groups) {
+
+  for (
+    const group of groups
+  ) {
 
     const applies =
       form.elements[
-        group + '_applies'
+        group +
+        '_applies'
       ].value;
 
     const reason =
       form.elements[
-        group + '_reason'
+        group +
+        '_reason'
       ].value;
+
 
     if (!applies) {
 
@@ -1769,6 +1983,7 @@ async function (event) {
       return;
 
     }
+
 
     if (
       applies === 'Não' &&
@@ -1786,17 +2001,25 @@ async function (event) {
 
   }
 
+
   calculateVentilation();
-  syncNoninvasiveMode();
+
+  updateNoninvasiveFields();
+
 
   const button =
-    q('button.primary', form);
+    q(
+      'button.primary',
+      form
+    );
+
 
   setBusy(
     button,
     true,
     'Registrando avaliação...'
   );
+
 
   try {
 
@@ -1805,6 +2028,7 @@ async function (event) {
         'createAssessment',
         obj(form)
       );
+
 
     if (
       !result ||
@@ -1820,14 +2044,17 @@ async function (event) {
 
     }
 
+
     msg(
       result.message ||
       'Avaliação registrada e confirmada pelo servidor.'
     );
 
+
     resetAssessment();
 
     await load();
+
 
   } catch (error) {
 
@@ -1857,48 +2084,71 @@ function resetAssessment() {
   const form =
     q('#fAvaliacao');
 
+
   form.reset();
+
 
   qa(
     '.pill',
     form
   ).forEach(function (x) {
-    x.classList.remove('on');
+
+    x.classList.remove(
+      'on'
+    );
+
   });
+
 
   qa(
     '.reason',
     form
   ).forEach(function (x) {
-    x.classList.remove('on');
+
+    x.classList.remove(
+      'on'
+    );
+
   });
+
 
   qa(
     '.gb',
     form
   ).forEach(function (x) {
 
-    x.classList.remove('off');
+    x.classList.remove(
+      'off'
+    );
+
 
     qa(
       'input,select,textarea',
       x
-    ).forEach(function (field) {
+    ).forEach(function (
+      field
+    ) {
 
-      field.disabled = false;
+      field.disabled =
+        false;
 
     });
 
   });
 
+
   q('#patientInfo')
     .classList
-    .add('hide');
+    .add(
+      'hide'
+    );
+
 
   seed();
 
   calculateVentilation();
-  syncNoninvasiveMode();
+
+  updateNoninvasiveFields();
 
 }
 
@@ -1920,8 +2170,11 @@ function () {
    ========================================================== */
 
 seed();
+
 calculateVentilation();
-syncNoninvasiveMode();
+
+updateNoninvasiveFields();
+
 load();
 
 </script>
