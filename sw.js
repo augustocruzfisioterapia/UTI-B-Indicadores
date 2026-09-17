@@ -5,7 +5,7 @@
    Instituto Reverte | Augusto Cruz
    ========================================================== */
 
-const CACHE_VERSION = "v1.0.1";
+const CACHE_VERSION = "v1.0.2";
 const CACHE_NAME = `uti-b-indicadores-${CACHE_VERSION}`;
 
 /*
