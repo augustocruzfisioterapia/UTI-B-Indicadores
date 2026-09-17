@@ -1,41 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
   <base target="_top">
 
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>
-    UTI B - Indicadores Clínicos
-  </title>
-
+  <title>UTI B - Indicadores Clínicos</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      padding: 0;
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: #f4f6f8;
       color: #1f2933;
     }
 
     .app {
-      width: 100%;
       max-width: 1180px;
       margin: 0 auto;
       padding: 24px 16px 60px;
@@ -46,9 +31,7 @@
       border-radius: 16px;
       padding: 24px;
       margin-bottom: 20px;
-      box-shadow:
-        0 2px 12px
-        rgba(0, 0, 0, 0.06);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     }
 
     .header h1 {
@@ -93,14 +76,17 @@
       display: block;
     }
 
-    .card {
+    .card,
+    .group-card {
       background: #ffffff;
       border-radius: 16px;
       padding: 22px;
       margin-bottom: 18px;
-      box-shadow:
-        0 2px 12px
-        rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .group-card {
+      border: 1px solid #e4e7ec;
     }
 
     .card h2 {
@@ -108,13 +94,8 @@
       font-size: 21px;
     }
 
-    .card h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
-    }
-
     .card-description {
-      margin: 0 0 18px;
+      margin: -8px 0 18px;
       color: #667085;
       font-size: 14px;
       line-height: 1.5;
@@ -122,15 +103,13 @@
 
     .grid {
       display: grid;
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
     }
 
     .grid-3 {
       display: grid;
-      grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
 
@@ -167,9 +146,7 @@
     select:focus,
     textarea:focus {
       border-color: #667085;
-      box-shadow:
-        0 0 0 3px
-        rgba(102, 112, 133, 0.10);
+      box-shadow: 0 0 0 3px rgba(102, 112, 133, 0.10);
     }
 
     input:disabled,
@@ -197,11 +174,6 @@
     .btn-primary {
       background: #1f2937;
       color: #ffffff;
-    }
-
-    .btn-secondary {
-      background: #e7eaee;
-      color: #344054;
     }
 
     .btn:disabled {
@@ -241,14 +213,6 @@
       border: 1px solid #fecdca;
     }
 
-    .group-card {
-      border: 1px solid #e4e7ec;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 16px;
-      background: #ffffff;
-    }
-
     .group-head {
       display: flex;
       justify-content: space-between;
@@ -261,8 +225,13 @@
       flex: 1;
     }
 
+    .group-title h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+
     .group-title p {
-      margin: 5px 0 0;
+      margin: 0;
       color: #667085;
       font-size: 13px;
       line-height: 1.4;
@@ -273,8 +242,15 @@
       flex: 0 0 190px;
     }
 
-    .gb {
+    .group-body {
+      display: none;
       margin-top: 14px;
+      padding-top: 16px;
+      border-top: 1px solid #eaecf0;
+    }
+
+    .group-body.active {
+      display: block;
     }
 
     .reason-box {
@@ -334,7 +310,7 @@
     }
 
     .conditional.show {
-      display: block;
+      display: flex;
     }
 
     .patient-summary {
@@ -362,70 +338,48 @@
       margin-top: 3px;
     }
 
-    .b20-row {
-      display: flex;
-      gap: 14px;
-      align-items: stretch;
+    .diagnosis-b20-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 150px;
+      gap: 16px;
+      align-items: end;
     }
 
-    .b20-diagnosis {
-      flex: 1;
-    }
-
-    .b20-control {
-      width: 145px;
-      flex: 0 0 145px;
+    .b20-wrapper {
       display: flex;
       flex-direction: column;
       gap: 7px;
     }
 
-    .b20-toggle {
+    .b20-button {
+      width: 100%;
       min-height: 43px;
-      border: 1px solid #d0d5dd;
+      border: 2px solid #d0d5dd;
       border-radius: 9px;
       background: #ffffff;
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .b20-toggle input {
-      width: 18px;
-      height: 18px;
-      margin: 0;
-      cursor: pointer;
-    }
-
-    .b20-toggle span {
+      color: #344054;
       font-size: 15px;
       font-weight: 800;
-      color: #344054;
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
 
-    .small-note {
+    .b20-button.active {
+      background: #1f2937;
+      border-color: #1f2937;
+      color: #ffffff;
+    }
+
+    .b20-status {
+      margin-top: 5px;
       color: #667085;
       font-size: 12px;
-      line-height: 1.4;
-      margin-top: 5px;
     }
 
-    .divider {
-      height: 1px;
-      background: #eaecf0;
-      margin: 20px 0;
-    }
-
-    @media (
-      max-width: 760px
-    ) {
-
+    @media (max-width: 760px) {
       .grid,
-      .grid-3 {
+      .grid-3,
+      .diagnosis-b20-row {
         grid-template-columns: 1fr;
       }
 
@@ -438,56 +392,29 @@
         flex: auto;
       }
 
-      .b20-row {
-        flex-direction: column;
-      }
-
-      .b20-control {
-        width: 100%;
-        flex: auto;
-      }
-
       .header h1 {
         font-size: 23px;
       }
-
     }
-
   </style>
-
 </head>
-
 
 <body>
 
 <div class="app">
 
-
-  <!-- ======================================================
-       CABEÇALHO
-       ====================================================== -->
-
   <div class="header">
-
-    <h1>
-      UTI B - Indicadores Clínicos
-    </h1>
-
+    <h1>UTI B - Indicadores Clínicos</h1>
     <p>
       Registro longitudinal de indicadores clínicos,
       funcionais e ventilatórios.
     </p>
-
   </div>
-
-
-  <!-- ======================================================
-       NAVEGAÇÃO
-       ====================================================== -->
 
   <div class="tabs">
 
     <button
+      type="button"
       class="tab active"
       data-page="assessmentPage"
     >
@@ -495,6 +422,7 @@
     </button>
 
     <button
+      type="button"
       class="tab"
       data-page="admissionPage"
     >
@@ -502,6 +430,7 @@
     </button>
 
     <button
+      type="button"
       class="tab"
       data-page="eventPage"
     >
@@ -511,9 +440,9 @@
   </div>
 
 
-  <!-- ======================================================
-       PÁGINA - NOVA AVALIAÇÃO
-       ====================================================== -->
+  <!-- =====================================================
+       NOVA AVALIAÇÃO
+       ===================================================== -->
 
   <section
     id="assessmentPage"
@@ -522,14 +451,9 @@
 
     <form id="assessmentForm">
 
-
-      <!-- IDENTIFICAÇÃO -->
-
       <div class="card">
 
-        <h2>
-          Identificação da avaliação
-        </h2>
+        <h2>Identificação da avaliação</h2>
 
         <div class="grid">
 
@@ -544,15 +468,12 @@
               name="admissionId"
               required
             >
-
               <option value="">
                 Carregando pacientes...
               </option>
-
             </select>
 
           </div>
-
 
           <div class="field">
 
@@ -569,7 +490,6 @@
 
           </div>
 
-
           <div class="field">
 
             <label for="assessmentTime">
@@ -583,7 +503,6 @@
             >
 
           </div>
-
 
           <div class="field">
 
@@ -600,7 +519,6 @@
 
           </div>
 
-
           <div class="field">
 
             <label for="professional">
@@ -615,7 +533,6 @@
             >
 
           </div>
-
 
           <div class="field">
 
@@ -646,7 +563,6 @@
 
         </div>
 
-
         <div
           id="assessmentPatientSummary"
           class="patient-summary"
@@ -655,40 +571,29 @@
       </div>
 
 
-      <!-- ==================================================
-           FUNCIONALIDADE
-           ================================================== -->
+      <!-- FUNCIONALIDADE -->
 
       <div class="group-card">
 
         <div class="group-head">
 
           <div class="group-title">
-
-            <h3>
-              Funcionalidade
-            </h3>
-
-            <p>
-              MRC-SS, IMS e dinamometria.
-            </p>
-
+            <h3>Funcionalidade</h3>
+            <p>MRC-SS, IMS e dinamometria.</p>
           </div>
-
 
           <div class="field applicability">
 
-            <label>
-              Aplicar grupo?
+            <label for="functionalApplies">
+              Aplicabilidade
             </label>
 
             <select
+              id="functionalApplies"
               name="functional_applies"
               class="applicability-select"
               data-group="functional"
-              required
             >
-
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -696,13 +601,11 @@
               <option value="Sim">
                 Aplicar
               </option>
-
             </select>
 
           </div>
 
         </div>
-
 
         <div
           id="functionalReasonBox"
@@ -711,11 +614,12 @@
 
           <div class="field">
 
-            <label>
+            <label for="functionalReason">
               Motivo da não aplicabilidade
             </label>
 
             <select
+              id="functionalReason"
               name="functional_reason"
               class="reason-select"
               data-group="functional"
@@ -747,9 +651,9 @@
 
         </div>
 
-
         <div
-          class="gb"
+          id="functionalBody"
+          class="group-body"
           data-group-body="functional"
         >
 
@@ -757,12 +661,13 @@
 
             <div class="field">
 
-              <label>
+              <label for="mrc">
                 MRC-SS
               </label>
 
               <input
                 type="number"
+                id="mrc"
                 name="mrc"
                 min="0"
                 max="60"
@@ -772,15 +677,15 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="ims">
                 IMS
               </label>
 
               <input
                 type="number"
+                id="ims"
                 name="ims"
                 min="0"
                 max="10"
@@ -790,15 +695,15 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="dynamometry">
                 Dinamometria
               </label>
 
               <input
                 type="number"
+                id="dynamometry"
                 name="dynamometry"
                 step="0.01"
                 disabled
@@ -810,15 +715,6 @@
 
         </div>
 
-
-        <!--
-          IMPORTANTE:
-          Este campo fica FORA do .gb.
-
-          Portanto ele permanece ativo mesmo quando
-          Funcionalidade = Não se aplica.
-        -->
-
         <div class="always-on-box">
 
           <h4>
@@ -826,9 +722,9 @@
           </h4>
 
           <p>
-            Este indicador deve ser registrado para todos
-            os pacientes, independentemente da aplicabilidade
-            das escalas funcionais.
+            Este indicador é registrado para todos os pacientes,
+            independentemente da aplicabilidade das escalas
+            funcionais.
           </p>
 
           <div class="field">
@@ -864,40 +760,31 @@
       </div>
 
 
-      <!-- ==================================================
-           SEGURANÇA ALVEOLAR
-           ================================================== -->
+      <!-- SEGURANÇA ALVEOLAR -->
 
       <div class="group-card">
 
         <div class="group-head">
 
           <div class="group-title">
-
-            <h3>
-              Segurança alveolar
-            </h3>
-
+            <h3>Segurança alveolar</h3>
             <p>
               Parâmetros da ventilação mecânica invasiva.
             </p>
-
           </div>
-
 
           <div class="field applicability">
 
-            <label>
-              Aplicar grupo?
+            <label for="alveolarApplies">
+              Aplicabilidade
             </label>
 
             <select
+              id="alveolarApplies"
               name="alveolar_applies"
               class="applicability-select"
               data-group="alveolar"
-              required
             >
-
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -905,13 +792,11 @@
               <option value="Sim">
                 Aplicar
               </option>
-
             </select>
 
           </div>
 
         </div>
-
 
         <div
           id="alveolarReasonBox"
@@ -920,11 +805,12 @@
 
           <div class="field">
 
-            <label>
+            <label for="alveolarReason">
               Motivo da não aplicabilidade
             </label>
 
             <select
+              id="alveolarReason"
               name="alveolar_reason"
               class="reason-select"
               data-group="alveolar"
@@ -952,9 +838,9 @@
 
         </div>
 
-
         <div
-          class="gb"
+          id="alveolarBody"
+          class="group-body"
           data-group-body="alveolar"
         >
 
@@ -976,7 +862,6 @@
 
             </div>
 
-
             <div class="field">
 
               <label for="peep">
@@ -992,7 +877,6 @@
               >
 
             </div>
-
 
             <div class="field">
 
@@ -1010,7 +894,6 @@
 
             </div>
 
-
             <div class="field">
 
               <label for="ppeak">
@@ -1026,7 +909,6 @@
               >
 
             </div>
-
 
             <div class="field">
 
@@ -1044,22 +926,21 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="fio2">
                 FiO₂
               </label>
 
               <input
                 type="number"
+                id="fio2"
                 name="fio2"
                 step="0.01"
                 disabled
               >
 
             </div>
-
 
             <div class="calc-box">
 
@@ -1081,7 +962,6 @@
               >
 
             </div>
-
 
             <div class="calc-box">
 
@@ -1111,41 +991,31 @@
       </div>
 
 
-      <!-- ==================================================
-           DRIVE / ESFORÇO
-           ================================================== -->
+      <!-- DRIVE -->
 
       <div class="group-card">
 
         <div class="group-head">
 
           <div class="group-title">
-
-            <h3>
-              Drive / esforço respiratório
-            </h3>
-
+            <h3>Drive / esforço respiratório</h3>
             <p>
-              Avaliação do drive e da mecânica muscular
-              respiratória.
+              Avaliação do drive e da mecânica muscular respiratória.
             </p>
-
           </div>
-
 
           <div class="field applicability">
 
-            <label>
-              Aplicar grupo?
+            <label for="driveApplies">
+              Aplicabilidade
             </label>
 
             <select
+              id="driveApplies"
               name="drive_applies"
               class="applicability-select"
               data-group="drive"
-              required
             >
-
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -1153,13 +1023,11 @@
               <option value="Sim">
                 Aplicar
               </option>
-
             </select>
 
           </div>
 
         </div>
-
 
         <div
           id="driveReasonBox"
@@ -1168,11 +1036,12 @@
 
           <div class="field">
 
-            <label>
+            <label for="driveReason">
               Motivo da não aplicabilidade
             </label>
 
             <select
+              id="driveReason"
               name="drive_reason"
               class="reason-select"
               data-group="drive"
@@ -1200,9 +1069,9 @@
 
         </div>
 
-
         <div
-          class="gb"
+          id="driveBody"
+          class="group-body"
           data-group-body="drive"
         >
 
@@ -1210,12 +1079,13 @@
 
             <div class="field">
 
-              <label>
+              <label for="p01">
                 P0.1
               </label>
 
               <input
                 type="number"
+                id="p01"
                 name="p01"
                 step="0.01"
                 disabled
@@ -1223,15 +1093,15 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="dpocc">
                 ΔPocc
               </label>
 
               <input
                 type="number"
+                id="dpocc"
                 name="dpocc"
                 step="0.01"
                 disabled
@@ -1239,15 +1109,15 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="pmus">
                 Pmus
               </label>
 
               <input
                 type="number"
+                id="pmus"
                 name="pmus"
                 step="0.01"
                 disabled
@@ -1255,15 +1125,15 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="transpulmonaryDp">
                 Driving Pressure transpulmonar
               </label>
 
               <input
                 type="number"
+                id="transpulmonaryDp"
                 name="transpulmonaryDp"
                 step="0.01"
                 disabled
@@ -1278,41 +1148,32 @@
       </div>
 
 
-      <!-- ==================================================
-           DESMAME
-           ================================================== -->
+      <!-- DESMAME -->
 
       <div class="group-card">
 
         <div class="group-head">
 
           <div class="group-title">
-
-            <h3>
-              Desmame / extubação
-            </h3>
-
+            <h3>Desmame / extubação</h3>
             <p>
-              Indicadores relacionados ao processo de
-              liberação da ventilação mecânica.
+              Indicadores relacionados ao processo de liberação
+              da ventilação mecânica.
             </p>
-
           </div>
-
 
           <div class="field applicability">
 
-            <label>
-              Aplicar grupo?
+            <label for="weaningApplies">
+              Aplicabilidade
             </label>
 
             <select
+              id="weaningApplies"
               name="weaning_applies"
               class="applicability-select"
               data-group="weaning"
-              required
             >
-
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -1320,13 +1181,11 @@
               <option value="Sim">
                 Aplicar
               </option>
-
             </select>
 
           </div>
 
         </div>
-
 
         <div
           id="weaningReasonBox"
@@ -1335,11 +1194,12 @@
 
           <div class="field">
 
-            <label>
+            <label for="weaningReason">
               Motivo da não aplicabilidade
             </label>
 
             <select
+              id="weaningReason"
               name="weaning_reason"
               class="reason-select"
               data-group="weaning"
@@ -1363,9 +1223,9 @@
 
         </div>
 
-
         <div
-          class="gb"
+          id="weaningBody"
+          class="group-body"
           data-group-body="weaning"
         >
 
@@ -1373,12 +1233,13 @@
 
             <div class="field">
 
-              <label>
+              <label for="iwi">
                 IWI
               </label>
 
               <input
                 type="number"
+                id="iwi"
                 name="iwi"
                 step="0.01"
                 disabled
@@ -1386,16 +1247,15 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="sbtPerformed">
                 TRE realizado?
               </label>
 
               <select
-                name="sbtPerformed"
                 id="sbtPerformed"
+                name="sbtPerformed"
                 disabled
               >
 
@@ -1415,19 +1275,18 @@
 
             </div>
 
-
             <div
               id="sbtResultBox"
               class="field conditional"
             >
 
-              <label>
+              <label for="sbtResult">
                 Resultado do TRE
               </label>
 
               <select
-                name="sbtResult"
                 id="sbtResult"
+                name="sbtResult"
                 disabled
               >
 
@@ -1447,16 +1306,15 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="extubated">
                 Extubado?
               </label>
 
               <select
-                name="extubated"
                 id="extubated"
+                name="extubated"
                 disabled
               >
 
@@ -1475,36 +1333,34 @@
               </select>
 
             </div>
-
 
             <div
               id="extubationAtBox"
               class="field conditional"
             >
 
-              <label>
+              <label for="extubationAt">
                 Data/hora da extubação
               </label>
 
               <input
                 type="datetime-local"
-                name="extubationAt"
                 id="extubationAt"
+                name="extubationAt"
                 disabled
               >
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="extubationFailure">
                 Falha de extubação?
               </label>
 
               <select
-                name="extubationFailure"
                 id="extubationFailure"
+                name="extubationFailure"
                 disabled
               >
 
@@ -1523,36 +1379,34 @@
               </select>
 
             </div>
-
 
             <div
               id="failureAtBox"
               class="field conditional"
             >
 
-              <label>
+              <label for="failureAt">
                 Data/hora da falha
               </label>
 
               <input
                 type="datetime-local"
-                name="failureAt"
                 id="failureAt"
+                name="failureAt"
                 disabled
               >
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="reintubated">
                 Reintubado?
               </label>
 
               <select
-                name="reintubated"
                 id="reintubated"
+                name="reintubated"
                 disabled
               >
 
@@ -1572,20 +1426,19 @@
 
             </div>
 
-
             <div
               id="reintubationAtBox"
               class="field conditional"
             >
 
-              <label>
+              <label for="reintubationAt">
                 Data/hora da reintubação
               </label>
 
               <input
                 type="datetime-local"
-                name="reintubationAt"
                 id="reintubationAt"
+                name="reintubationAt"
                 disabled
               >
 
@@ -1598,40 +1451,29 @@
       </div>
 
 
-      <!-- ==================================================
-           NÃO INVASIVO
-           ================================================== -->
+      <!-- NÃO INVASIVO -->
 
       <div class="group-card">
 
         <div class="group-head">
 
           <div class="group-title">
-
-            <h3>
-              Suporte não invasivo
-            </h3>
-
-            <p>
-              VNI e cânula nasal de alto fluxo.
-            </p>
-
+            <h3>Suporte não invasivo</h3>
+            <p>VNI e cânula nasal de alto fluxo.</p>
           </div>
-
 
           <div class="field applicability">
 
-            <label>
-              Aplicar grupo?
+            <label for="noninvasiveApplies">
+              Aplicabilidade
             </label>
 
             <select
+              id="noninvasiveApplies"
               name="noninvasive_applies"
               class="applicability-select"
               data-group="noninvasive"
-              required
             >
-
               <option value="Não" selected>
                 Não se aplica
               </option>
@@ -1639,13 +1481,11 @@
               <option value="Sim">
                 Aplicar
               </option>
-
             </select>
 
           </div>
 
         </div>
-
 
         <div
           id="noninvasiveReasonBox"
@@ -1654,11 +1494,12 @@
 
           <div class="field">
 
-            <label>
+            <label for="noninvasiveReason">
               Motivo da não aplicabilidade
             </label>
 
             <select
+              id="noninvasiveReason"
               name="noninvasive_reason"
               class="reason-select"
               data-group="noninvasive"
@@ -1682,9 +1523,9 @@
 
         </div>
 
-
         <div
-          class="gb"
+          id="noninvasiveBody"
+          class="group-body"
           data-group-body="noninvasive"
         >
 
@@ -1718,7 +1559,6 @@
 
             </div>
 
-
             <div
               id="hacorBox"
               class="field conditional"
@@ -1737,7 +1577,6 @@
               >
 
             </div>
-
 
             <div
               id="roxBox"
@@ -1758,10 +1597,9 @@
 
             </div>
 
-
             <div class="field">
 
-              <label>
+              <label for="iotAfterFailure">
                 IOT após falha do suporte?
               </label>
 
@@ -1787,13 +1625,12 @@
 
             </div>
 
-
             <div
               id="intubationAtBox"
               class="field conditional"
             >
 
-              <label>
+              <label for="intubationAt">
                 Data/hora da IOT
               </label>
 
@@ -1813,13 +1650,9 @@
       </div>
 
 
-      <!-- OBSERVAÇÃO -->
-
       <div class="card">
 
-        <h2>
-          Observação
-        </h2>
+        <h2>Observação</h2>
 
         <div class="field">
 
@@ -1829,7 +1662,6 @@
           ></textarea>
 
         </div>
-
 
         <div class="actions">
 
@@ -1843,7 +1675,6 @@
 
         </div>
 
-
         <div
           id="assessmentStatus"
           class="status"
@@ -1856,9 +1687,9 @@
   </section>
 
 
-  <!-- ======================================================
-       PÁGINA - NOVO PACIENTE
-       ====================================================== -->
+  <!-- =====================================================
+       NOVO PACIENTE
+       ===================================================== -->
 
   <section
     id="admissionPage"
@@ -1869,15 +1700,12 @@
 
       <div class="card">
 
-        <h2>
-          Novo paciente / internação
-        </h2>
+        <h2>Novo paciente / internação</h2>
 
         <p class="card-description">
-          Cadastro do paciente e abertura de uma nova
-          internação na UTI.
+          Cadastro do paciente e abertura de uma nova internação
+          na UTI.
         </p>
-
 
         <div class="grid">
 
@@ -1896,7 +1724,6 @@
 
           </div>
 
-
           <div class="field">
 
             <label for="patientRh">
@@ -1911,7 +1738,6 @@
             >
 
           </div>
-
 
           <div class="field">
 
@@ -1928,7 +1754,6 @@
 
           </div>
 
-
           <div class="field">
 
             <label for="initialBed">
@@ -1943,7 +1768,6 @@
             >
 
           </div>
-
 
           <div class="field">
 
@@ -1960,12 +1784,11 @@
 
           </div>
 
-
           <div class="field full">
 
-            <div class="b20-row">
+            <div class="diagnosis-b20-row">
 
-              <div class="field b20-diagnosis">
+              <div class="field">
 
                 <label for="diagnosis">
                   Diagnóstico principal
@@ -1980,43 +1803,40 @@
 
               </div>
 
-
-              <div class="b20-control">
+              <div class="b20-wrapper">
 
                 <label>
-                  B20
+                  Análise específica
                 </label>
 
-                <label
-                  class="b20-toggle"
-                  for="b20"
+                <button
+                  type="button"
+                  id="b20Button"
+                  class="b20-button"
+                  aria-pressed="false"
+                >
+                  B20
+                </button>
+
+                <input
+                  type="hidden"
+                  id="b20"
+                  name="b20"
+                  value="Não"
                 >
 
-                  <input
-                    type="checkbox"
-                    id="b20"
-                    name="b20"
-                    value="Sim"
-                  >
-
-                  <span>
-                    B20
-                  </span>
-
-                </label>
+                <div
+                  id="b20Status"
+                  class="b20-status"
+                >
+                  B20: Não
+                </div>
 
               </div>
 
             </div>
 
-            <div class="small-note">
-              A marcação B20 permitirá uma análise específica
-              dessa população, sem retirar o paciente das
-              análises gerais da UTI.
-            </div>
-
           </div>
-
 
           <div class="field full">
 
@@ -2034,7 +1854,6 @@
 
         </div>
 
-
         <div class="actions">
 
           <button
@@ -2046,7 +1865,6 @@
           </button>
 
         </div>
-
 
         <div
           id="admissionStatus"
@@ -2060,9 +1878,9 @@
   </section>
 
 
-  <!-- ======================================================
-       PÁGINA - EVENTO
-       ====================================================== -->
+  <!-- =====================================================
+       EVENTO / DESFECHO
+       ===================================================== -->
 
   <section
     id="eventPage"
@@ -2073,10 +1891,7 @@
 
       <div class="card">
 
-        <h2>
-          Evento / desfecho
-        </h2>
-
+        <h2>Evento / desfecho</h2>
 
         <div class="grid">
 
@@ -2091,15 +1906,12 @@
               name="admissionId"
               required
             >
-
               <option value="">
                 Carregando pacientes...
               </option>
-
             </select>
 
           </div>
-
 
           <div class="field">
 
@@ -2153,7 +1965,6 @@
 
           </div>
 
-
           <div class="field">
 
             <label for="eventDate">
@@ -2169,7 +1980,6 @@
 
           </div>
 
-
           <div class="field">
 
             <label for="eventTime">
@@ -2184,49 +1994,48 @@
 
           </div>
 
-
           <div class="field">
 
-            <label>
+            <label for="eventContext">
               Modalidade / contexto
             </label>
 
             <input
               type="text"
+              id="eventContext"
               name="context"
             >
 
           </div>
 
-
           <div class="field">
 
-            <label>
+            <label for="eventResult">
               Resultado
             </label>
 
             <input
               type="text"
+              id="eventResult"
               name="result"
             >
 
           </div>
 
-
           <div class="field full">
 
-            <label>
+            <label for="eventNotes">
               Observação
             </label>
 
             <textarea
+              id="eventNotes"
               name="notes"
             ></textarea>
 
           </div>
 
         </div>
-
 
         <div class="actions">
 
@@ -2239,7 +2048,6 @@
           </button>
 
         </div>
-
 
         <div
           id="eventStatus"
@@ -2265,126 +2073,99 @@
     return document.querySelector(selector);
   }
 
-
   function qa(selector) {
     return Array.from(
       document.querySelectorAll(selector)
     );
   }
 
-
   function formToObject(form) {
-
-    const data =
-      new FormData(form);
-
+    const data = new FormData(form);
     const object = {};
 
-    data.forEach(
-      function(value, key) {
-
-        object[key] = value;
-
-      }
-    );
+    data.forEach(function(value, key) {
+      object[key] = value;
+    });
 
     return object;
-
   }
 
+  function gas(functionName, payload) {
+    return new Promise(function(resolve, reject) {
 
-  function gas(
-    functionName,
-    payload
-  ) {
-
-    return new Promise(
-      function(resolve, reject) {
-
-        let runner =
-          google.script.run
-            .withSuccessHandler(
-              function(result) {
-
-                resolve(result);
-
-              }
-            )
-            .withFailureHandler(
-              function(error) {
-
-                const message =
-                  error &&
-                  error.message
-                    ? error.message
-                    : String(
-                        error ||
-                        'Erro desconhecido.'
-                      );
-
-                reject(
-                  new Error(message)
-                );
-
-              }
-            );
-
-
-        if (
-          payload === undefined
-        ) {
-
-          runner[functionName]();
-
-        } else {
-
-          runner[functionName](
-            payload
-          );
-
-        }
-
+      if (
+        typeof google === 'undefined' ||
+        !google.script ||
+        !google.script.run
+      ) {
+        reject(
+          new Error(
+            'Esta página não foi carregada pelo Google Apps Script. Abra o sistema pelo endereço /exec da implantação.'
+          )
+        );
+        return;
       }
-    );
 
+      let runner =
+        google.script.run
+          .withSuccessHandler(function(result) {
+            resolve(result);
+          })
+          .withFailureHandler(function(error) {
+            const message =
+              error && error.message
+                ? error.message
+                : String(
+                    error ||
+                    'Erro desconhecido.'
+                  );
+
+            reject(
+              new Error(message)
+            );
+          });
+
+      if (payload === undefined) {
+        runner[functionName]();
+      } else {
+        runner[functionName](payload);
+      }
+
+    });
   }
 
-
-  function showStatus(
-    element,
-    message,
-    type
-  ) {
-
-    element.textContent =
-      message;
-
-    element.className =
-      'status show ' + type;
-
+  function showStatus(element, message, type) {
+    element.textContent = message;
+    element.className = 'status show ' + type;
   }
 
-
-  function clearStatus(
-    element
-  ) {
-
+  function clearStatus(element) {
     element.textContent = '';
+    element.className = 'status';
+  }
 
-    element.className =
-      'status';
-
+  function escapeHtml(value) {
+    return String(
+      value === null ||
+      value === undefined
+        ? ''
+        : value
+    )
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
 
   /* ========================================================
-     DATA / HORA PADRÃO
+     DATA E HORA
      ======================================================== */
 
   function setCurrentDateTime() {
 
-    const now =
-      new Date();
+    const now = new Date();
 
     const year =
       now.getFullYear();
@@ -2409,117 +2190,152 @@
         now.getMinutes()
       ).padStart(2, '0');
 
-
     const dateValue =
-      year +
-      '-' +
-      month +
-      '-' +
-      day;
+      year + '-' + month + '-' + day;
 
     const timeValue =
-      hour +
-      ':' +
-      minute;
+      hour + ':' + minute;
 
-
-    if (
-      q('#assessmentDate')
-    ) {
-
+    if (q('#assessmentDate')) {
       q('#assessmentDate').value =
         dateValue;
-
     }
 
-
-    if (
-      q('#assessmentTime')
-    ) {
-
+    if (q('#assessmentTime')) {
       q('#assessmentTime').value =
         timeValue;
-
     }
 
-
-    if (
-      q('#eventDate')
-    ) {
-
+    if (q('#eventDate')) {
       q('#eventDate').value =
         dateValue;
-
     }
 
-
-    if (
-      q('#eventTime')
-    ) {
-
+    if (q('#eventTime')) {
       q('#eventTime').value =
         timeValue;
-
     }
-
 
     if (
       q('#admissionDate') &&
       !q('#admissionDate').value
     ) {
-
       q('#admissionDate').value =
         dateValue;
-
     }
 
   }
 
 
   /* ========================================================
-     ABAS
+     NAVEGAÇÃO
      ======================================================== */
 
-  qa('.tab').forEach(
-    function(tab) {
+  qa('.tab').forEach(function(tab) {
 
-      tab.addEventListener(
-        'click',
-        function() {
+    tab.addEventListener(
+      'click',
+      function() {
 
-          qa('.tab').forEach(
-            function(item) {
+        qa('.tab').forEach(
+          function(item) {
+            item.classList.remove('active');
+          }
+        );
 
-              item.classList
-                .remove('active');
+        qa('.page').forEach(
+          function(page) {
+            page.classList.remove('active');
+          }
+        );
 
-            }
-          );
+        tab.classList.add('active');
 
-          qa('.page').forEach(
-            function(page) {
+        const pageId =
+          tab.dataset.page;
 
-              page.classList
-                .remove('active');
+        q('#' + pageId)
+          .classList
+          .add('active');
 
-            }
-          );
+      }
+    );
 
-          tab.classList
-            .add('active');
+  });
 
-          const pageId =
-            tab.dataset.page;
 
-          q('#' + pageId)
-            .classList
-            .add('active');
+  /* ========================================================
+     B20
+     ======================================================== */
 
-        }
+  function setB20(active) {
+
+    const button =
+      q('#b20Button');
+
+    const input =
+      q('#b20');
+
+    const status =
+      q('#b20Status');
+
+    if (
+      !button ||
+      !input ||
+      !status
+    ) {
+      return;
+    }
+
+    if (active) {
+
+      input.value = 'Sim';
+
+      button.classList.add(
+        'active'
       );
 
+      button.setAttribute(
+        'aria-pressed',
+        'true'
+      );
+
+      status.textContent =
+        'B20: Sim';
+
+    } else {
+
+      input.value = 'Não';
+
+      button.classList.remove(
+        'active'
+      );
+
+      button.setAttribute(
+        'aria-pressed',
+        'false'
+      );
+
+      status.textContent =
+        'B20: Não';
+
     }
-  );
+
+  }
+
+  q('#b20Button')
+    .addEventListener(
+      'click',
+      function() {
+
+        const current =
+          q('#b20').value ===
+          'Sim';
+
+        setB20(!current);
+
+      }
+    );
 
 
   /* ========================================================
@@ -2527,7 +2343,6 @@
      ======================================================== */
 
   let activePatients = [];
-
 
   async function loadActivePatients() {
 
@@ -2537,13 +2352,11 @@
     const eventSelect =
       q('#eventPatient');
 
-
     assessmentSelect.innerHTML =
       '<option value="">Carregando pacientes...</option>';
 
     eventSelect.innerHTML =
       '<option value="">Carregando pacientes...</option>';
-
 
     try {
 
@@ -2552,26 +2365,20 @@
           'listActivePatients'
         );
 
-
       if (
         !response ||
         response.ok !== true
       ) {
-
         throw new Error(
           'Não foi possível carregar os pacientes ativos.'
         );
-
       }
-
 
       activePatients =
         response.data || [];
 
-
       let options =
         '<option value="">Selecione</option>';
-
 
       activePatients.forEach(
         function(patient) {
@@ -2595,7 +2402,6 @@
                 : ''
             );
 
-
           options +=
             '<option value="' +
             escapeHtml(
@@ -2608,13 +2414,11 @@
         }
       );
 
-
       assessmentSelect.innerHTML =
         options;
 
       eventSelect.innerHTML =
         options;
-
 
     } catch(error) {
 
@@ -2627,38 +2431,6 @@
       console.error(error);
 
     }
-
-  }
-
-
-  function escapeHtml(value) {
-
-    return String(
-      value === null ||
-      value === undefined
-        ? ''
-        : value
-    )
-      .replace(
-        /&/g,
-        '&amp;'
-      )
-      .replace(
-        /</g,
-        '&lt;'
-      )
-      .replace(
-        />/g,
-        '&gt;'
-      )
-      .replace(
-        /"/g,
-        '&quot;'
-      )
-      .replace(
-        /'/g,
-        '&#039;'
-      );
 
   }
 
@@ -2678,21 +2450,17 @@
         const patient =
           activePatients.find(
             function(item) {
-
               return (
                 item.admissionId ===
                 admissionId
               );
-
             }
           );
-
 
         const summary =
           q(
             '#assessmentPatientSummary'
           );
-
 
         if (!patient) {
 
@@ -2702,17 +2470,12 @@
           summary.innerHTML = '';
 
           return;
-
         }
-
 
         if (patient.bed) {
-
           q('#assessmentBed').value =
             patient.bed;
-
         }
-
 
         summary.innerHTML =
           '<strong>' +
@@ -2741,7 +2504,6 @@
           ) +
           '</span>';
 
-
         summary.classList
           .add('show');
 
@@ -2750,12 +2512,10 @@
 
 
   /* ========================================================
-     APLICABILIDADE DOS GRUPOS
+     APLICABILIDADE
      ======================================================== */
 
-  function updateApplicability(
-    select
-  ) {
+  function updateApplicability(select) {
 
     const group =
       select.dataset.group;
@@ -2784,103 +2544,104 @@
         '"]'
       );
 
+    if (applies) {
 
-    if (body) {
+      if (body) {
 
-      const fields =
-        Array.from(
-          body.querySelectorAll(
-            'input, select, textarea'
-          )
+        body.classList.add(
+          'active'
         );
 
+        const fields =
+          body.querySelectorAll(
+            'input, select, textarea'
+          );
 
-      fields.forEach(
-        function(field) {
+        fields.forEach(
+          function(field) {
 
-          field.disabled =
-            !applies;
+            /*
+             * Campos condicionais permanecem
+             * sob controle das funções específicas.
+             */
 
-          if (!applies) {
+            if (
+              field.closest('.conditional')
+            ) {
+              return;
+            }
+
+            field.disabled = false;
+
+          }
+        );
+
+      }
+
+      if (reasonBox) {
+        reasonBox.classList.remove(
+          'show'
+        );
+      }
+
+      if (reasonSelect) {
+        reasonSelect.value = '';
+      }
+
+    } else {
+
+      if (body) {
+
+        body.classList.remove(
+          'active'
+        );
+
+        const fields =
+          body.querySelectorAll(
+            'input, select, textarea'
+          );
+
+        fields.forEach(
+          function(field) {
+
+            field.disabled = true;
 
             if (
               field.type ===
               'checkbox'
             ) {
-
-              field.checked =
-                false;
-
+              field.checked = false;
             } else {
-
               field.value = '';
-
             }
 
           }
-
-        }
-      );
-
-    }
-
-
-    if (applies) {
-
-      if (reasonBox) {
-
-        reasonBox.classList
-          .remove('show');
+        );
 
       }
 
-      if (reasonSelect) {
-
-        reasonSelect.value = '';
-
-      }
-
-    } else {
-
       if (reasonBox) {
-
-        reasonBox.classList
-          .add('show');
-
+        reasonBox.classList.add(
+          'show'
+        );
       }
 
     }
 
-
-    if (
-      group === 'alveolar'
-    ) {
-
+    if (group === 'alveolar') {
       calculateVentilation();
-
     }
 
-
-    if (
-      group === 'weaning'
-    ) {
-
+    if (group === 'weaning') {
       updateWeaningFields();
-
     }
 
-
-    if (
-      group === 'noninvasive'
-    ) {
-
+    if (group === 'noninvasive') {
       updateNoninvasiveFields();
       updateIotField();
-
     }
 
   }
-
 
   qa('.applicability-select')
     .forEach(
@@ -2889,11 +2650,9 @@
         select.addEventListener(
           'change',
           function() {
-
             updateApplicability(
               select
             );
-
           }
         );
 
@@ -2902,7 +2661,7 @@
 
 
   /* ========================================================
-     VENTILAÇÃO
+     DRIVING PRESSURE + MECHANICAL POWER
      ======================================================== */
 
   function calculateVentilation() {
@@ -2932,10 +2691,8 @@
         q('#ppeak').value
       );
 
-
     let drivingPressure =
       null;
-
 
     if (
       Number.isFinite(pplat) &&
@@ -2946,13 +2703,11 @@
         pplat - peep;
 
       q('#dp').textContent =
-        drivingPressure
-          .toFixed(1) +
+        drivingPressure.toFixed(1) +
         ' cmH₂O';
 
       q('#dpHidden').value =
-        drivingPressure
-          .toFixed(1);
+        drivingPressure.toFixed(1);
 
     } else {
 
@@ -2964,16 +2719,12 @@
 
     }
 
-
     if (
       Number.isFinite(vtMl) &&
       vtMl > 0 &&
-
       Number.isFinite(rr) &&
       rr > 0 &&
-
       Number.isFinite(ppeak) &&
-
       Number.isFinite(
         drivingPressure
       )
@@ -2981,7 +2732,6 @@
 
       const vtLiters =
         vtMl / 1000;
-
 
       const mechanicalPower =
         0.098 *
@@ -2995,7 +2745,6 @@
           )
         );
 
-
       if (
         Number.isFinite(
           mechanicalPower
@@ -3003,13 +2752,11 @@
       ) {
 
         q('#mp').textContent =
-          mechanicalPower
-            .toFixed(2) +
+          mechanicalPower.toFixed(2) +
           ' J/min';
 
         q('#mpHidden').value =
-          mechanicalPower
-            .toFixed(2);
+          mechanicalPower.toFixed(2);
 
       } else {
 
@@ -3033,7 +2780,6 @@
 
   }
 
-
   [
     '#vt',
     '#peep',
@@ -3054,7 +2800,7 @@
 
 
   /* ========================================================
-     DESMAME
+     CAMPOS CONDICIONAIS
      ======================================================== */
 
   function toggleConditional(
@@ -3069,47 +2815,48 @@
     const field =
       q(fieldSelector);
 
-
-    if (!box || !field) {
+    if (
+      !box ||
+      !field
+    ) {
       return;
     }
 
-
     if (show) {
 
-      box.classList
-        .add('show');
+      box.classList.add(
+        'show'
+      );
 
-      field.disabled =
-        false;
+      field.disabled = false;
 
     } else {
 
-      box.classList
-        .remove('show');
+      box.classList.remove(
+        'show'
+      );
 
       field.value = '';
 
-      field.disabled =
-        true;
+      field.disabled = true;
 
     }
 
   }
 
 
+  /* ========================================================
+     DESMAME
+     ======================================================== */
+
   function updateWeaningFields() {
 
     const groupSelect =
-      q(
-        '.applicability-select[data-group="weaning"]'
-      );
+      q('#weaningApplies');
 
     const enabled =
       groupSelect &&
-      groupSelect.value ===
-        'Sim';
-
+      groupSelect.value === 'Sim';
 
     if (!enabled) {
 
@@ -3138,9 +2885,7 @@
       );
 
       return;
-
     }
-
 
     toggleConditional(
       '#sbtResultBox',
@@ -3149,7 +2894,6 @@
         'Sim'
     );
 
-
     toggleConditional(
       '#extubationAtBox',
       '#extubationAt',
@@ -3157,14 +2901,12 @@
         'Sim'
     );
 
-
     toggleConditional(
       '#failureAtBox',
       '#failureAt',
       q('#extubationFailure').value ===
         'Sim'
     );
-
 
     toggleConditional(
       '#reintubationAtBox',
@@ -3175,13 +2917,11 @@
 
   }
 
-
   q('#sbtPerformed')
     .addEventListener(
       'change',
       updateWeaningFields
     );
-
 
   q('#extubated')
     .addEventListener(
@@ -3189,13 +2929,11 @@
       updateWeaningFields
     );
 
-
   q('#extubationFailure')
     .addEventListener(
       'change',
       updateWeaningFields
     );
-
 
   q('#reintubated')
     .addEventListener(
@@ -3211,9 +2949,7 @@
   function updateNoninvasiveFields() {
 
     const groupSelect =
-      q(
-        '.applicability-select[data-group="noninvasive"]'
-      );
+      q('#noninvasiveApplies');
 
     const mode =
       q('#noninvasiveMode');
@@ -3230,7 +2966,6 @@
     const rox =
       q('#rox');
 
-
     if (
       !groupSelect ||
       !mode ||
@@ -3239,91 +2974,67 @@
       !hacor ||
       !rox
     ) {
-
       return;
-
     }
 
+    const enabled =
+      groupSelect.value === 'Sim';
 
-    const groupEnabled =
-      groupSelect.value ===
-      'Sim';
+    hacorBox.classList.remove(
+      'show'
+    );
 
+    roxBox.classList.remove(
+      'show'
+    );
 
-    hacorBox.classList
-      .remove('show');
+    hacor.disabled = true;
+    rox.disabled = true;
 
-    roxBox.classList
-      .remove('show');
-
-
-    if (!groupEnabled) {
+    if (!enabled) {
 
       hacor.value = '';
       rox.value = '';
 
-      hacor.disabled =
-        true;
-
-      rox.disabled =
-        true;
-
       return;
-
     }
-
 
     if (
       mode.value === 'VNI'
     ) {
 
-      hacorBox.classList
-        .add('show');
+      hacorBox.classList.add(
+        'show'
+      );
 
-      hacor.disabled =
-        false;
+      hacor.disabled = false;
 
       rox.value = '';
-
-      rox.disabled =
-        true;
+      rox.disabled = true;
 
       return;
-
     }
-
 
     if (
       mode.value === 'CNAF'
     ) {
 
-      roxBox.classList
-        .add('show');
+      roxBox.classList.add(
+        'show'
+      );
 
-      rox.disabled =
-        false;
+      rox.disabled = false;
 
       hacor.value = '';
-
-      hacor.disabled =
-        true;
+      hacor.disabled = true;
 
       return;
-
     }
-
 
     hacor.value = '';
     rox.value = '';
 
-    hacor.disabled =
-      true;
-
-    rox.disabled =
-      true;
-
   }
-
 
   q('#noninvasiveMode')
     .addEventListener(
@@ -3333,21 +3044,17 @@
 
 
   /* ========================================================
-     IOT APÓS SUPORTE NÃO INVASIVO
+     IOT APÓS VNI / CNAF
      ======================================================== */
 
   function updateIotField() {
 
     const groupSelect =
-      q(
-        '.applicability-select[data-group="noninvasive"]'
-      );
+      q('#noninvasiveApplies');
 
     const enabled =
       groupSelect &&
-      groupSelect.value ===
-        'Sim';
-
+      groupSelect.value === 'Sim';
 
     if (!enabled) {
 
@@ -3358,9 +3065,7 @@
       );
 
       return;
-
     }
-
 
     toggleConditional(
       '#intubationAtBox',
@@ -3371,7 +3076,6 @@
 
   }
 
-
   q('#iotAfterFailure')
     .addEventListener(
       'change',
@@ -3380,33 +3084,29 @@
 
 
   /* ========================================================
-     VALIDAÇÃO DOS MOTIVOS
+     VALIDAÇÃO
      ======================================================== */
 
-  function validateReasons(
-    form
-  ) {
+  function validateReasons(form) {
 
-    const applicabilityFields =
+    const fields =
       Array.from(
         form.querySelectorAll(
           '.applicability-select'
         )
       );
 
-
     for (
       let i = 0;
-      i < applicabilityFields.length;
+      i < fields.length;
       i++
     ) {
 
       const select =
-        applicabilityFields[i];
+        fields[i];
 
       const group =
         select.dataset.group;
-
 
       if (
         select.value === 'Não'
@@ -3419,17 +3119,17 @@
             '"]'
           );
 
-
         if (
           !reason ||
           !reason.value
         ) {
 
-          reason &&
-          reason.focus();
+          if (reason) {
+            reason.focus();
+          }
 
           throw new Error(
-            'Informe o motivo da não aplicabilidade dos grupos marcados como "Não se aplica".'
+            'Informe o motivo da não aplicabilidade de todos os grupos que permaneceram como "Não se aplica".'
           );
 
         }
@@ -3442,7 +3142,7 @@
 
 
   /* ========================================================
-     RESET DA AVALIAÇÃO
+     RESET AVALIAÇÃO
      ======================================================== */
 
   function resetAssessmentForm() {
@@ -3452,19 +3152,12 @@
 
     form.reset();
 
-
-    /*
-     * Todos os grupos voltam automaticamente
-     * para NÃO SE APLICA.
-     */
-
     qa(
       '#assessmentForm .applicability-select'
     ).forEach(
       function(select) {
 
-        select.value =
-          'Não';
+        select.value = 'Não';
 
         updateApplicability(
           select
@@ -3473,24 +3166,22 @@
       }
     );
 
-
     q('#outOfBedToday').value =
       '';
 
     q('#assessmentBed').value =
       '';
 
-    q(
-      '#assessmentPatientSummary'
-    ).classList.remove(
+    const summary =
+      q(
+        '#assessmentPatientSummary'
+      );
+
+    summary.classList.remove(
       'show'
     );
 
-    q(
-      '#assessmentPatientSummary'
-    ).innerHTML =
-      '';
-
+    summary.innerHTML = '';
 
     setCurrentDateTime();
 
@@ -3506,7 +3197,7 @@
 
 
   /* ========================================================
-     CADASTRO DE PACIENTE
+     CADASTRO PACIENTE
      ======================================================== */
 
   q('#admissionForm')
@@ -3515,7 +3206,6 @@
       async function(event) {
 
         event.preventDefault();
-
 
         const form =
           event.currentTarget;
@@ -3526,34 +3216,24 @@
         const status =
           q('#admissionStatus');
 
-
         clearStatus(status);
-
 
         const payload =
           formToObject(form);
 
-
         /*
-         * Checkbox desmarcado não aparece no FormData.
-         * Portanto garantimos explicitamente:
-         *
-         * marcado   -> Sim
-         * desmarcado -> Não
+         * B20 sempre é enviado explicitamente.
          */
 
         payload.b20 =
-          q('#b20').checked
+          q('#b20').value === 'Sim'
             ? 'Sim'
             : 'Não';
 
-
-        button.disabled =
-          true;
+        button.disabled = true;
 
         button.textContent =
           'Cadastrando...';
-
 
         try {
 
@@ -3562,7 +3242,6 @@
               'createAdmission',
               payload
             );
-
 
           if (
             !response ||
@@ -3578,7 +3257,6 @@
 
           }
 
-
           showStatus(
             status,
             response.message ||
@@ -3586,13 +3264,13 @@
             'success'
           );
 
-
           form.reset();
+
+          setB20(false);
 
           setCurrentDateTime();
 
           await loadActivePatients();
-
 
         } catch(error) {
 
@@ -3605,8 +3283,7 @@
 
         } finally {
 
-          button.disabled =
-            false;
+          button.disabled = false;
 
           button.textContent =
             'Cadastrar paciente e internação';
@@ -3618,7 +3295,7 @@
 
 
   /* ========================================================
-     REGISTRO DA AVALIAÇÃO
+     REGISTRAR AVALIAÇÃO
      ======================================================== */
 
   q('#assessmentForm')
@@ -3627,7 +3304,6 @@
       async function(event) {
 
         event.preventDefault();
-
 
         const form =
           event.currentTarget;
@@ -3638,14 +3314,11 @@
         const status =
           q('#assessmentStatus');
 
-
         clearStatus(status);
-
 
         try {
 
           validateReasons(form);
-
 
           if (
             !q('#outOfBedToday').value
@@ -3660,24 +3333,19 @@
 
           }
 
-
           const payload =
             formToObject(form);
 
-
-          button.disabled =
-            true;
+          button.disabled = true;
 
           button.textContent =
             'Registrando...';
-
 
           const response =
             await gas(
               'createAssessment',
               payload
             );
-
 
           if (
             !response ||
@@ -3693,7 +3361,6 @@
 
           }
 
-
           showStatus(
             status,
             response.message ||
@@ -3701,9 +3368,7 @@
             'success'
           );
 
-
           resetAssessmentForm();
-
 
         } catch(error) {
 
@@ -3714,11 +3379,9 @@
             'error'
           );
 
-
         } finally {
 
-          button.disabled =
-            false;
+          button.disabled = false;
 
           button.textContent =
             'Registrar avaliação';
@@ -3730,7 +3393,7 @@
 
 
   /* ========================================================
-     REGISTRO DE EVENTO
+     REGISTRAR EVENTO
      ======================================================== */
 
   q('#eventForm')
@@ -3739,7 +3402,6 @@
       async function(event) {
 
         event.preventDefault();
-
 
         const form =
           event.currentTarget;
@@ -3750,20 +3412,15 @@
         const status =
           q('#eventStatus');
 
-
         clearStatus(status);
-
 
         const payload =
           formToObject(form);
 
-
-        button.disabled =
-          true;
+        button.disabled = true;
 
         button.textContent =
           'Registrando...';
-
 
         try {
 
@@ -3772,7 +3429,6 @@
               'createEvent',
               payload
             );
-
 
           if (
             !response ||
@@ -3788,7 +3444,6 @@
 
           }
 
-
           showStatus(
             status,
             response.message ||
@@ -3796,13 +3451,11 @@
             'success'
           );
 
-
           form.reset();
 
           setCurrentDateTime();
 
           await loadActivePatients();
-
 
         } catch(error) {
 
@@ -3813,11 +3466,9 @@
             'error'
           );
 
-
         } finally {
 
-          button.disabled =
-            false;
+          button.disabled = false;
 
           button.textContent =
             'Registrar evento';
@@ -3836,11 +3487,15 @@
 
     setCurrentDateTime();
 
+    /*
+     * B20 inicia desativado.
+     */
+
+    setB20(false);
 
     /*
-     * Estado inicial:
-     *
-     * TODOS os grupos = NÃO SE APLICA.
+     * Todos os grupos iniciam
+     * explicitamente como NÃO SE APLICA.
      */
 
     qa(
@@ -3848,8 +3503,7 @@
     ).forEach(
       function(select) {
 
-        select.value =
-          'Não';
+        select.value = 'Não';
 
         updateApplicability(
           select
@@ -3858,15 +3512,13 @@
       }
     );
 
-
     /*
-     * "Saiu do leito hoje?" permanece
-     * independente dos grupos.
+     * Este indicador nunca é desabilitado
+     * pela aplicabilidade da Funcionalidade.
      */
 
     q('#outOfBedToday').disabled =
       false;
-
 
     calculateVentilation();
 
@@ -3880,7 +3532,6 @@
 
   }
 
-
   document.addEventListener(
     'DOMContentLoaded',
     initialize
@@ -3889,5 +3540,4 @@
 </script>
 
 </body>
-
 </html>
