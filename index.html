@@ -3191,6 +3191,34 @@
       q('#weaningApplies').value ===
       'Sim';
 
+    const mainFields = [
+      '#iwi',
+      '#sbtPerformed',
+      '#extubated',
+      '#extubationFailure',
+      '#reintubated'
+    ];
+
+    mainFields.forEach(
+      function(selector) {
+
+        const field =
+          q(selector);
+
+        if (!field) {
+          return;
+        }
+
+        field.disabled =
+          !enabled;
+
+        if (!enabled) {
+          field.value = '';
+        }
+
+      }
+    );
+
     if (!enabled) {
 
       toggleConditional(
@@ -3225,6 +3253,33 @@
       '#sbtResultBox',
       '#sbtResult',
       q('#sbtPerformed').value ===
+        'Sim'
+    );
+
+    toggleConditional(
+      '#extubationAtBox',
+      '#extubationAt',
+      q('#extubated').value ===
+        'Sim'
+    );
+
+    toggleConditional(
+      '#failureAtBox',
+      '#failureAt',
+      q('#extubationFailure').value ===
+        'Sim'
+    );
+
+    toggleConditional(
+      '#reintubationAtBox',
+      '#reintubationAt',
+      q('#reintubated').value ===
+        'Sim'
+    );
+
+  }
+
+  q('#sbtPerformed').value ===
         'Sim'
     );
 
